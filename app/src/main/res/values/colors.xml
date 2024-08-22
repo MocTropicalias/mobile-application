@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#0F0F0F</color>
+    <color name="white">#F0F0F0</color>
+    <color name="main_backgroung_gradient_color_1">#FAFAFA</color>
+    <color name="main_backgroung_gradient_color_2">#CDDEEF</color>
+    <color name="laranja">#E45F15</color>
+    <color name="ciano">#006996</color>
+    <color name="azul_claro">#32B6F4</color>
+    <color name="azul_apagado">#C4ABCDEF</color>
+    <color name="vermelho">#CD0707</color>
+
+</resources>
