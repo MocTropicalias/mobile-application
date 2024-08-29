@@ -27,7 +27,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/edit_text_background"
         android:drawableStart="@drawable/ic_user"
         android:hint="nome de usuário"
         android:inputType="text"
@@ -37,6 +36,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logoImageView" />
+    <!--        android:background="@drawable/edit_text_background"-->
 
     <!-- Email EditText -->
     <EditText
@@ -44,7 +44,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/edit_text_background"
         android:drawableStart="@drawable/ic_email"
         android:hint="email"
         android:inputType="textEmailAddress"
@@ -54,6 +53,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/usernameEditText" />
+    <!--        android:background="@drawable/edit_text_background"-->
 
     <!-- Password EditText -->
     <EditText
@@ -61,7 +61,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:background="@drawable/edit_text_background"
         android:drawableStart="@drawable/ic_password"
         android:hint="senha"
         android:inputType="textPassword"
@@ -71,6 +70,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/emailEditText" />
+    <!--        android:background="@drawable/edit_text_background"-->
 
     <!-- Register Button -->
     <Button
