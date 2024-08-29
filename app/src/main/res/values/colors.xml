@@ -10,4 +10,9 @@
     <color name="azul_apagado">#C4ABCDEF</color>
     <color name="vermelho">#CD0707</color>
 
+
+    <color name="araci_primary">@color/ciano</color>
+    <color name="araci_secondary">@color/laranja</color>
+    <color name="araci_green">#257520</color>
+
 </resources>
