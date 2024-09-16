@@ -3,6 +3,7 @@ package com.tropicalias
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -20,7 +21,7 @@ class SplashScreen : AppCompatActivity() {
             intent = if (isLoggedIn) {
                 Intent(this@SplashScreen, MainActivity::class.java)
             } else {
-                Intent(this@SplashScreen, LoginActivity::class.java)
+                Intent(this@SplashScreen, AuthenticationActivity::class.java)
             }
             startActivity(intent)
             finish()
@@ -28,7 +29,7 @@ class SplashScreen : AppCompatActivity() {
     }
 
     private fun getLogin(): Boolean {
-        return false
+        return FirebaseAuth.getInstance().currentUser != null
     }
 
 }
