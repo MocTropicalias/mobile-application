@@ -5,6 +5,9 @@
     <string name="title_event">Eventos</string>
     <string name="title_search">Buscar</string>
     <string name="title_profile">Perfil</string>
+    <string name="esqueci_a_senha"><u>Esqueci a Senha</u></string>
+    <string name="entrar"><u>Entrar</u></string>
+    <string name="cadastre_se"><u>Cadastre-se</u></string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -48,4 +51,6 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="logo_description">Araci</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
