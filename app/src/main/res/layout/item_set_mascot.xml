@@ -13,11 +13,22 @@
         android:background="@color/araci_bg"
         android:scaleType="centerCrop"
         android:src="@drawable/araci"
-        app:contentPadding="8dp"
+        app:contentPadding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/RoundedImageView" />
+
+    <ImageView
+        android:id="@+id/edit_mascot"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:background="@drawable/bg_round"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_edit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

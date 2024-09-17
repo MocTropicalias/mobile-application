@@ -10,7 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.tropicalias.MainActivity
-import com.tropicalias.adapter.ProfileAdapter
+import com.tropicalias.adapter.SetProfileAdapter
 import com.tropicalias.databinding.FragmentProfilePictureBinding
 import com.wajahatkarim3.easyflipviewpager.CardFlipPageTransformer2
 
@@ -20,7 +20,7 @@ class ProfilePictureFragment : Fragment() {
     private var _binding: FragmentProfilePictureBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AuthenticationViewModel by activityViewModels()
-    private lateinit var adapter: ProfileAdapter
+    private lateinit var adapter: SetProfileAdapter
     private var imagePicked = false
     private val TAG = "ProfilePictureFragment"
 
@@ -53,7 +53,7 @@ class ProfilePictureFragment : Fragment() {
 
 
         // Get ViewPager2 and Set Adapter
-        adapter = ProfileAdapter(pickImageLauncher)
+        adapter = SetProfileAdapter(pickImageLauncher)
         binding.viewPager.setAdapter(adapter)
         binding.viewPager.setCurrentItem(Int.MAX_VALUE / 2, false)
 

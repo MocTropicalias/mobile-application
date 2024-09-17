@@ -1,29 +1,27 @@
 package com.tropicalias.adapter
 
-import android.content.Intent
-import android.provider.MediaStore
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.ActivityResultLauncher
 import androidx.recyclerview.widget.RecyclerView
 import com.tropicalias.databinding.ItemMascotBinding
 import com.tropicalias.databinding.ItemProfilePictureBinding
 
-class ProfileAdapter(private val imagePickerLauncher: ActivityResultLauncher<Intent>) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ProfileAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var imageURL: String? = null
-        set(value) {
-            field = value
-            notifyDataSetChanged() // Update all items when image changes
-        }
 
     companion object {
         private const val VIEW_TYPE_PROFILE = 0
         private const val VIEW_TYPE_MASCOT = 1
     }
+
+    var imageURL: Uri? = null
+        set(value) {
+            field = value
+            notifyDataSetChanged() // Update all items when image changes
+        }
 
     override fun getItemViewType(position: Int): Int {
         return if (position % 2 == 0) VIEW_TYPE_MASCOT else VIEW_TYPE_PROFILE
@@ -42,7 +40,11 @@ class ProfileAdapter(private val imagePickerLauncher: ActivityResultLauncher<Int
 
             VIEW_TYPE_MASCOT -> {
                 val mascotBinding =
-                    ItemMascotBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                    ItemMascotBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
                 MascotViewHolder(mascotBinding)
             }
 
@@ -62,23 +64,13 @@ class ProfileAdapter(private val imagePickerLauncher: ActivityResultLauncher<Int
     // ViewHolder for Profile layout
     inner class ProfileViewHolder(private val binding: ItemProfilePictureBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(imageURL: String?) {
-            // Set the profile picture if the imageURL is available
+        fun bind(imageURL: Uri?) {
+            Log.d("TAGProfileAdapter", "bind: $imageURL")
             if (imageURL != null) {
-                binding.profilePictureImageView.setImageURI(android.net.Uri.parse(imageURL))
+                binding.profilePictureImageView.setImageURI(imageURL)
                 binding.imageTemplate.visibility = View.GONE
-            }
-
-            binding.root.setOnClickListener {
-                Log.d("TAGProfileAdapter", "Profile image clicked: ")
-                val galleryIntent = Intent(Intent.ACTION_PICK).apply { type = "image/*" }
-                val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                val chooserIntent =
-                    Intent.createChooser(galleryIntent, "Select Profile Picture").apply {
-                        putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
-                    }
-
-                imagePickerLauncher.launch(chooserIntent)
+            } else {
+                binding.imageTemplate.visibility = View.VISIBLE
             }
         }
     }
@@ -87,9 +79,6 @@ class ProfileAdapter(private val imagePickerLauncher: ActivityResultLauncher<Int
     inner class MascotViewHolder(private val binding: ItemMascotBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind() {
-            binding.root.setOnClickListener {
-                // Open Mascot color selection screen
-            }
         }
     }
 }
