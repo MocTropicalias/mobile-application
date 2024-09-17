@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.tropicalias.databinding.ItemSetMascotBinding
 import com.tropicalias.databinding.ItemSetProfilePictureBinding
 
@@ -15,10 +16,6 @@ class SetProfileAdapter(private val imagePickerLauncher: ActivityResultLauncher<
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var imageURL: String? = null
-        set(value) {
-            field = value
-            notifyDataSetChanged() // Update all items when image changes
-        }
 
     companion object {
         private const val VIEW_TYPE_PROFILE = 0
@@ -65,7 +62,10 @@ class SetProfileAdapter(private val imagePickerLauncher: ActivityResultLauncher<
         fun bind(imageURL: String?) {
             // Set the profile picture if the imageURL is available
             if (imageURL != null) {
-                binding.profilePictureImageView.setImageURI(android.net.Uri.parse(imageURL))
+                Glide.with(binding.root.context)
+                    .load(imageURL)
+                    .into(binding.profilePictureImageView)
+
                 binding.imageTemplate.visibility = View.GONE
             }
 

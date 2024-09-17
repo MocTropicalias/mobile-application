@@ -30,9 +30,6 @@ class ProfilePictureFragment : Fragment() {
                 val data: Intent? = result.data
                 val imageUri = data?.data
 
-                // Update the image URL in the adapter
-                adapter.imageURL = imageUri.toString()
-
                 // Optionally, update the ViewModel if needed
                 viewModel.handleImageResult(data, requireContext())
                 imagePicked = true
@@ -70,6 +67,13 @@ class ProfilePictureFragment : Fragment() {
             }
             startActivity(Intent(activity, MainActivity::class.java))
             activity?.finish()
+        }
+
+        viewModel.imageUrl.observe(viewLifecycleOwner) {
+            if (it != null) {
+                adapter.imageURL = it
+                adapter.notifyDataSetChanged()
+            }
         }
 
     }

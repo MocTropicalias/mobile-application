@@ -10,6 +10,7 @@ import android.util.Log
 import android.widget.EditText
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -17,7 +18,6 @@ import com.google.firebase.auth.userProfileChangeRequest
 import com.google.firebase.storage.FirebaseStorage
 import com.tropicalias.R
 import com.tropicalias.api.api.ApiSQL
-import com.tropicalias.api.model.User
 import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.FragmentRegistrationBinding
 import java.io.File
@@ -29,7 +29,8 @@ class AuthenticationViewModel : ViewModel() {
     var password: Editable? = null
     var email: Editable? = null
     var username: Editable? = null
-    var imageUrl: String? = null
+
+    val imageUrl = MutableLiveData<String>()
 
     val TAG = "AuthenticationViewModel"
 
@@ -142,7 +143,7 @@ class AuthenticationViewModel : ViewModel() {
         storageRef.putFile(uri)
             .addOnSuccessListener {
                 storageRef.downloadUrl.addOnSuccessListener { downloadUri ->
-                    imageUrl = downloadUri.toString()
+                    imageUrl.value = downloadUri.toString()
                 }
             }
             .addOnFailureListener { exception ->
@@ -196,10 +197,10 @@ class AuthenticationViewModel : ViewModel() {
     fun storeImageUrl() {
         val user = FirebaseAuth.getInstance().currentUser
         val profileUpdates = userProfileChangeRequest {
-            photoUri = Uri.parse(imageUrl)
+            photoUri = Uri.parse(imageUrl.value)
         }
         user?.let {
-            sqlApi.updateUserPhotoByFirebaseID(user.uid, imageUrl!!)
+//            sqlApi.updateUserPhotoByFirebaseID(user.uid, imageUrl!!)
             user.updateProfile(profileUpdates)
                 .addOnFailureListener {
                     Log.e(TAG, "createUser: ${it.message}", it)
@@ -212,13 +213,13 @@ class AuthenticationViewModel : ViewModel() {
             displayName = username.toString()
         }
         user?.let {
-            sqlApi.createUser(
-                User(
-                    user.uid,
-                    username.toString(),
-                    email.toString()
-                )
-            )
+//            sqlApi.createUser(
+//                User(
+//                    user.uid,
+//                    username.toString(),
+//                    email.toString()
+//                )
+//            )
 
             user.updateProfile(profileUpdates)
                 .addOnFailureListener {

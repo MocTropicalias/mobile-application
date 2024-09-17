@@ -42,7 +42,7 @@ class RegistrationFragment : Fragment() {
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
 
-//            if (viewModel.checkInputs(username, email, password, binding, requireContext())) {
+            if (viewModel.checkInputs(username, email, password, binding, requireContext())) {
             viewModel.username = binding.usernameEditText.text
             viewModel.email = binding.emailEditText.text
             viewModel.password = binding.passwordEditText.text
@@ -53,7 +53,7 @@ class RegistrationFragment : Fragment() {
                         .show()
                 }
                 .addOnSuccessListener {
-                    //Go to Profile Picture Selection
+//                    Go to Profile Picture Selection
                     parentFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, ProfilePictureFragment())
                         .addToBackStack(null)
@@ -61,7 +61,7 @@ class RegistrationFragment : Fragment() {
                     it.user?.sendEmailVerification()
                     viewModel.createUser(it.user)
                 }
-//            }
+            }
         }
 
         // Change to Login
