@@ -11,6 +11,7 @@
     <color name="azul_claro">#32B6F4</color>
     <color name="azul_apagado">#C4ABCDEF</color>
     <color name="vermelho">#CD0707</color>
+    <color name="transparent">#00000000</color>
 
 
     <color name="araci_primary">@color/ciano</color>

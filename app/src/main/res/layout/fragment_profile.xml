@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/Theme.Tropicalias.Profile"
     tools:context=".ui.profile.ProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/ciano"
-        android:paddingBottom="16dp"
+        android:paddingBottom="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,68 +25,71 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/nameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
             android:text="WWWWWWWWWWWW"
-            app:layout_constraintStart_toEndOf="@+id/viewPager"
-            app:layout_constraintTop_toTopOf="@+id/viewPager" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewPager" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/usernameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
             android:text="\@wwwwwwwwwwww"
-            app:layout_constraintStart_toEndOf="@+id/viewPager"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintStart_toStartOf="@+id/nameTextView"
+            app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/descriptionTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
-            android:maxWidth="240dp"
+            android:maxWidth="200dp"
             android:maxLines="2"
+            android:textSize="14sp"
             android:text="lorem ipsum sit amet dolor lorem ipsum sit amet dolor"
-            app:layout_constraintStart_toEndOf="@+id/viewPager"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            app:layout_constraintStart_toEndOf="@+id/usernameTextView"
+            app:layout_constraintStart_toStartOf="@+id/usernameTextView"
+            app:layout_constraintTop_toBottomOf="@+id/usernameTextView" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/followButton"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/bg_button"
             android:text="Seguir"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/descriptionTextView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textView4"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            app:layout_constraintStart_toEndOf="@+id/descriptionTextView"
+            app:layout_constraintTop_toTopOf="@+id/usernameTextView" />
 
         <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Seguidores:"
-            app:layout_constraintBottom_toTopOf="@id/textView5"
-            app:layout_constraintEnd_toStartOf="@+id/button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/button" />
-
-        <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/followersTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="20M"
-            app:layout_constraintBottom_toBottomOf="@id/button"
-            app:layout_constraintEnd_toStartOf="@+id/button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView4" />
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/followersText"
+            app:layout_constraintEnd_toEndOf="@+id/followButton"
+            app:layout_constraintStart_toStartOf="@+id/followButton" />
+
+        <TextView
+            android:id="@+id/followersText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Seguidores"
+            app:layout_constraintBottom_toTopOf="@+id/followButton"
+            app:layout_constraintEnd_toEndOf="@+id/followersTextView"
+            app:layout_constraintStart_toStartOf="@+id/followersTextView" />
 
         <ImageButton
             android:id="@+id/editProfileButton"
