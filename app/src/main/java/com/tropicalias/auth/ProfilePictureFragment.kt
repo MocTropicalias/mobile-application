@@ -6,11 +6,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.tropicalias.MainActivity
-import com.tropicalias.adapter.SetProfileAdapter
+import com.tropicalias.adapter.ProfileAdapter
 import com.tropicalias.databinding.FragmentProfilePictureBinding
 import com.wajahatkarim3.easyflipviewpager.CardFlipPageTransformer2
 
@@ -20,7 +21,7 @@ class ProfilePictureFragment : Fragment() {
     private var _binding: FragmentProfilePictureBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AuthenticationViewModel by activityViewModels()
-    private lateinit var adapter: SetProfileAdapter
+    private lateinit var adapter: ProfileAdapter
     private var imagePicked = false
     private val TAG = "ProfilePictureFragment"
 
@@ -29,9 +30,12 @@ class ProfilePictureFragment : Fragment() {
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 val imageUri = data?.data
-
-                // Optionally, update the ViewModel if needed
-                viewModel.handleImageResult(data, requireContext())
+                val finalUri = imageUri ?: adapter.imageUrl
+                finalUri?.let {
+                    Toast.makeText(requireContext(), "Salvando imagem", Toast.LENGTH_SHORT).show()
+                    viewModel.uploadImageToFirebase(finalUri)
+                }
+                imagePicked = true
                 imagePicked = true
                 binding.continueButton.text = "Continuar"
             }
@@ -50,7 +54,7 @@ class ProfilePictureFragment : Fragment() {
 
 
         // Get ViewPager2 and Set Adapter
-        adapter = SetProfileAdapter(pickImageLauncher)
+        adapter = ProfileAdapter(pickImageLauncher)
         binding.viewPager.setAdapter(adapter)
         binding.viewPager.setCurrentItem(Int.MAX_VALUE / 2, false)
 
@@ -71,7 +75,7 @@ class ProfilePictureFragment : Fragment() {
 
         viewModel.imageUrl.observe(viewLifecycleOwner) {
             if (it != null) {
-                adapter.imageURL = it
+                adapter.imageUrl = it
                 adapter.notifyDataSetChanged()
             }
         }
