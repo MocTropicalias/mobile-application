@@ -1,27 +1,27 @@
 package com.tropicalias.adapter
 
+import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
 import androidx.recyclerview.widget.RecyclerView
-import com.tropicalias.databinding.ItemMascotBinding
-import com.tropicalias.databinding.ItemProfilePictureBinding
+import com.bumptech.glide.Glide
+import com.tropicalias.databinding.ItemSetMascotBinding
+import com.tropicalias.databinding.ItemSetProfilePictureBinding
+import com.tropicalias.utils.Utils
 
-class ProfileAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ProfileAdapter(private val imagePickerLauncher: ActivityResultLauncher<Intent>?) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    var imageUrl: Uri? = null
 
     companion object {
         private const val VIEW_TYPE_PROFILE = 0
         private const val VIEW_TYPE_MASCOT = 1
     }
-
-    var imageURL: Uri? = null
-        set(value) {
-            field = value
-            notifyDataSetChanged() // Update all items when image changes
-        }
 
     override fun getItemViewType(position: Int): Int {
         return if (position % 2 == 0) VIEW_TYPE_MASCOT else VIEW_TYPE_PROFILE
@@ -30,7 +30,7 @@ class ProfileAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             VIEW_TYPE_PROFILE -> {
-                val profileBinding = ItemProfilePictureBinding.inflate(
+                val profileBinding = ItemSetProfilePictureBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
@@ -40,11 +40,7 @@ class ProfileAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             VIEW_TYPE_MASCOT -> {
                 val mascotBinding =
-                    ItemMascotBinding.inflate(
-                        LayoutInflater.from(parent.context),
-                        parent,
-                        false
-                    )
+                    ItemSetMascotBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 MascotViewHolder(mascotBinding)
             }
 
@@ -54,7 +50,7 @@ class ProfileAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is ProfileViewHolder -> holder.bind(imageURL) // Pass the current image URL to bind
+            is ProfileViewHolder -> holder.bind(imageUrl) // Pass the current image URL to bind
             is MascotViewHolder -> holder.bind()
         }
     }
@@ -62,23 +58,36 @@ class ProfileAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int = Int.MAX_VALUE
 
     // ViewHolder for Profile layout
-    inner class ProfileViewHolder(private val binding: ItemProfilePictureBinding) :
+    inner class ProfileViewHolder(private val binding: ItemSetProfilePictureBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(imageURL: Uri?) {
-            Log.d("TAGProfileAdapter", "bind: $imageURL")
+            // Set the profile picture if the imageURL is available
             if (imageURL != null) {
-                binding.profilePictureImageView.setImageURI(imageURL)
+                Glide.with(binding.root.context)
+                    .load(imageURL)
+                    .into(binding.profilePictureImageView)
+
                 binding.imageTemplate.visibility = View.GONE
-            } else {
-                binding.imageTemplate.visibility = View.VISIBLE
+            }
+
+            imagePickerLauncher?.let { ipl ->
+                binding.root.setOnClickListener {
+                    Log.d("TAGProfileAdapter", "Profile image clicked: ")
+                    val (chooserIntent, uri) = Utils.getChoserIntent(binding.root.context)
+                    imageUrl = uri
+                    ipl.launch(chooserIntent)
+                }
             }
         }
     }
 
     // ViewHolder for Mascot layout
-    inner class MascotViewHolder(private val binding: ItemMascotBinding) :
+    inner class MascotViewHolder(private val binding: ItemSetMascotBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind() {
+            binding.root.setOnClickListener {
+                // Open Mascot color selection screen
+            }
         }
     }
 }

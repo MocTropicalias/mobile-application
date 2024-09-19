@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.tropicalias.R
 import com.tropicalias.databinding.FragmentRegistrationBinding
 
@@ -47,10 +48,13 @@ class RegistrationFragment : Fragment() {
             viewModel.email = binding.emailEditText.text
             viewModel.password = binding.passwordEditText.text
 
+
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-                .addOnFailureListener {
-                    Toast.makeText(requireContext(), "Erro ao se cadastrar", Toast.LENGTH_SHORT)
-                        .show()
+                .addOnFailureListener { e ->
+                    if (e is FirebaseAuthUserCollisionException) {
+                        Toast.makeText(context, "User already exists", Toast.LENGTH_SHORT).show()
+                    }
+                    Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_SHORT).show()
                 }
                 .addOnSuccessListener {
 //                    Go to Profile Picture Selection

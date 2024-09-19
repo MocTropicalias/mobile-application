@@ -1,15 +1,12 @@
 package com.tropicalias.auth
 
 import android.content.Context
-import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.text.Editable
 import android.util.Log
 import android.widget.EditText
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -18,10 +15,9 @@ import com.google.firebase.auth.userProfileChangeRequest
 import com.google.firebase.storage.FirebaseStorage
 import com.tropicalias.R
 import com.tropicalias.api.api.ApiSQL
+import com.tropicalias.api.model.User
 import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.FragmentRegistrationBinding
-import java.io.File
-import java.io.FileOutputStream
 import java.util.UUID
 
 class AuthenticationViewModel : ViewModel() {
@@ -30,7 +26,7 @@ class AuthenticationViewModel : ViewModel() {
     var email: Editable? = null
     var username: Editable? = null
 
-    val imageUrl = MutableLiveData<String>()
+    val imageUrl = MutableLiveData<Uri>()
 
     val TAG = "AuthenticationViewModel"
 
@@ -137,13 +133,13 @@ class AuthenticationViewModel : ViewModel() {
 
     // Handle image
 
-    private fun uploadImageToFirebase(uri: Uri) {
+    fun uploadImageToFirebase(uri: Uri) {
         val storageRef =
             FirebaseStorage.getInstance().reference.child("images/${UUID.randomUUID()}.jpg")
         storageRef.putFile(uri)
             .addOnSuccessListener {
                 storageRef.downloadUrl.addOnSuccessListener { downloadUri ->
-                    imageUrl.value = downloadUri.toString()
+                    imageUrl.value = downloadUri
                 }
             }
             .addOnFailureListener { exception ->
@@ -155,52 +151,14 @@ class AuthenticationViewModel : ViewModel() {
         return (dp * context.resources.displayMetrics.density).toInt()
     }
 
-    private fun saveBitmapToFile(bitmap: Bitmap, context: Context): Uri? {
-        // Create a file to store the bitmap
-        val file = File(context.cacheDir, "profile_picture_${UUID.randomUUID()}.jpg")
-        return try {
-            // Write the bitmap to the file
-            val fileOutputStream = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
-            fileOutputStream.flush()
-            fileOutputStream.close()
-
-            // Get the Uri of the saved file
-            FileProvider.getUriForFile(
-                context,
-                "${context.packageName}.fileprovider",
-                file
-            )
-        } catch (e: Exception) {
-            Log.e(TAG, "saveBitmapToFile: ${e.message}", e)
-            null
-        }
-    }
-
-    fun handleImageResult(data: Intent?, context: Context) {
-        val imageUri: Uri? = data?.data
-        val imageBitmap = data?.extras?.get("data") as? Bitmap
-
-        if (imageUri != null) {
-            // Handle image from the gallery
-            uploadImageToFirebase(imageUri)
-        } else if (imageBitmap != null) {
-            val imageUriFromBitmap = saveBitmapToFile(imageBitmap, context)
-            imageUriFromBitmap?.let { uri ->
-                uploadImageToFirebase(uri)
-            }
-        }
-    }
-
-
     // Registering
     fun storeImageUrl() {
         val user = FirebaseAuth.getInstance().currentUser
         val profileUpdates = userProfileChangeRequest {
-            photoUri = Uri.parse(imageUrl.value)
+            photoUri = imageUrl.value
         }
         user?.let {
-//            sqlApi.updateUserPhotoByFirebaseID(user.uid, imageUrl!!)
+            sqlApi.updateUserPhotoByFirebaseID(user.uid, imageUrl.value!!.toString())
             user.updateProfile(profileUpdates)
                 .addOnFailureListener {
                     Log.e(TAG, "createUser: ${it.message}", it)
@@ -213,13 +171,14 @@ class AuthenticationViewModel : ViewModel() {
             displayName = username.toString()
         }
         user?.let {
-//            sqlApi.createUser(
-//                User(
-//                    user.uid,
-//                    username.toString(),
-//                    email.toString()
-//                )
-//            )
+            sqlApi.createUser(
+                User(
+                    firebaseId = user.uid,
+                    username = username.toString(),
+                    email = email.toString(),
+                    senha = password.toString()
+                )
+            )
 
             user.updateProfile(profileUpdates)
                 .addOnFailureListener {
