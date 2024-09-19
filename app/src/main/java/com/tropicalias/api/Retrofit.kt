@@ -5,9 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class Retrofit {
 
-//    val BASE_URL = "https://tropicalias-api.onrender.com/"
-
-    private val BASE_URL = "https://localhost:8080/"
+    val BASE_URL = "https://tropicalias-api-qa.onrender.com/"
 
     fun getRetrofitClient(url: String = BASE_URL): Retrofit {
         return Retrofit.Builder()
