@@ -10,16 +10,17 @@ import retrofit2.http.Path
 
 interface ApiSQL {
 
-    @POST("/users")
+    @POST("/user")
     fun createUser(@Body user: User): Call<User>
 
-    @PATCH("/users/photo/{id}/{photo}")
+    @PATCH("/user/photo/{id}/{photo}")
     fun updateUserPhotoByFirebaseID(
         @Path("id") id: String,
         @Path("photo") photo: String
     ): Call<User>
 
-    @GET("/users/firebase/{uid}")
+    @GET("/user/firebase/{uid}")
     fun getUserByFirebaseID(@Path("uid") uid: String): Call<User>
+
 
 }
