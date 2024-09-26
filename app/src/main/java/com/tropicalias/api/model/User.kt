@@ -1,27 +1,40 @@
 package com.tropicalias.api.model
 
+import com.google.gson.annotations.SerializedName
 import java.util.Date
 
 data class User(
-    val firebaseId: String,
-    val username: String,
-    val email: String,
-    val senha: String,
+    @SerializedName("id")
     val id: Long?,
-    val descricaoUsuario: String?,
+    @SerializedName("firebaseId")
+    val firebaseId: String,
+    @SerializedName("username")
+    val username: String,
+    @SerializedName("email")
+    val email: String,
+    @SerializedName("password")
+    val password: String,
+    @SerializedName("nome")
+    val exibitionName: String?,
+    @SerializedName("cpf")
     val cpf: String?,
-    val nome: String?,
-    val nascimento: Date?,
-    val urlFoto: String?,
-    val createdAt: Long?,
-    val deletedAt: Long?
+    @SerializedName("descricaoUsuario")
+    val userDescription: String?,
+    @SerializedName("nascimento")
+    val birthDate: Date?,
+    @SerializedName("urlFoto")
+    val photoUrl: String?,
+    @SerializedName("deletedAt")
+    val deletedAt: Date?,
+    @SerializedName("createdAt")
+    val createdAt: Date?,
 ) {
     constructor(firebaseId: String, username: String, email: String, senha: String) : this(
+        null,
         firebaseId,
         username,
         email,
         senha,
-        null,
         null,
         null,
         null,

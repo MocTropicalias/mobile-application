@@ -65,6 +65,8 @@ dependencies {
     //Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    //Logger
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
 
     //Glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
@@ -81,4 +83,5 @@ dependencies {
     //ViewFlipperPager
     implementation("com.wajahatkarim:easyflipviewpager:2.0.1")
     implementation("androidx.viewpager2:viewpager2:1.1.0")
+
 }
