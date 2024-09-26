@@ -13,11 +13,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.userProfileChangeRequest
 import com.google.firebase.storage.FirebaseStorage
+import com.google.gson.Gson
 import com.tropicalias.R
 import com.tropicalias.api.api.ApiSQL
 import com.tropicalias.api.model.User
 import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.FragmentRegistrationBinding
+import retrofit2.Call
+import retrofit2.Response
 import java.util.UUID
 
 class AuthenticationViewModel : ViewModel() {
@@ -171,14 +174,35 @@ class AuthenticationViewModel : ViewModel() {
             displayName = username.toString()
         }
         user?.let {
-            sqlApi.createUser(
-                User(
-                    firebaseId = user.uid,
-                    username = username.toString(),
-                    email = email.toString(),
-                    senha = password.toString()
-                )
+            val createUser = User(
+                firebaseId = user.uid,
+                username = username.toString(),
+                email = email.toString(),
+                senha = password.toString()
             )
+            Log.d(TAG, "createUser: ${Gson().toJson(createUser)}")
+
+
+            val call = sqlApi.createUser(createUser)
+
+            call.enqueue(object : retrofit2.Callback<User> {
+                override fun onResponse(call: Call<User>, res: Response<User>) {
+                    Log.d(TAG, "createUser: ${res.body()}")
+                    Log.d(TAG, "Request URL: " + call.request().url)
+                    Log.d(TAG, "Request headers: " + call.request().headers)
+                    Log.d(TAG, "Request Body: " + call.request())
+                    Log.d(TAG, "Response: $res")
+                    Log.d(TAG, "Response: ${res.body()}")
+
+                }
+
+                override fun onFailure(call: Call<User>, e: Throwable) {
+                    Log.d(TAG, "Request URL: " + call.request().url)
+                    Log.d(TAG, "Request headers: " + call.request().headers)
+                    Log.d(TAG, "Err: $e")
+                }
+            })
+
 
             user.updateProfile(profileUpdates)
                 .addOnFailureListener {
