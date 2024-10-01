@@ -7,7 +7,7 @@
 
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/mascotImageView"
+        android:id="@+id/profileImageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/araci_bg"
