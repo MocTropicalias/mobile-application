@@ -17,7 +17,7 @@ class SplashScreen : AppCompatActivity() {
         val isLoggedIn = getLogin()
 
         GlobalScope.launch(Dispatchers.Main) {
-            delay(2000)
+            delay(1500)
             intent = if (isLoggedIn) {
                 Intent(this@SplashScreen, MainActivity::class.java)
             } else {

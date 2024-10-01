@@ -7,9 +7,9 @@
 
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/mascotImageView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:id="@+id/profileImageView"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
         android:background="@color/araci_bg"
         android:scaleType="centerCrop"
         android:src="@drawable/araci"
@@ -18,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/RoundedImageView" />
+        app:shapeAppearanceOverlay="@style/RoundedImageView"/>
 
     <ImageView
         android:id="@+id/edit_mascot"
