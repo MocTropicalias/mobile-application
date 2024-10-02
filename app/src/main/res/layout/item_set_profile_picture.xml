@@ -7,8 +7,8 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/profilePictureImageView"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:background="@color/black"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"

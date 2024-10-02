@@ -14,7 +14,7 @@
             android:id="@+id/profileImageView"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:background="@drawable/bg_profile"
+            android:background="@color/azul_claro"
             android:scaleType="centerCrop"
             android:src="@drawable/araci"
             app:contentPadding="8dp"
@@ -27,10 +27,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
             android:text="WWWWWWWWWW"
-            app:layout_constraintStart_toEndOf="@+id/profileImageView"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@+id/profileImageView"
+            app:layout_constraintStart_toEndOf="@id/profileImageView" />
 
         <TextView
             android:id="@+id/postContentTextView"
@@ -40,7 +40,7 @@
             android:text="WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWw"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profileImageView" />
+            app:layout_constraintTop_toBottomOf="@id/profileImageView" />
 
         <ImageView
             android:id="@+id/contentImageView"
@@ -50,14 +50,14 @@
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/postContentTextView"
+            app:layout_constraintTop_toBottomOf="@id/postContentTextView"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/dateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="24dp"
+            android:layout_margin="24dp"
             android:text="DD/MM/YYYY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/contentImageView" />
@@ -66,40 +66,31 @@
             android:id="@+id/likePostImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
             app:layout_constraintBottom_toBottomOf="@+id/dateTextView"
-            app:layout_constraintEnd_toStartOf="@+id/imageView2"
+            android:layout_margin="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/dateTextView"
             app:srcCompat="@drawable/ic_like" />
 
         <ImageView
-            android:id="@+id/imageView6"
+            android:id="@+id/shareImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
             app:layout_constraintBottom_toBottomOf="@+id/likePostImageView"
-            app:layout_constraintEnd_toStartOf="@+id/imageView8"
+            android:layout_margin="8dp"
             app:layout_constraintTop_toTopOf="@+id/likePostImageView"
+            app:layout_constraintEnd_toStartOf="@+id/likePostImageView"
             app:srcCompat="@drawable/ic_share" />
 
         <ImageView
-            android:id="@+id/imageView8"
+            android:id="@+id/seeMoreImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView6"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageView6"
+            android:layout_margin="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/shareImageView"
+            app:layout_constraintEnd_toStartOf="@+id/shareImageView"
+            app:layout_constraintTop_toTopOf="@+id/shareImageView"
             app:srcCompat="@drawable/ic_mais" />
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            app:layout_constraintBottom_toBottomOf="@+id/dateTextView"
-            app:layout_constraintEnd_toStartOf="@+id/imageView6"
-            app:layout_constraintTop_toTopOf="@+id/dateTextView"
-            app:srcCompat="@drawable/ic_comment" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,7 +13,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.userProfileChangeRequest
 import com.google.firebase.storage.FirebaseStorage
-import com.google.gson.Gson
 import com.tropicalias.R
 import com.tropicalias.api.api.ApiSQL
 import com.tropicalias.api.model.User
@@ -31,7 +30,7 @@ class AuthenticationViewModel : ViewModel() {
 
     val imageUrl = MutableLiveData<Uri>()
 
-    val TAG = "AuthenticationViewModel"
+    val TAG = "AuthenticationLogging"
 
     private val sqlApi: ApiSQL = ApiRepository.getInstance().getSQL()
 
@@ -45,13 +44,32 @@ class AuthenticationViewModel : ViewModel() {
     }
 
     private fun isValidUsername(username: String): String? {
-//        val users = sqlApi.getAllUsers()
+
+        // Check if username already exists
+        var usernameInUse = false
+        sqlApi.getAllUsers().enqueue(object : retrofit2.Callback<List<User>> {
+            override fun onResponse(req: Call<List<User>>, res: Response<List<User>>) {
+                val users = res.body()
+                if (users != null) {
+                    if (users.any { it.username == username }) {
+                        usernameInUse = true
+                    }
+                }
+            }
+
+            override fun onFailure(req: Call<List<User>>, e: Throwable) {
+                Log.e(TAG, "onFailure: $e")
+            }
+        })
+
+        if (usernameInUse) {
+            return "Nome de usuário ja existe"
+        }
+
+
         if (username.length <= 4 || username.length >= 20) {
             return "Nome de usuário muito curto"
         }
-//        if (users.any { it.username == username }){
-//            return "Esse nome de usuário já existe"
-//        }
         return null
     }
 
@@ -145,9 +163,7 @@ class AuthenticationViewModel : ViewModel() {
                     imageUrl.value = downloadUri
                 }
             }
-            .addOnFailureListener { exception ->
-                Log.e(TAG, "uploadImageToFirebase: $exception")
-            }
+            .addOnFailureListener {}
     }
 
     private fun dpToPx(dp: Int, context: Context): Int {
@@ -155,17 +171,18 @@ class AuthenticationViewModel : ViewModel() {
     }
 
     // Registering
-    fun storeImageUrl() {
-        val user = FirebaseAuth.getInstance().currentUser
-        val profileUpdates = userProfileChangeRequest {
-            photoUri = imageUrl.value
-        }
-        user?.let {
-            sqlApi.updateUserPhotoByFirebaseID(user.uid, imageUrl.value!!.toString())
-            user.updateProfile(profileUpdates)
-                .addOnFailureListener {
-                    Log.e(TAG, "createUser: ${it.message}", it)
-                }
+    fun storeImageUri() {
+        imageUrl.value?.let { imageUri ->
+            val user = FirebaseAuth.getInstance().currentUser
+            val profileUpdates = userProfileChangeRequest {
+                photoUri = imageUri
+            }
+            uploadImageToFirebase(imageUri)
+            user?.let {
+                sqlApi.updateUserPhotoByFirebaseID(user.uid, imageUri.toString())
+                user.updateProfile(profileUpdates)
+                    .addOnFailureListener {}
+            }
         }
     }
 
@@ -180,34 +197,18 @@ class AuthenticationViewModel : ViewModel() {
                 email = email.toString(),
                 senha = password.toString()
             )
-            Log.d(TAG, "createUser: ${Gson().toJson(createUser)}")
-
 
             val call = sqlApi.createUser(createUser)
 
             call.enqueue(object : retrofit2.Callback<User> {
-                override fun onResponse(call: Call<User>, res: Response<User>) {
-                    Log.d(TAG, "createUser: ${res.body()}")
-                    Log.d(TAG, "Request URL: " + call.request().url)
-                    Log.d(TAG, "Request headers: " + call.request().headers)
-                    Log.d(TAG, "Request Body: " + call.request())
-                    Log.d(TAG, "Response: $res")
-                    Log.d(TAG, "Response: ${res.body()}")
+                override fun onResponse(call: Call<User>, res: Response<User>) {}
 
-                }
-
-                override fun onFailure(call: Call<User>, e: Throwable) {
-                    Log.d(TAG, "Request URL: " + call.request().url)
-                    Log.d(TAG, "Request headers: " + call.request().headers)
-                    Log.d(TAG, "Err: $e")
-                }
+                override fun onFailure(call: Call<User>, e: Throwable) {}
             })
 
 
             user.updateProfile(profileUpdates)
-                .addOnFailureListener {
-                    Log.e(TAG, "createUser: ${it.message}", it)
-                }
+                .addOnFailureListener {}
         }
     }
 

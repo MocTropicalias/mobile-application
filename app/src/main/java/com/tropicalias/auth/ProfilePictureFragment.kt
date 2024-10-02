@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -23,7 +22,7 @@ class ProfilePictureFragment : Fragment() {
     private val viewModel: AuthenticationViewModel by activityViewModels()
     private lateinit var adapter: ProfileAdapter
     private var imagePicked = false
-    private val TAG = "ProfilePictureFragment"
+    lateinit var TAG: String
 
     private val pickImageLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -32,10 +31,11 @@ class ProfilePictureFragment : Fragment() {
                 val imageUri = data?.data
                 val finalUri = imageUri ?: adapter.imageUrl
                 finalUri?.let {
-                    Toast.makeText(requireContext(), "Salvando imagem", Toast.LENGTH_SHORT).show()
-                    viewModel.uploadImageToFirebase(finalUri)
+//                    Toast.makeText(requireContext(), "Salvando imagem", Toast.LENGTH_SHORT).show()
+//                    viewModel.uploadImageToFirebase(finalUri)
+                    adapter.imageUrl = finalUri
+                    adapter.notifyDataSetChanged()
                 }
-                imagePicked = true
                 imagePicked = true
                 binding.continueButton.text = "Continuar"
             }
@@ -46,6 +46,7 @@ class ProfilePictureFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProfilePictureBinding.inflate(inflater, container, false)
+        TAG = viewModel.TAG
         return binding.root
     }
 
@@ -60,25 +61,19 @@ class ProfilePictureFragment : Fragment() {
 
         // Create an object of page transformer
         val cardFlipPageTransformer = CardFlipPageTransformer2()
-        cardFlipPageTransformer.isScalable = false
+        cardFlipPageTransformer.isScalable = true
 
         // Assign the page transformer to the ViewPager2.
         binding.viewPager.setPageTransformer(cardFlipPageTransformer)
 
         binding.continueButton.setOnClickListener {
             if (imagePicked) {
-                viewModel.storeImageUrl()
+                viewModel.storeImageUri()
             }
             startActivity(Intent(activity, MainActivity::class.java))
             activity?.finish()
         }
 
-        viewModel.imageUrl.observe(viewLifecycleOwner) {
-            if (it != null) {
-                adapter.imageUrl = it
-                adapter.notifyDataSetChanged()
-            }
-        }
 
     }
 

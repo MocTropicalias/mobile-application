@@ -10,6 +10,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/ciano"
+        android:theme="@style/Theme.Tropicalias.Light"
         android:paddingBottom="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -18,21 +19,23 @@
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_margin="24dp"
             app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/bg_profile"
+            android:padding="8dp"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/nameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="WWWWWWWWWWWWpenis"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:text="WWWWWWWWWWWW"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/viewPager" />
 
@@ -46,13 +49,15 @@
 
         <TextView
             android:id="@+id/descriptionTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
             android:maxWidth="200dp"
             android:maxLines="2"
-            android:textSize="14sp"
             android:text="lorem ipsum sit amet dolor lorem ipsum sit amet dolor"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@id/followButton"
             app:layout_constraintStart_toEndOf="@+id/usernameTextView"
             app:layout_constraintStart_toStartOf="@+id/usernameTextView"
             app:layout_constraintTop_toBottomOf="@+id/usernameTextView" />
@@ -61,14 +66,14 @@
             android:id="@+id/followButton"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginTop="4dp"
             android:background="@drawable/bg_button"
+            android:backgroundTint="@color/laranja"
             android:text="Seguir"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/descriptionTextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/descriptionTextView"
-            app:layout_constraintTop_toTopOf="@+id/usernameTextView" />
+            app:layout_constraintEnd_toEndOf="@id/followersText"
+            app:layout_constraintStart_toStartOf="@id/followersText"
+            app:layout_constraintTop_toBottomOf="@+id/followersText" />
 
         <TextView
             android:id="@+id/followersTextView"
@@ -76,20 +81,20 @@
             android:layout_height="wrap_content"
             android:text="20M"
             android:textSize="16sp"
+            android:layout_marginEnd="64dp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/followersText"
-            app:layout_constraintEnd_toEndOf="@+id/followButton"
-            app:layout_constraintStart_toStartOf="@+id/followButton" />
+            app:layout_constraintBottom_toBottomOf="@+id/nameTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/nameTextView" />
 
         <TextView
             android:id="@+id/followersText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
             android:text="Seguidores"
-            app:layout_constraintBottom_toTopOf="@+id/followButton"
             app:layout_constraintEnd_toEndOf="@+id/followersTextView"
-            app:layout_constraintStart_toStartOf="@+id/followersTextView" />
+            app:layout_constraintStart_toStartOf="@+id/followersTextView"
+            app:layout_constraintTop_toBottomOf="@+id/followersTextView" />
 
         <ImageButton
             android:id="@+id/editProfileButton"
@@ -97,6 +102,7 @@
             android:layout_height="40dp"
             android:layout_margin="16dp"
             android:background="@drawable/ic_edit"
+            android:backgroundTint="@color/white"
             app:layout_constraintEnd_toStartOf="@+id/settingsButton"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -106,6 +112,7 @@
             android:layout_height="40dp"
             android:layout_margin="16dp"
             android:background="@drawable/ic_settings"
+            android:backgroundTint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

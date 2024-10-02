@@ -2,7 +2,6 @@ package com.tropicalias.adapter
 
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -98,7 +97,6 @@ class ProfileAdapter(private val imagePickerLauncher: ActivityResultLauncher<Int
 
             imagePickerLauncher?.let { ipl ->
                 binding.root.setOnClickListener {
-                    Log.d("TAGProfileAdapter", "Profile image clicked: ")
                     val (chooserIntent, uri) = Utils.getChoserIntent(binding.root.context)
                     imageUrl = uri
                     ipl.launch(chooserIntent)
