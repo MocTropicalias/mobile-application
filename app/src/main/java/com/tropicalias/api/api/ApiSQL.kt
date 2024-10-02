@@ -22,5 +22,11 @@ interface ApiSQL {
     @GET("/user/firebase/{uid}")
     fun getUserByFirebaseID(@Path("uid") uid: String): Call<User>
 
+    @GET("/user")
+    fun getAllUsers(): Call<List<User>>
+
+    @GET("/follow/countfollowers/{id}")
+    fun getUserFollowersCount(@Path("id") id: String): Call<Int>
+
 
 }

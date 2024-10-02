@@ -1,5 +1,6 @@
 package com.tropicalias.api.model
 
+import android.net.Uri
 import com.google.gson.annotations.SerializedName
 import java.util.Date
 
@@ -23,7 +24,7 @@ data class User(
     @SerializedName("nascimento")
     val birthDate: Date?,
     @SerializedName("urlFoto")
-    val photoUrl: String?,
+    val photoUrl: Uri?,
     @SerializedName("deletedAt")
     val deletedAt: Date?,
     @SerializedName("createdAt")
@@ -43,4 +44,20 @@ data class User(
         null,
         null
     )
+
+    constructor(displayName: String, photoUrl: Uri?) :
+            this(
+                null,
+                null.toString(),
+                displayName,
+                "",
+                "",
+                null,
+                null,
+                null,
+                null,
+                photoUrl,
+                null,
+                null,
+            )
 }
