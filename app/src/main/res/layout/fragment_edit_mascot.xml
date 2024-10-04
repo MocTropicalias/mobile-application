@@ -41,7 +41,7 @@
         app:srcCompat="@drawable/araci" />
 
     <EditText
-        android:id="@+id/editTextText"
+        android:id="@+id/editTextAraciName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -64,7 +64,9 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextAraciName"
+<!--        tools:listitem="@layout/item_color"-->
+        />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -74,6 +76,6 @@
         app:layout_constraintBottom_toTopOf="@+id/recyclerViewCor"
         app:layout_constraintEnd_toEndOf="@+id/recyclerViewCor"
         app:layout_constraintStart_toStartOf="@+id/recyclerViewCor"
-        app:srcCompat="@drawable/aspickerpointer" />
+        app:srcCompat="@drawable/as_picker_pointer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
