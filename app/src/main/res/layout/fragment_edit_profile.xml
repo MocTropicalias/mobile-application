@@ -1,80 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:paddingHorizontal="40dp"
-    android:paddingTop="80dp">
+    android:layout_height="wrap_content">
+
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:text="Edite seu perfil"
         android:textAlignment="center"
         android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/backButton"
+        app:layout_constraintTop_toTopOf="@+id/backButton" />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:background="@drawable/bg_profile"
-        android:padding="8dp" />
-
-    <!-- Username EditText -->
-    <EditText
-        android:id="@+id/nameEditText"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="16dp"
-        android:background="@drawable/bg_input"
-        android:drawableStart="@drawable/ic_user_input"
-        android:drawablePadding="8dp"
-        android:hint="Apelido"
-        android:inputType="text"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp" />
-    <!-- Email EditText -->
-    <EditText
-        android:id="@+id/usernameEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/bg_input"
-        android:drawableStart="@drawable/ic_arroba"
-        android:drawablePadding="8dp"
-        android:hint="User"
-        android:inputType="text"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp" />
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView2">
 
-    <EditText
-        android:id="@+id/bioEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/bg_input"
-        android:drawableStart="@drawable/ic_bio"
-        android:drawablePadding="8dp"
-        android:hint="Bio"
-        android:inputType="text"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingHorizontal="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2">
 
 
-    <!-- Register Button -->
-    <Button
-        android:id="@+id/registerButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/bg_button"
-        android:backgroundTint="@color/laranja"
-        android:paddingHorizontal="80dp"
-        android:text="Salvar"
-        android:textColor="@color/white" />
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
+                android:layout_width="175dp"
+                android:layout_height="175dp"
+                android:background="@drawable/bg_profile"
+                android:padding="8dp" />
 
-</LinearLayout>
+            <!-- Username EditText -->
+            <EditText
+                android:id="@+id/nameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="16dp"
+                android:background="@drawable/bg_input"
+                android:drawableStart="@drawable/ic_user_input"
+                android:drawablePadding="8dp"
+                android:hint="Apelido"
+                android:inputType="text"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp" />
+            <!-- Email EditText -->
+            <EditText
+                android:id="@+id/usernameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_input"
+                android:drawableStart="@drawable/ic_arroba"
+                android:drawablePadding="8dp"
+                android:hint="User"
+                android:inputType="text"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp" />
+
+            <EditText
+                android:id="@+id/bioEditText"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_input"
+                android:drawableStart="@drawable/ic_bio"
+                android:drawablePadding="8dp"
+                android:hint="Description"
+                android:inputType="text"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp" />
+
+
+            <!-- Register Button -->
+            <Button
+                android:id="@+id/registerButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/bg_button"
+                android:backgroundTint="@color/laranja"
+                android:paddingHorizontal="80dp"
+                android:text="Salvar"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
+

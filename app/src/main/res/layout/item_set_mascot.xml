@@ -8,8 +8,8 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/profileImageView"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:background="@color/araci_bg"
         android:scaleType="centerCrop"
         android:src="@drawable/araci"
