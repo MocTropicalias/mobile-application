@@ -7,7 +7,7 @@
     tools:context=".ui.profile.settings.SupportFragment">
 
     <ImageView
-        android:id="@+id/imageViewCloseSupport"
+        android:id="@+id/imageViewCloseUserTerms"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginTop="16dp"
@@ -17,12 +17,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <WebView
-        android:id="@+id/webViewSupport"
+        android:id="@+id/webViewUserTerms"
         android:layout_width="409dp"
         android:layout_height="653dp"
         android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewCloseSupport" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewCloseUserTerms" />
 </androidx.constraintlayout.widget.ConstraintLayout>
