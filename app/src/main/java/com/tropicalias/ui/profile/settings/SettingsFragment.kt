@@ -33,6 +33,11 @@ class SettingsFragment : Fragment() {
             startActivity(intent)
             requireActivity().finish()
         }
+
+
+        binding.backButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
     }
 
     override fun onDestroyView() {
