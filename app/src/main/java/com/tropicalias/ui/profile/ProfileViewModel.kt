@@ -1,12 +1,15 @@
 package com.tropicalias.ui.profile
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tropicalias.adapter.ProfileAdapter
 import com.tropicalias.api.model.User
 import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.FragmentProfileBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Response
 
@@ -20,16 +23,18 @@ class ProfileViewModel : ViewModel() {
     private val TAG = "ProfileLogging"
 
 
-    val user = MutableLiveData<User>()
-
-    fun loadProfile(uid: String) {
-        apiSQL.getUserByFirebaseID(uid).enqueue(object : retrofit2.Callback<User> {
+    fun loadProfile(id: Long) {
+        apiSQL.getUserProfileByID(id).enqueue(object : retrofit2.Callback<User> {
             override fun onResponse(req: Call<User>, res: Response<User>) {
-                user.value = res.body()
+                res.body()?.let { setData(it) }
             }
 
             override fun onFailure(req: Call<User>, e: Throwable) {
                 Log.e(TAG, "onFailure: $e")
+                GlobalScope.launch(Dispatchers.Main) {
+                    delay(30000)
+                    loadProfile(id)
+                }
             }
         })
     }
@@ -45,7 +50,7 @@ class ProfileViewModel : ViewModel() {
         }
 
         // Profile Picture
-        adapter.imageUrl = user.photoUrl
+        adapter.imageUri = user.imageUri
         adapter.notifyDataSetChanged()
 
         // Bio
@@ -70,8 +75,7 @@ class ProfileViewModel : ViewModel() {
 
     fun followUser(idToFollow: Long) {
 
-
     }
 
-
 }
+

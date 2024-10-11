@@ -16,10 +16,16 @@ import com.tropicalias.MainViewModel
 import com.tropicalias.R.color
 import com.tropicalias.adapter.ProfileAdapter
 import com.tropicalias.api.model.User
+import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.FragmentProfileBinding
 import com.tropicalias.ui.profile.edit.EditProfileActivity
 import com.tropicalias.ui.profile.settings.SettingsActivity
+import com.tropicalias.utils.Utils
 import com.wajahatkarim3.easyflipviewpager.CardFlipPageTransformer2
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment() {
 
@@ -40,42 +46,61 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
         // Change status bar color
-        requireActivity().window.statusBarColor =
-            ContextCompat.getColor(requireContext(), color.ciano)
+        requireActivity().window.statusBarColor = ContextCompat.getColor(
+            requireContext(),
+            color.ciano
+        )
         requireActivity().window.insetsController?.setSystemBarsAppearance(
             0,
             WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
         )
 
         // Profile Picture
-        adapter = ProfileAdapter(null)
+        adapter = ProfileAdapter(null, requireContext())
         binding.viewPager.setAdapter(adapter)
         binding.viewPager.setCurrentItem(Int.MAX_VALUE / 2, false)
         val cardFlipPageTransformer = CardFlipPageTransformer2()
         cardFlipPageTransformer.isScalable = false
         binding.viewPager.setPageTransformer(cardFlipPageTransformer)
 
+        GlobalScope.launch(Dispatchers.Main) {
+            delay(2000)
+            _binding?.viewPager?.setCurrentItem(Int.MAX_VALUE / 2 + 1, true)
+            delay(1000)
+            _binding?.viewPager?.setCurrentItem(Int.MAX_VALUE / 2 + 2, true)
+        }
+
+        Log.d("USER FRAGMENT", "onCreateView: ${ApiRepository.getInstance().user}")
 
         // Load Profile Information
         viewModel.binding = binding
         viewModel.adapter = adapter
-        val user: User? = arguments?.getParcelable("user_key", User::class.java)
-        val yourUser = FirebaseAuth.getInstance().currentUser!!
-        Log.d("USUARIO FIREBASE", "onCreateView: $yourUser")
-        viewModel.loadProfile(user?.firebaseId ?: yourUser.uid)
-        viewModel.setData(
-            user ?: User(
-                yourUser.displayName!!,
-                yourUser.photoUrl,
-            )
-        )
-        viewModel.user.observe(viewLifecycleOwner) {
-            viewModel.setData(it)
-        }
+        val userNotSelf: User? = arguments?.getParcelable("user_key")
+        val repository = ApiRepository.getInstance()
 
         // Is it your profile?
-        if (user == null) {
-            // It is
+        if (userNotSelf == null) {
+            // It is my profile
+            repository.user.observe(viewLifecycleOwner) { user ->
+                user?.let {
+                    viewModel.setData(user)
+                }
+            }
+
+
+            if (repository.user.value == null) {
+                val fbuser = FirebaseAuth.getInstance().currentUser
+                viewModel.setData(
+                    User(fbuser?.displayName!!, fbuser.photoUrl)
+                )
+                Utils.getUser {
+                    viewModel.setData(it)
+                }
+            } else {
+                viewModel.setData(repository.user.value!!)
+            }
+
+
             // Settings
             binding.settingsButton.visibility = View.VISIBLE
             binding.settingsButton.setOnClickListener {
@@ -90,14 +115,18 @@ class ProfileFragment : Fragment() {
 
             binding.followButton.visibility = View.GONE
         } else {
-            // It is not
+            // It is not my profile
+            viewModel.loadProfile(userNotSelf.id!!)
+            viewModel.setData(userNotSelf)
+
+
             binding.settingsButton.visibility = View.GONE
             binding.editProfileButton.visibility = View.GONE
 
             // Follow
             binding.followButton.visibility = View.VISIBLE
             binding.followButton.setOnClickListener {
-                user.id?.let {
+                userNotSelf.id.let {
                     viewModel.followUser(it)
                 }
             }
@@ -123,4 +152,5 @@ class ProfileFragment : Fragment() {
             WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
         )
     }
+
 }
