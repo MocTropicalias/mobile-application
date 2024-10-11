@@ -3,7 +3,7 @@ package com.tropicalias.api.model
 data class Post(
     val id: Long,
     val userId: Long,
-    val userPhoto: String,
+    val userImage: String,
     val userName: String,
     val media: String,
     val title: String?,
