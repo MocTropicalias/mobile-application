@@ -5,13 +5,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.tropicalias.R
 import com.tropicalias.databinding.FragmentRegistrationBinding
+import com.tropicalias.utils.Utils
 
 class RegistrationFragment : Fragment() {
 
@@ -35,42 +35,53 @@ class RegistrationFragment : Fragment() {
         binding.passwordEditText.text = viewModel.password
         binding.usernameEditText.text = viewModel.username
 
-        viewModel.setValidDrawable(binding.usernameEditText, requireContext())
-        viewModel.setValidDrawable(binding.emailEditText, requireContext())
-        viewModel.setValidDrawable(binding.passwordEditText, requireContext())
+        Utils.setValidDrawable(binding.usernameEditText, requireContext())
+        Utils.setValidDrawable(binding.emailEditText, requireContext())
+        Utils.setValidDrawable(binding.passwordEditText, requireContext())
 
 
         // Register
         binding.registerButton.setOnClickListener {
-            val username = binding.usernameEditText.text.toString()
-            val email = binding.emailEditText.text.toString()
+            val username = binding.usernameEditText.text.toString().trim().lowercase()
+            val email = binding.emailEditText.text.toString().trim().lowercase()
             val password = binding.passwordEditText.text.toString()
+            binding.loadingButton.visibility = View.VISIBLE
+            binding.registerButton.text = ""
 
-            if (viewModel.checkInputs(username, email, password, binding, requireContext())) {
-                viewModel.username = binding.usernameEditText.text
-                viewModel.email = binding.emailEditText.text
-                viewModel.password = binding.passwordEditText.text
+            Utils.checkInputsRegistration(
+                username,
+                email,
+                password,
+                binding,
+                requireContext()
+            ) { error ->
+                if (!error) {
+                    viewModel.username = binding.usernameEditText.text
+                    viewModel.email = binding.emailEditText.text
+                    viewModel.password = binding.passwordEditText.text
 
 
-                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-                    .addOnFailureListener { e ->
-                        if (e is FirebaseAuthUserCollisionException) {
-                            viewModel.setInvalidDrawable(binding.emailEditText, requireContext())
-                            binding.errorTextView.text = "Email already in use"
-                        } else {
-                            Log.e(TAG, "Error creating firebase user: $e")
-                            Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                        .addOnFailureListener { e ->
+                            if (e is FirebaseAuthUserCollisionException) {
+                                Utils.setInvalidDrawable(binding.emailEditText, requireContext())
+                                binding.emailErrorTextView.text = "Email already in use"
+                            } else {
+                                Log.e(TAG, "Error creating user: ${e.message}")
+                            }
                         }
-                    }
-                    .addOnSuccessListener {
-                        //                    Go to Profile Picture Selection
-                        parentFragmentManager.beginTransaction()
-                            .replace(R.id.fragment_container, ProfilePictureFragment())
-                            .addToBackStack(null)
-                            .commit()
-                        it.user?.sendEmailVerification()
-                        viewModel.createUser(it.user)
-                    }
+                        .addOnSuccessListener {
+                            //                    Go to Profile Picture Selection
+                            parentFragmentManager.beginTransaction()
+                                .replace(R.id.fragment_container, ProfilePictureFragment())
+                                .addToBackStack(null)
+                                .commit()
+                            it.user?.sendEmailVerification()
+                            viewModel.createUser(it.user)
+                        }
+                }
+                binding.loadingButton.visibility = View.GONE
+                binding.registerButton.text = "Cadastrar"
             }
         }
 

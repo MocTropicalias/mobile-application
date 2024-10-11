@@ -1,6 +1,8 @@
 package com.tropicalias.api.model
 
 import android.net.Uri
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import java.util.Date
 
@@ -10,26 +12,47 @@ data class User(
     @SerializedName("firebaseId")
     val firebaseId: String,
     @SerializedName("username")
-    val username: String,
+    var username: String,
     @SerializedName("email")
-    val email: String,
+    var email: String,
     @SerializedName("password")
-    val password: String,
+    var password: String,
     @SerializedName("nome")
-    val exibitionName: String?,
+    var exibitionName: String?,
     @SerializedName("cpf")
-    val cpf: String?,
+    var cpf: String?,
     @SerializedName("descricaoUsuario")
-    val userDescription: String?,
+    var userDescription: String?,
     @SerializedName("nascimento")
-    val birthDate: Date?,
+    var birthDate: Date?,
     @SerializedName("urlFoto")
-    val photoUrl: Uri?,
+    var imageUri: Uri?,
     @SerializedName("deletedAt")
     val deletedAt: Date?,
     @SerializedName("createdAt")
     val createdAt: Date?,
-) {
+    @SerializedName("qtSeguidores")
+    val followersCount: Int?,
+    @SerializedName("qtSeguidos")
+    val followingCount: Int?
+) : Parcelable {
+    constructor(parcel: Parcel) : this(
+        parcel.readValue(Long::class.java.classLoader) as? Long,
+        parcel.readString().toString(),
+        parcel.readString().toString(),
+        parcel.readString().toString(),
+        parcel.readString().toString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        TODO("birthDate"),
+        parcel.readParcelable(Uri::class.java.classLoader),
+        TODO("deletedAt"),
+        TODO("createdAt"),
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int
+    )
+
     constructor(firebaseId: String, username: String, email: String, senha: String) : this(
         null,
         firebaseId,
@@ -42,10 +65,12 @@ data class User(
         null,
         null,
         null,
+        null,
+        null,
         null
     )
 
-    constructor(displayName: String, photoUrl: Uri?) :
+    constructor(displayName: String, imageUri: Uri?) :
             this(
                 null,
                 null.toString(),
@@ -56,8 +81,38 @@ data class User(
                 null,
                 null,
                 null,
-                photoUrl,
+                imageUri,
                 null,
                 null,
+                null,
+                null
             )
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeValue(id)
+        parcel.writeString(firebaseId)
+        parcel.writeString(username)
+        parcel.writeString(email)
+        parcel.writeString(password)
+        parcel.writeString(exibitionName)
+        parcel.writeString(cpf)
+        parcel.writeString(userDescription)
+        parcel.writeParcelable(imageUri, flags)
+        parcel.writeValue(followersCount)
+        parcel.writeValue(followingCount)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<User> {
+        override fun createFromParcel(parcel: Parcel): User {
+            return User(parcel)
+        }
+
+        override fun newArray(size: Int): Array<User?> {
+            return arrayOfNulls(size)
+        }
+    }
 }

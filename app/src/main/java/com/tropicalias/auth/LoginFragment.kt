@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.tropicalias.MainActivity
 import com.tropicalias.R
 import com.tropicalias.databinding.FragmentLoginBinding
+import com.tropicalias.utils.Utils
 
 class LoginFragment : Fragment() {
 
@@ -31,8 +32,8 @@ class LoginFragment : Fragment() {
         binding.emailEditText.text = viewModel.email
         binding.passwordEditText.text = viewModel.password
 
-        viewModel.setValidDrawable(binding.emailEditText, requireContext())
-        viewModel.setValidDrawable(binding.passwordEditText, requireContext())
+        Utils.setValidDrawable(binding.emailEditText, requireContext())
+        Utils.setValidDrawable(binding.passwordEditText, requireContext())
 
 
         // Login
@@ -41,11 +42,11 @@ class LoginFragment : Fragment() {
             val password = binding.passwordEditText.text.toString()
 
             if (email.isEmpty()) {
-                viewModel.setInvalidDrawable(binding.emailEditText, requireContext())
+                Utils.setInvalidDrawable(binding.emailEditText, requireContext())
                 return@setOnClickListener
             }
             if (password.isEmpty()) {
-                viewModel.setInvalidDrawable(binding.passwordEditText, requireContext())
+                Utils.setInvalidDrawable(binding.passwordEditText, requireContext())
                 return@setOnClickListener
             }
 
@@ -56,9 +57,9 @@ class LoginFragment : Fragment() {
                         startActivity(Intent(activity, MainActivity::class.java))
                         activity?.finish()
                     } else {
-                        binding.errorTextView.text = "Email ou senha incorretos"
-                        viewModel.setInvalidDrawable(binding.passwordEditText, requireContext())
-                        viewModel.setInvalidDrawable(binding.emailEditText, requireContext())
+                        binding.passwordErrorTextView.text = "Email ou senha incorretos"
+                        Utils.setInvalidDrawable(binding.passwordEditText, requireContext())
+                        Utils.setInvalidDrawable(binding.emailEditText, requireContext())
                     }
                 }
         }

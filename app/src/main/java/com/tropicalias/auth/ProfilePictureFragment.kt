@@ -13,6 +13,10 @@ import com.tropicalias.MainActivity
 import com.tropicalias.adapter.ProfileAdapter
 import com.tropicalias.databinding.FragmentProfilePictureBinding
 import com.wajahatkarim3.easyflipviewpager.CardFlipPageTransformer2
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class ProfilePictureFragment : Fragment() {
@@ -29,11 +33,11 @@ class ProfilePictureFragment : Fragment() {
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 val imageUri = data?.data
-                val finalUri = imageUri ?: adapter.imageUrl
+                val finalUri = imageUri ?: adapter.imageUri
                 finalUri?.let {
 //                    Toast.makeText(requireContext(), "Salvando imagem", Toast.LENGTH_SHORT).show()
-//                    viewModel.uploadImageToFirebase(finalUri)
-                    adapter.imageUrl = finalUri
+                    adapter.imageUri = finalUri
+                    viewModel.imageUrl = finalUri
                     adapter.notifyDataSetChanged()
                 }
                 imagePicked = true
@@ -53,22 +57,27 @@ class ProfilePictureFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         // Get ViewPager2 and Set Adapter
-        adapter = ProfileAdapter(pickImageLauncher)
+        adapter = ProfileAdapter(pickImageLauncher, requireContext())
         binding.viewPager.setAdapter(adapter)
         binding.viewPager.setCurrentItem(Int.MAX_VALUE / 2, false)
-
+        GlobalScope.launch(Dispatchers.Main) {
+            delay(500)
+            binding.viewPager.setCurrentItem(Int.MAX_VALUE / 2 + 1, true)
+            delay(500)
+            binding.viewPager.setCurrentItem(Int.MAX_VALUE / 2 + 1, true)
+        }
         // Create an object of page transformer
         val cardFlipPageTransformer = CardFlipPageTransformer2()
         cardFlipPageTransformer.isScalable = true
-
         // Assign the page transformer to the ViewPager2.
         binding.viewPager.setPageTransformer(cardFlipPageTransformer)
 
+
+
         binding.continueButton.setOnClickListener {
             if (imagePicked) {
-                viewModel.storeImageUri()
+                viewModel.uploadImageToFirebase()
             }
             startActivity(Intent(activity, MainActivity::class.java))
             activity?.finish()
