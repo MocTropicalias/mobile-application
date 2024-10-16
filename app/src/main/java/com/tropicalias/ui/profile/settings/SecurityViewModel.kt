@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.userProfileChangeRequest
 import com.tropicalias.api.model.User
 import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.FragmentSecurityBinding
@@ -28,10 +27,21 @@ class SecurityViewModel : ViewModel() {
             binding.loading.visibility = View.GONE
             binding.emailEditText.setText(formatEmail(user.email))
             binding.passwordEditText.setText("******")
-            binding.emailEditText.setOnClickListener {
-                if (binding.emailEditText.text.toString() ==  formatEmail(user.email)) {
-                    binding.emailEditText.setText("")
+
+
+            binding.emailEditText.onFocusChangeListener =
+                View.OnFocusChangeListener { _, hasFocus ->
+                    if (hasFocus) {
+                        if (binding.emailEditText.text.toString() == formatEmail(user.email)) {
+                            binding.emailEditText.setText("")
+                        }
                 }
+                }
+            binding.passwordEditText.onFocusChangeListener =
+                View.OnFocusChangeListener { _, hasFocus ->
+                    if (hasFocus) {
+                        binding.emailEditText.setText("")
+                    }
             }
         }
 
@@ -41,7 +51,7 @@ class SecurityViewModel : ViewModel() {
         val split = email.split("@")
         val len = split[0].length
 
-        return split[0].substring(0, 3) + "***" + split[0].substring(len - 3, len) + split[1]
+        return split[0].substring(0, 3) + "***" + split[0].substring(len - 3, len) + "@" + split[1]
     }
 
     fun saveUpdates(email: String?, password: String?, con: Context) {
@@ -71,5 +81,19 @@ class SecurityViewModel : ViewModel() {
                     })
             }
         }
+    }
+
+    fun checkPassword(pass: String): String? {
+        if (pass == user.value?.password) {
+            return null
+        }
+        return null
+    }
+
+    fun checkEmail(email: String): String? {
+        if (email == user.value?.email?.let { formatEmail(it) }) {
+            return null
+        }
+        return email
     }
 }
