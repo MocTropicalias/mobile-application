@@ -47,7 +47,7 @@ class EditProfileViewModel : ViewModel() {
             apiSQL.updateUserProfile(user, user.id!!.toString())
                 .enqueue(object : retrofit2.Callback<User> {
                     override fun onResponse(req: Call<User>, res: Response<User>) {
-                        Log.d("EDIT PROFILE", "onResponse: ${req.request().body}")
+                        Log.d("EDIT PROFILE", "onResponse: ${Utils.bodyToString(req.request().body)}")
                         repository.user.value = res.body()
                     }
 

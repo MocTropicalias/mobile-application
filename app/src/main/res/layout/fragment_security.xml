@@ -12,8 +12,7 @@
         android:background="@color/main_backgroung_gradient_color_1"
         android:elevation="1dp"
         android:paddingBottom="16dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:clipToPadding="false">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
             android:id="@+id/backButton"
@@ -27,7 +26,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Edite seu perfil"
+            android:text="Informação de segurança"
             android:textAlignment="center"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -52,30 +51,21 @@
             android:orientation="vertical"
             android:padding="40dp">
 
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewPager"
-                android:layout_width="175dp"
-                android:layout_height="175dp"
-                android:layout_margin="16dp"
-                android:background="@drawable/bg_profile"
-                android:padding="8dp" />
-
             <!-- Username EditText -->
             <EditText
-                android:id="@+id/nameEditText"
+                android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_input"
-                android:drawableStart="@drawable/ic_user_input"
+                android:drawableStart="@drawable/ic_email_input"
                 android:drawablePadding="8dp"
-                android:hint="Apelido"
+                android:hint="ar***dj@gmail.com"
                 android:inputType="text"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp" />
 
             <TextView
-                android:id="@+id/nameErrorTextView"
+                android:id="@+id/emailErrorTextView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="4dp"
@@ -86,20 +76,31 @@
                 android:textStyle="bold" />
 
             <!-- Username EditText -->
-            <EditText
-                android:id="@+id/usernameEditText"
+            <!-- Password EditText -->
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_input"
-                android:drawableStart="@drawable/ic_arroba"
-                android:drawablePadding="8dp"
-                android:hint="Usuário"
-                android:inputType="text"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp" />
+                android:padding="0dp"
+                app:hintEnabled="false"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/azul_claro">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/passwordEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:background="@drawable/bg_input"
+                    android:drawableStart="@drawable/ic_password_input"
+                    android:drawablePadding="8dp"
+                    android:hint="Atualizar senha"
+                    android:inputType="textPassword"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/usernameErrorTextView"
+                android:id="@+id/passwordErrorTextView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="4dp"
@@ -109,21 +110,34 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-            <!-- Bio EditText -->
-            <EditText
-                android:id="@+id/bioEditText"
+            <!-- Username EditText -->
+            <!-- Password EditText -->
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:background="@drawable/bg_input"
-                android:drawableStart="@drawable/ic_bio"
-                android:drawablePadding="8dp"
-                android:hint="Descrição"
-                android:inputType="text"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp" />
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                app:hintEnabled="false"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/azul_claro"
+                android:layout_marginTop="64dp"
+                android:clipToPadding="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/confirmPasswordEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:background="@drawable/bg_input"
+                    android:drawableStart="@drawable/ic_password_input"
+                    android:drawablePadding="8dp"
+                    android:hint="Confirmar senha atual"
+                    android:inputType="textPassword"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/bioErrorTextView"
+                android:id="@+id/confirmPasswordErrorTextView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="4dp"
@@ -138,7 +152,6 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
                 android:clipToPadding="false">
 
                 <Button
@@ -146,7 +159,7 @@
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_button"
-                    android:backgroundTint="@color/laranja"
+                    android:backgroundTint="@color/grey"
                     android:text="Salvar"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"

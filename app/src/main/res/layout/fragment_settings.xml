@@ -44,7 +44,7 @@
             android:backgroundTint="@color/azul_claro"
             android:drawableStart="@drawable/ic_lock"
             android:drawablePadding="16dp"
-            android:text="Configurações"
+            android:text="Segurança"
             android:textAlignment="textStart"
             android:textColor="@color/black_blue"
             app:layout_constraintBottom_toTopOf="@id/supportButton"

@@ -64,7 +64,8 @@
             android:padding="0dp"
             app:hintEnabled="false"
             app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/azul_claro">
+            app:passwordToggleTint="@color/azul_claro"
+            android:clipToPadding="false">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordEditText"
@@ -118,7 +119,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp">
+            android:layout_marginTop="32dp"
+            android:clipToPadding="false">
 
             <Button
                 android:id="@+id/registerButton"

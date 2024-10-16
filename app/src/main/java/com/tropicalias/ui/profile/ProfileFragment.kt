@@ -44,7 +44,12 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         // Change status bar color
         requireActivity().window.statusBarColor = ContextCompat.getColor(
             requireContext(),
@@ -133,10 +138,6 @@ class ProfileFragment : Fragment() {
         }
 
 
-
-
-
-        return root
     }
 
     override fun onDestroyView() {

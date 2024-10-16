@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.tropicalias.AuthenticationActivity
+import com.tropicalias.R
+import com.tropicalias.auth.RegistrationFragment
 import com.tropicalias.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment() {
@@ -25,6 +27,15 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        binding.securitySettingsButton.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, SecurityFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
 
         binding.logoutButton.setOnClickListener {
             FirebaseAuth.getInstance().signOut()

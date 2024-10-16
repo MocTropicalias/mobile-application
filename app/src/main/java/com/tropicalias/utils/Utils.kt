@@ -18,13 +18,17 @@ import com.tropicalias.api.model.User
 import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.FragmentEditProfileBinding
 import com.tropicalias.databinding.FragmentRegistrationBinding
+import com.tropicalias.databinding.FragmentSecurityBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import okhttp3.RequestBody
+import okio.Buffer
 import retrofit2.Call
 import retrofit2.Response
 import java.io.File
+import java.nio.charset.StandardCharsets
 import java.util.UUID
 import java.util.regex.Pattern
 
@@ -109,7 +113,7 @@ class Utils {
                 override fun onResponse(req: Call<List<User>>, res: Response<List<User>>) {
                     val users = res.body()
                     if (users != null) {
-                        if (users.any { it.username == username }) {
+                        if (users.any { it.username == username && it.username != ApiRepository.getInstance().user.value?.username }) {
                             usernameInUse = true
                         }
                     }
@@ -230,6 +234,44 @@ class Utils {
             }
         }
 
+        fun checkInputsEditSecurity(
+            email: String,
+            password: String,
+            binding: FragmentSecurityBinding,
+            context: Context,
+            callback: (hasError: Boolean) -> Unit
+        ) {
+            // Reseting error messages
+            binding.emailErrorTextView.text = ""
+            binding.passwordErrorTextView.text = ""
+            setValidDrawable(binding.emailEditText, context)
+            setValidDrawable(binding.passwordEditText, context)
+
+            //Variable initialization
+            var hasError = false
+            var erro: String? = null
+
+            // Validations
+            // Email
+            erro = isValidEmail(email)
+            if (erro != null) {
+                binding.emailErrorTextView.text = erro
+                setInvalidDrawable(binding.emailEditText, context)
+                hasError = true
+            }
+            // Password
+            if (password.isNotEmpty()) {
+                erro = isValidPassword(password)
+                if (erro != null) {
+                    binding.passwordErrorTextView.text = erro
+                    setInvalidDrawable(binding.passwordEditText, context)
+                    hasError = true
+                }
+            }
+            callback(hasError)
+
+        }
+
 
         //Handle Drawable colors
         fun shakeAnimation(view: View) {
@@ -267,7 +309,7 @@ class Utils {
             return (dp * context.resources.displayMetrics.density).toInt()
         }
 
-
+        //User
         fun getUser(callback: ((user: User) -> Unit)? = null) {
             val repository = ApiRepository.getInstance()
             repository.user.value?.let { user ->
@@ -298,6 +340,19 @@ class Utils {
                     }
                 })
         }
+
+
+        //Helper API
+        fun bodyToString(requestBody: RequestBody?): String {
+            return try {
+                val buffer = Buffer()
+                requestBody?.writeTo(buffer)
+                buffer.readString(StandardCharsets.UTF_8)
+            } catch (e: Exception) {
+                "Unable to log request body"
+            }
+        }
+
 
     }
 }
