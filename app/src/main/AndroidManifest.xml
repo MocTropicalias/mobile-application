@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Tropicalias"
         tools:targetApi="31">
         <activity
+            android:name=".ui.payment.PaymentActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.events.MainActivity"
             android:exported="false" />
 
