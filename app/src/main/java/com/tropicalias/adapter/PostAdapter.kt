@@ -37,7 +37,7 @@ class PostAdapter(var posts: List<Post>): RecyclerView.Adapter<RecyclerView.View
             }
 
             binding.profileNameTextView.text = post.userName
-            binding.postContentTextView.text = post.content
+            binding.contentTextView.text = post.content
             binding.dateTextView.text = DateFormat.format("",post.date)
 
 

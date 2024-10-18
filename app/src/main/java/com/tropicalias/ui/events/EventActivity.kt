@@ -1,16 +1,17 @@
 package com.tropicalias.ui.events
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.tropicalias.R
 
-class MainActivity : AppCompatActivity() {
+class EventActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main2)
+        setContentView(R.layout.activity_event)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, EventFragment.newInstance())
+                .replace(R.id.container, EventFragment())
                 .commitNow()
         }
     }

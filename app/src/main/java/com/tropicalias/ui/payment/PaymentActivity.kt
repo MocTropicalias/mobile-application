@@ -1,7 +1,8 @@
 package com.tropicalias.ui.payment
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.tropicalias.R
 
 class PaymentActivity : AppCompatActivity() {
 
