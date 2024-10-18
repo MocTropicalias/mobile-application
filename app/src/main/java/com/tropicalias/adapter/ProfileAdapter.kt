@@ -128,7 +128,9 @@ class ProfileAdapter(
                     }
                     bindingModal.removePictureButton.setOnClickListener {
                         imageUri = null
-                        binding.profilePictureImageView.setImageURI(null)
+                        Glide.with(binding.root.context)
+                            .load("")
+                            .into(binding.profilePictureImageView)
                         binding.imageTemplate.visibility = View.VISIBLE
                         modal.dismiss()
                     }

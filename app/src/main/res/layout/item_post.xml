@@ -19,8 +19,7 @@
             android:src="@drawable/araci"
             app:contentPadding="8dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/RoundedImageView">
+            app:layout_constraintTop_toTopOf="parent">
 
             <include
                 android:id="@+id/image"
