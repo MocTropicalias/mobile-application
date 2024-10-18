@@ -17,9 +17,14 @@ import java.lang.reflect.Type
 
 class Retrofit {
 
-    val BASE_URL = "https://tropicalias-api-dev.onrender.com/"
+    enum class ApiType(val url: String) {
+        SQL("https://tropicalias-api-dev.onrender.com/"),
+        NOSQL("https://mongo-api-dev.onrender.com/"),
+        REDIS("https://apiredis-dev.onrender.com/")
+    }
 
-    fun getRetrofitClient(url: String = BASE_URL): Retrofit {
+
+    fun getRetrofitClient(api: ApiType): Retrofit {
         val interceptor = HttpLoggingInterceptor()
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         val client = OkHttpClient.Builder()
@@ -31,7 +36,7 @@ class Retrofit {
             .create()
 
         return Retrofit.Builder()
-            .baseUrl(url)
+            .baseUrl(api.url)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(client)
             .build()
