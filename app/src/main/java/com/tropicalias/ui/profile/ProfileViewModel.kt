@@ -20,7 +20,7 @@ class ProfileViewModel : ViewModel() {
     lateinit var binding: FragmentProfileBinding
     lateinit var adapter: ProfileAdapter
 
-    private val TAG = "ProfileLogging"
+    val TAG = "ProfileLogging"
 
 
     fun loadProfile(id: Long) {

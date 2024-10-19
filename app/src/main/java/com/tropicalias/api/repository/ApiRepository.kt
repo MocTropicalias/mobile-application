@@ -20,22 +20,33 @@ class ApiRepository private constructor() {
     }
 
     var user: MutableLiveData<User> = MutableLiveData()
-    var sqlAPi: ApiSQL? = getSQL()
+    private var sqlAPi: ApiSQL? = getSQL()
+    private var noSqlAPi: ApiNoSQL? = getNoSQL()
+    private var resdisAPi: ApiRedis? = getRedis()
 
 
     fun getSQL(): ApiSQL {
         if (sqlAPi != null) {
             return sqlAPi as ApiSQL
         }
-        return Retrofit().getRetrofitClient()
+        return Retrofit().getRetrofitClient(Retrofit.ApiType.SQL)
             .create(ApiSQL::class.java)
     }
-    fun getNoSQL() =
-        Retrofit().getRetrofitClient("")
-            .create(ApiNoSQL::class.java)
 
-    fun getRedis() =
-        Retrofit().getRetrofitClient(" ")
+    fun getNoSQL(): ApiNoSQL {
+        if (noSqlAPi != null) {
+            return noSqlAPi as ApiNoSQL
+        }
+        return Retrofit().getRetrofitClient(Retrofit.ApiType.NOSQL)
+            .create(ApiNoSQL::class.java)
+    }
+
+    fun getRedis(): ApiRedis {
+        if (resdisAPi != null) {
+            return resdisAPi as ApiRedis
+        }
+        return Retrofit().getRetrofitClient(Retrofit.ApiType.REDIS)
             .create(ApiRedis::class.java)
 
+    }
 }

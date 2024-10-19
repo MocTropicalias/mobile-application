@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Tropicalias" parent="Theme.AppCompat.Light.NoActionBar">
         <!--   Navigation and StatusBar Android color   -->
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@color/main_backgroung_gradient_color_2</item>
+        <item name="android:statusBarColor">@color/transparent</item>
+        <item name="android:navigationBarColor">@color/main_background_gradient_color_2</item>
         <item name="android:windowLightNavigationBar">true</item>
         <item name="android:windowLightStatusBar">true</item>
 
@@ -27,13 +27,8 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="RoundedImageView" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">50%</item>
-    </style>
-
     <style name="SheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
-        <!--<item name="android:windowCloseOnTouchOutside">false</item>-->
+        <item name="android:windowCloseOnTouchOutside">true</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:colorBackground">@android:color/transparent</item>
@@ -41,6 +36,15 @@
         <item name="android:backgroundDimAmount">0.3</item>
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
+    </style>
+
+    <!-- Estilo para arredondar apenas o topo -->
+    <style name="ShapeAppearanceOverlay.MaterialComponents.ShapeableImageView.TopRounded" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">50dp</item>
+        <item name="cornerSizeTopRight">50dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
     </style>
 
 </resources>

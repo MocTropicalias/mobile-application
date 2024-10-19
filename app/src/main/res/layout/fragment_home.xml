@@ -23,7 +23,8 @@
         android:src="@drawable/ic_add"
         android:padding="2dp"
         app:layout_constraintBottom_toBottomOf="@+id/posts"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/white" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
