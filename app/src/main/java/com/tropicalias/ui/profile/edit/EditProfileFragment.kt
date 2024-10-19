@@ -65,7 +65,7 @@ class EditProfileFragment : Fragment() {
         adapter.imageUri = yourUser?.photoUrl
         adapter.notifyDataSetChanged()
         binding.usernameEditText.setText(yourUser?.displayName)
-        viewModel.loadUser(binding, adapter)
+        viewModel.loadUser(adapter)
 
 
 

@@ -18,11 +18,13 @@ import retrofit2.Response
 
 class EditProfileViewModel : ViewModel() {
 
+    val TAG: String = "EDIT PROFILE"
     private val repository = ApiRepository.getInstance()
     val user = repository.user
     val apiSQL = repository.getSQL()
+    lateinit var binding: FragmentEditProfileBinding
 
-    fun loadUser(binding: FragmentEditProfileBinding, adapter: ProfileAdapter) {
+    fun loadUser(adapter: ProfileAdapter) {
         binding.loading.visibility = View.VISIBLE
         binding.loading.setOnClickListener { }
         Utils.getUser { user ->
@@ -43,12 +45,15 @@ class EditProfileViewModel : ViewModel() {
         user.value?.imageUri = image
 
         user.value?.let { user ->
-            Log.d("EDIT PROFILE", "saveUpdates: $user")
+            Log.d(TAG, "saveUpdates: $user")
             apiSQL.updateUserProfile(user, user.id!!.toString())
                 .enqueue(object : retrofit2.Callback<User> {
                     override fun onResponse(req: Call<User>, res: Response<User>) {
-                        Log.d("EDIT PROFILE", "onResponse: ${Utils.bodyToString(req.request().body)}")
+                        Log.d(TAG, "onResponse req body: ${Utils.bodyToString(req.request().body)}")
+                        Log.d(TAG, "onResponse res body: ${res.body()}")
                         repository.user.value = res.body()
+                        binding.loadingButton.visibility = View.GONE
+                        binding.saveButton.text = "Salvar"
                     }
 
                     override fun onFailure(req: Call<User>, t: Throwable) {
