@@ -222,8 +222,8 @@ class InputCheck {
         }
 
         fun checkInputsEditSecurity(
-            email: String?,
-            password: String?,
+            email: String,
+            password: String,
             binding: FragmentSecurityBinding,
             context: Context,
             callback: (hasError: Boolean) -> Unit
@@ -240,16 +240,14 @@ class InputCheck {
 
             // Validations
             // Email
-            if (email != null) {
-                erro = isValidEmail(email)
-                if (erro != null) {
-                    binding.emailErrorTextView.text = erro
-                    setInvalidDrawable(binding.emailEditText, context)
-                    hasError = true
-                }
+            erro = isValidEmail(email)
+            if (erro != null) {
+                binding.emailErrorTextView.text = erro
+                setInvalidDrawable(binding.emailEditText, context)
+                hasError = true
             }
             // Password
-            if (password != null) {
+            if (password.isNotEmpty()) {
                 erro = isValidPassword(password)
                 if (erro != null) {
                     binding.passwordErrorTextView.text = erro
