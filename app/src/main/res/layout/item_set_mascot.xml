@@ -6,19 +6,20 @@
     android:layout_height="match_parent">
 
 
-    <com.google.android.material.imageview.ShapeableImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/profileImageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/araci_bg"
+        android:background="@drawable/bg_round"
+        android:backgroundTint="@color/azul_claro"
+        android:clipToOutline="true"
         android:scaleType="centerCrop"
         android:src="@drawable/araci"
         app:contentPadding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/RoundedImageView"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/edit_mascot"

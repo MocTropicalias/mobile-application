@@ -3,24 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="24dp">
 
-        <com.google.android.material.imageview.ShapeableImageView
+        <LinearLayout
             android:id="@+id/profileImageView"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:background="@color/azul_claro"
+            android:orientation="horizontal"
             android:scaleType="centerCrop"
             android:src="@drawable/araci"
             app:contentPadding="8dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/RoundedImageView" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <include
+                android:id="@+id/image"
+                layout="@layout/item_profile_picture" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/profileNameTextView"
@@ -33,7 +37,7 @@
             app:layout_constraintStart_toEndOf="@id/profileImageView" />
 
         <TextView
-            android:id="@+id/postContentTextView"
+            android:id="@+id/contentTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginVertical="24dp"
@@ -46,11 +50,13 @@
             android:id="@+id/contentImageView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
             android:layout_marginVertical="24dp"
+            android:maxHeight="300dp"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/postContentTextView"
+            app:layout_constraintTop_toBottomOf="@id/contentTextView"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView

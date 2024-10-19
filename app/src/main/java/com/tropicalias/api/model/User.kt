@@ -28,13 +28,13 @@ data class User(
     @SerializedName("urlFoto")
     var imageUri: Uri?,
     @SerializedName("deletedAt")
-    val deletedAt: Date?,
+    var deletedAt: Date?,
     @SerializedName("createdAt")
-    val createdAt: Date?,
+    var createdAt: Date?,
     @SerializedName("qtSeguidores")
-    val followersCount: Int?,
+    var followersCount: Int?,
     @SerializedName("qtSeguidos")
-    val followingCount: Int?
+    var followingCount: Int?
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readValue(Long::class.java.classLoader) as? Long,

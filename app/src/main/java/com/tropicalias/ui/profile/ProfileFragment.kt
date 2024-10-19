@@ -50,15 +50,20 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Log.d(viewModel.TAG, "onViewCreated: PROFILE FRAGMENT")
+
+
         // Change status bar color
         requireActivity().window.statusBarColor = ContextCompat.getColor(
             requireContext(),
             color.ciano
         )
-        requireActivity().window.insetsController?.setSystemBarsAppearance(
-            0,
-            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
-        )
+        if (requireActivity().window != null) {
+            requireActivity().window.insetsController?.setSystemBarsAppearance(
+                0,
+                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+            )
+        }
 
         // Profile Picture
         adapter = ProfileAdapter(null, requireContext())

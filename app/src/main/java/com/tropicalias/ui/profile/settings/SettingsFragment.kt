@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.tropicalias.AuthenticationActivity
 import com.tropicalias.R
-import com.tropicalias.auth.RegistrationFragment
 import com.tropicalias.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment() {
@@ -32,6 +31,20 @@ class SettingsFragment : Fragment() {
         binding.securitySettingsButton.setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, SecurityFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
+        binding.termsButton.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, UserTermsFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
+        binding.supportButton.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, SupportFragment())
                 .addToBackStack(null)
                 .commit()
         }
