@@ -1,4 +1,4 @@
-package com.tropicalias.ui.home
+package com.tropicalias.ui.home.newpost
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

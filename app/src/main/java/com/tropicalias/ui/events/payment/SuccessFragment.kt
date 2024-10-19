@@ -1,4 +1,4 @@
-package com.tropicalias.ui.payment
+package com.tropicalias.ui.events.payment
 
 import android.os.Bundle
 import android.view.LayoutInflater
