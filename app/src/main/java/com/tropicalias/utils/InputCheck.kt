@@ -1,41 +1,28 @@
 package com.tropicalias.utils
 
-import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
-import android.view.View
-import android.widget.EditText
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import com.google.firebase.auth.FirebaseAuth
-import com.tropicalias.R
 import com.tropicalias.api.model.User
 import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.FragmentEditProfileBinding
 import com.tropicalias.databinding.FragmentRegistrationBinding
 import com.tropicalias.databinding.FragmentSecurityBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import okhttp3.RequestBody
-import okio.Buffer
+import com.tropicalias.utils.DrawableHandler.Companion.setInvalidDrawable
+import com.tropicalias.utils.DrawableHandler.Companion.setValidDrawable
 import retrofit2.Call
 import retrofit2.Response
 import java.io.File
-import java.nio.charset.StandardCharsets
 import java.util.UUID
 import java.util.regex.Pattern
 
-class Utils {
-    companion object {
+class InputCheck {
+    companion object{
 
-        private val sqlApi = ApiRepository.getInstance().getSQL()
 
         fun getChoserIntent(context: Context): Pair<Intent, Uri> {
             val galleryIntent = Intent(Intent.ACTION_PICK).apply { type = "image/*" }
@@ -109,7 +96,7 @@ class Utils {
             callback: ((usernameInUse: Boolean) -> Unit)? = null
         ) {
             var usernameInUse = false
-            sqlApi.getAllUsers().enqueue(object : retrofit2.Callback<List<User>> {
+            ApiRepository.getInstance().getSQL().getAllUsers().enqueue(object : retrofit2.Callback<List<User>> {
                 override fun onResponse(req: Call<List<User>>, res: Response<List<User>>) {
                     val users = res.body()
                     if (users != null) {
@@ -215,7 +202,7 @@ class Utils {
                 binding.nameErrorTextView.text = erro
                 setInvalidDrawable(binding.nameEditText, context)
                 hasError = true
-        }
+            }
             // Name
             erro = isValidBio(bio)
             if (erro != null) {
@@ -272,86 +259,6 @@ class Utils {
 
         }
 
-
-        //Handle Drawable colors
-        fun shakeAnimation(view: View) {
-            val animator = ObjectAnimator.ofFloat(
-                view,
-                "translationX",
-                *floatArrayOf(0F, 25F, -25F, 25F, -25F, 15F, -15F, 6F, -6F, 0F)
-            );
-            animator.setDuration(500); // Duração da animação
-            animator.start(); // Inicia a animação
-        }
-
-        fun setInvalidDrawable(editText: EditText, context: Context) {
-            (editText.background as GradientDrawable).setStroke(
-                dpToPx(3, context),
-                ContextCompat.getColor(context, R.color.vermelho)
-            )
-            editText.compoundDrawables[0]?.mutate()?.setTint(
-                ContextCompat.getColor(context, R.color.vermelho)
-            )
-            shakeAnimation(editText)
-        }
-
-        fun setValidDrawable(editText: EditText, context: Context) {
-            (editText.background as GradientDrawable).setStroke(
-                dpToPx(3, context),
-                ContextCompat.getColor(context, R.color.black)
-            )
-            editText.compoundDrawables[0]?.mutate()?.setTint(
-                ContextCompat.getColor(context, R.color.black)
-            )
-    }
-
-        private fun dpToPx(dp: Int, context: Context): Int {
-            return (dp * context.resources.displayMetrics.density).toInt()
-        }
-
-        //User
-        fun getUser(callback: ((user: User) -> Unit)? = null) {
-            val repository = ApiRepository.getInstance()
-            repository.user.value?.let { user ->
-                if (callback != null) {
-                    callback(user)
-                }
-            }
-
-            repository.getSQL().getUserByFirebaseID(FirebaseAuth.getInstance().currentUser?.uid!!)
-                .enqueue(object : retrofit2.Callback<User> {
-                    override fun onResponse(req: Call<User>, res: Response<User>) {
-                        val user = res.body()
-                        repository.user.value = user
-                        Log.d("SPLASH SCREEN", "onResponse: ${repository.user.value}")
-                        if (user != null) {
-                            if (callback != null) {
-                                callback(user)
-                            }
-                        }
-                    }
-
-                    override fun onFailure(req: Call<User>, e: Throwable) {
-                        Log.e("SPLASH SCREEN", "onFailure: $e")
-                        GlobalScope.launch(Dispatchers.Main) {
-                            delay(30000)
-                            getUser(callback = callback)
-                        }
-                    }
-                })
-        }
-
-
-        //Helper API
-        fun bodyToString(requestBody: RequestBody?): String {
-            return try {
-                val buffer = Buffer()
-                requestBody?.writeTo(buffer)
-                buffer.readString(StandardCharsets.UTF_8)
-            } catch (e: Exception) {
-                "Unable to log request body"
-            }
-        }
 
 
     }

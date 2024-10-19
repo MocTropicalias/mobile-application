@@ -16,7 +16,8 @@ import com.tropicalias.databinding.ItemProfilePictureBinding
 import com.tropicalias.databinding.ItemSetMascotBinding
 import com.tropicalias.databinding.ItemSetProfilePictureBinding
 import com.tropicalias.databinding.ModalProfilePictureBinding
-import com.tropicalias.utils.Utils
+import com.tropicalias.utils.ApiHelper
+import com.tropicalias.utils.ImagePicker
 
 
 class ProfileAdapter(
@@ -121,7 +122,7 @@ class ProfileAdapter(
                 binding.root.setOnClickListener {
                     modal.show()
                     bindingModal.chosePictureButton.setOnClickListener {
-                        val (chooserIntent, uri) = Utils.getChoserIntent(binding.root.context)
+                        val (chooserIntent, uri) = ImagePicker.getChoserIntent(binding.root.context)
                         imageUri = uri
                         ipl.launch(chooserIntent)
                         modal.dismiss()

@@ -6,11 +6,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.userProfileChangeRequest
 import com.tropicalias.api.model.User
 import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.FragmentSecurityBinding
-import com.tropicalias.utils.Utils
+import com.tropicalias.utils.ApiHelper
 import retrofit2.Call
 import retrofit2.Response
 
@@ -24,7 +23,7 @@ class SecurityViewModel : ViewModel() {
 
         binding.loading.visibility = View.VISIBLE
         binding.loading.setOnClickListener { }
-        Utils.getUser { user ->
+        ApiHelper.getUser { user ->
             binding.loading.visibility = View.GONE
             binding.emailEditText.setText(formatEmail(user.email))
             binding.passwordEditText.setText("******")
@@ -57,7 +56,7 @@ class SecurityViewModel : ViewModel() {
                 apiSQL.updateUserProfile(user, user.id!!.toString())
                     .enqueue(object : retrofit2.Callback<User> {
                         override fun onResponse(req: Call<User>, res: Response<User>) {
-                            Log.d("EDIT PROFILE", "onResponse: ${Utils.bodyToString(req.request().body)}")
+                            Log.d("EDIT PROFILE", "onResponse: ${ApiHelper.bodyToString(req.request().body)}")
                             repository.user.value = res.body()
                         }
 

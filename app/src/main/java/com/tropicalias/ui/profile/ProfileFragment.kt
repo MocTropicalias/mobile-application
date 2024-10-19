@@ -20,7 +20,7 @@ import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.FragmentProfileBinding
 import com.tropicalias.ui.profile.edit.EditProfileActivity
 import com.tropicalias.ui.profile.settings.SettingsActivity
-import com.tropicalias.utils.Utils
+import com.tropicalias.utils.ApiHelper
 import com.wajahatkarim3.easyflipviewpager.CardFlipPageTransformer2
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -98,7 +98,7 @@ class ProfileFragment : Fragment() {
                 viewModel.setData(
                     User(fbuser?.displayName!!, fbuser.photoUrl)
                 )
-                Utils.getUser {
+                ApiHelper.getUser {
                     viewModel.setData(it)
                 }
             } else {

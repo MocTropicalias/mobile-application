@@ -7,11 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.auth.FirebaseAuth
-import com.tropicalias.R
-import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.FragmentSecurityBinding
-import com.tropicalias.databinding.FragmentSettingsBinding
-import com.tropicalias.utils.Utils
+import com.tropicalias.utils.ApiHelper
+import com.tropicalias.utils.InputCheck
 
 class SecurityFragment : Fragment() {
 
@@ -42,7 +40,7 @@ class SecurityFragment : Fragment() {
             binding.loadingButton.visibility = View.VISIBLE
             binding.saveButton.text = ""
 
-            Utils.checkInputsEditSecurity(email, password, binding, requireContext()) { error ->
+            InputCheck.checkInputsEditSecurity(email, password, binding, requireContext()) { error ->
                 if (!error) {
                     viewModel.saveUpdates(email, password, requireContext())
                     requireActivity().onBackPressed()

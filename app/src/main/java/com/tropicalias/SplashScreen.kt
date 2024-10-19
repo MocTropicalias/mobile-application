@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.tropicalias.utils.Utils
+import com.tropicalias.utils.ApiHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -18,7 +18,7 @@ class SplashScreen : AppCompatActivity() {
         val isLoggedIn = getLogin()
 
         if (isLoggedIn) {
-            Utils.getUser()
+            ApiHelper.getUser()
         }
 
         GlobalScope.launch(Dispatchers.Main) {

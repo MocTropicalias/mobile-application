@@ -19,7 +19,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.tropicalias.databinding.ActivityMainBinding
-import com.tropicalias.utils.Utils
+import com.tropicalias.utils.ApiHelper
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,9 +38,6 @@ class MainActivity : AppCompatActivity() {
 //        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 //        startActivity(intent)
 //        finish()
-        Utils.getUser()
-
-
 
         val navView: BottomNavigationView = binding.navView
 

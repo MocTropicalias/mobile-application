@@ -12,7 +12,8 @@ import androidx.fragment.app.viewModels
 import com.google.firebase.auth.FirebaseAuth
 import com.tropicalias.adapter.ProfileAdapter
 import com.tropicalias.databinding.FragmentEditProfileBinding
-import com.tropicalias.utils.Utils
+import com.tropicalias.utils.ApiHelper
+import com.tropicalias.utils.InputCheck
 import com.wajahatkarim3.easyflipviewpager.CardFlipPageTransformer2
 
 class EditProfileFragment : Fragment() {
@@ -76,7 +77,7 @@ class EditProfileFragment : Fragment() {
             binding.loadingButton.visibility = View.VISIBLE
             binding.saveButton.text = ""
 
-            Utils.checkInputsEditProfile(name, username, bio, binding, requireContext()) { error ->
+            InputCheck.checkInputsEditProfile(name, username, bio, binding, requireContext()) { error ->
                 if (!error) {
                     viewModel.saveUpdates(name, username, bio, adapter.imageUri, requireContext())
                     requireActivity().onBackPressed()

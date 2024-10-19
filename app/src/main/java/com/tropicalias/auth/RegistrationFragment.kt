@@ -11,7 +11,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.tropicalias.R
 import com.tropicalias.databinding.FragmentRegistrationBinding
-import com.tropicalias.utils.Utils
+import com.tropicalias.utils.ApiHelper
+import com.tropicalias.utils.DrawableHandler
+import com.tropicalias.utils.InputCheck
 
 class RegistrationFragment : Fragment() {
 
@@ -35,9 +37,9 @@ class RegistrationFragment : Fragment() {
         binding.passwordEditText.text = viewModel.password
         binding.usernameEditText.text = viewModel.username
 
-        Utils.setValidDrawable(binding.usernameEditText, requireContext())
-        Utils.setValidDrawable(binding.emailEditText, requireContext())
-        Utils.setValidDrawable(binding.passwordEditText, requireContext())
+        DrawableHandler.setValidDrawable(binding.usernameEditText, requireContext())
+        DrawableHandler.setValidDrawable(binding.emailEditText, requireContext())
+        DrawableHandler.setValidDrawable(binding.passwordEditText, requireContext())
 
 
         // Register
@@ -48,7 +50,7 @@ class RegistrationFragment : Fragment() {
             binding.loadingButton.visibility = View.VISIBLE
             binding.registerButton.text = ""
 
-            Utils.checkInputsRegistration(
+            InputCheck.checkInputsRegistration(
                 username,
                 email,
                 password,
@@ -64,7 +66,7 @@ class RegistrationFragment : Fragment() {
                     FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                         .addOnFailureListener { e ->
                             if (e is FirebaseAuthUserCollisionException) {
-                                Utils.setInvalidDrawable(binding.emailEditText, requireContext())
+                                DrawableHandler.setInvalidDrawable(binding.emailEditText, requireContext())
                                 binding.emailErrorTextView.text = "Email already in use"
                             } else {
                                 Log.e(TAG, "Error creating user: ${e.message}")
