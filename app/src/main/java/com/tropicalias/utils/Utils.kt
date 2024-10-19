@@ -327,9 +327,22 @@ class Utils {
                         repository.user.value = user
                         Log.d("SPLASH SCREEN", "onResponse: ${repository.user.value}")
                         if (user != null) {
-                            if (callback != null) {
-                                callback(user)
-                            }
+                            repository.getSQL().getUserProfileByID(user.id!!)
+                                .enqueue(object : retrofit2.Callback<User> {
+                                    override fun onResponse(req: Call<User>, res: Response<User>) {
+                                        val user = res.body()
+                                        repository.user.value?.followersCount = user?.followersCount
+                                        if (callback != null) {
+                                            if (user != null) {
+                                                callback(user)
+                                            }
+                                        }
+                                    }
+
+                                    override fun onFailure(p0: Call<User>, p1: Throwable) {
+                                        TODO("Not yet implemented")
+                                    }
+                                })
                         }
                     }
 

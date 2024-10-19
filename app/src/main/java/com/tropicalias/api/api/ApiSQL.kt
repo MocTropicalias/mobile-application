@@ -36,5 +36,11 @@ interface ApiSQL {
     @PUT("/user/{id}")
     fun updateUserProfile(@Body user: User, @Path("id") id: String): Call<User>
 
+    @POST("/follow/{id_to_follow}/{id_following}")
+    fun followUser(
+        @Path("id_to_follow") idToFollow: Long,
+        @Path("id_following") idFollowing: Long
+    ): Call<Int>
+
 
 }
