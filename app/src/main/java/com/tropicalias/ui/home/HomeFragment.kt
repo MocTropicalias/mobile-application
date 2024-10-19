@@ -13,6 +13,7 @@ import com.tropicalias.MainViewModel
 import com.tropicalias.adapter.PostAdapter
 import com.tropicalias.api.model.Post
 import com.tropicalias.databinding.FragmentHomeBinding
+import com.tropicalias.ui.home.newpost.NewPostActivity
 import com.tropicalias.ui.profile.ProfileViewModel
 import java.util.Date
 
@@ -35,7 +36,7 @@ class HomeFragment : Fragment() {
             "tropicalias",
             "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
             "conteudo",
-            12,
+            listOf(31),
             emptyList(),
             Date()
         ),
@@ -47,7 +48,7 @@ class HomeFragment : Fragment() {
             "tropicalias",
             "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
             "conteudo",
-            12,
+            listOf(11),
             emptyList(),
             Date()
         ),
@@ -59,7 +60,7 @@ class HomeFragment : Fragment() {
             "tropicalias",
             "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
             "conteudo",
-            12,
+            listOf(31),
             emptyList(),
             Date()
         ),

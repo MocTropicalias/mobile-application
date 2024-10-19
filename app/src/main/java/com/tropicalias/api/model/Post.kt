@@ -9,7 +9,7 @@ data class Post(
     val userName: String,
     val media: String?,
     val content: String,
-    val likes: Int,
+    val likes: List<Long>,
     val coments: List<Comment>,
     val date: Date
 )

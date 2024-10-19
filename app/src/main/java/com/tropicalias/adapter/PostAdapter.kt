@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.tropicalias.R
 import com.tropicalias.api.model.Post
 import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.ItemPostBinding
@@ -38,10 +39,19 @@ class PostAdapter(var posts: List<Post>): RecyclerView.Adapter<RecyclerView.View
 
             binding.profileNameTextView.text = post.userName
             binding.contentTextView.text = post.content
-            binding.dateTextView.text = DateFormat.format("",post.date)
+            binding.dateTextView.text = DateFormat.format("dd/MM/yyyy", post.date)
 
 
-            ApiRepository.getInstance().getNoSQL()
+            val noSqlApi = ApiRepository.getInstance().getNoSQL()
+
+            var liked = post.likes.any { it == ApiRepository.getInstance().user.value?.id }
+            binding.likePostImageButton.setImageResource(if (liked) R.drawable.ic_liked else R.drawable.ic_like)
+
+            binding.likePostImageButton.setOnClickListener {
+//                noSqlApi.likePost(post.id, ApiRepository.getInstance().user.value?.id!!).execute()
+                liked = !liked
+                binding.likePostImageButton.setImageResource(if (liked) R.drawable.ic_liked else R.drawable.ic_like)
+            }
 
         }
     }
