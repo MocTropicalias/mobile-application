@@ -13,4 +13,22 @@ data class Post(
     val likes: List<Long>,
     val coments: List<Comment>,
     val date: Date
-)
+) {
+    constructor(
+        userId: Long,
+        userImage: Uri?,
+        userName: String,
+        media: Uri?,
+        content: String,
+    ) : this(
+        0,
+        userId,
+        userImage,
+        userName,
+        media,
+        content,
+        emptyList(),
+        emptyList(),
+        Date()
+    )
+}
