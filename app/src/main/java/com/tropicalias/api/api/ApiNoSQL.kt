@@ -1,5 +1,6 @@
 package com.tropicalias.api.api
 
+import com.tropicalias.api.model.Comment
 import com.tropicalias.api.model.Post
 import com.tropicalias.api.model.PostPage
 import retrofit2.Call
@@ -11,7 +12,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface ApiNoSQL {
-    @POST("/post")
+    @POST("/post/")
     fun createPost(@Body post: Post): Call<Post>
 
     @GET("/post/user/{id}")
@@ -20,11 +21,11 @@ interface ApiNoSQL {
     @GET("/post/")
     fun getPostPage(@Path("id") id: Long): Call<PostPage>
 
-    @PATCH("/post/like/{id}")
-    fun likePost(@Path("id") id: Long): Call<Unit>
+    @PATCH("/post/{id}")
+    fun addComment(@Path("id") id: Long, @Body comment: Comment): Call<Unit>
 
     @PATCH("/post/{id_post}/{id_user}")
-    fun addComment(@Path("id_post") id_post: Long, @Path("id_user") id_user: Long): Call<Post>
+    fun likePost(@Path("id_post") idPost: Long, @Path("id_user") idUser: Long): Call<Post>
 
     @DELETE("/post/{id}")
     fun deletePost(@Path("id") id: Long): Call<Unit>
@@ -32,6 +33,6 @@ interface ApiNoSQL {
     @DELETE("/post/{id}/{comment_position}")
     fun deleteComment(
         @Path("id") id: Long,
-        @Path("comment_position") comment_position: Int
+        @Path("comment_position") commentPosition: Int
     ): Call<Unit>
 }
