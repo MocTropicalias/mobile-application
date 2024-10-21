@@ -15,6 +15,9 @@
     <string name="previous">Previous</string>
     <string name="copy_pix"><u>Copiar Chave Pix</u></string>
 
+    <string name="payment_method"><u>Forma de Pagamento</u></string>
+    <string name="payment_summary"><u>Resumo</u></string>
+
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus

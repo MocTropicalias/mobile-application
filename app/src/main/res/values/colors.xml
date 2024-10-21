@@ -13,7 +13,8 @@
     <color name="azul_apagado">#C4ABCDEF</color>
     <color name="vermelho">#CD0707</color>
     <color name="transparent">#00000000</color>
-
+    <color name="cinza_claro">#B9B9B9</color>
+    <color name="cinza_escuro">#47494B</color>
 
     <color name="araci_primary">@color/ciano</color>
     <color name="araci_secondary">@color/laranja</color>
