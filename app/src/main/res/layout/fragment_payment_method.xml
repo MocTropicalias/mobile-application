@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.payment.PaymentMethodFragment">
+    tools:context=".ui.events.payment.PaymentMethodFragment">
 
     <ImageView
         android:id="@+id/voltarPaymentMethodImageView"
