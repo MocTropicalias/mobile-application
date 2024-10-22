@@ -1,16 +1,16 @@
 package com.tropicalias.ui.events
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import com.tropicalias.MainViewModel
+import com.tropicalias.adapter.EventsAdapter
+import com.tropicalias.api.model.Event
 import com.tropicalias.databinding.FragmentEventsBinding
+import java.util.Date
 
 class EventsFragment : Fragment() {
 
@@ -18,6 +18,22 @@ class EventsFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: EventsViewModel by viewModels()
 
+    private val events: MutableList<Event> = mutableListOf(
+        Event(
+            id = 0,
+            title = "Tropicalias",
+            eventImage = Uri.EMPTY,
+            date = Date().time,
+            local = "aqui"
+        ),
+        Event(
+            id = 1,
+            title = "TechExpo",
+            eventImage = Uri.EMPTY,
+            date = Date().time,
+            local = "aqui"
+        )
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +49,11 @@ class EventsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val adapter = EventsAdapter(events)
+        binding.recyclerView.adapter = adapter
+
+        binding.recyclerView.layoutManager =
+            androidx.recyclerview.widget.LinearLayoutManager(requireContext())
 
 
     }
