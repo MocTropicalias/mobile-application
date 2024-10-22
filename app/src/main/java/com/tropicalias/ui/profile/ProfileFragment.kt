@@ -126,7 +126,9 @@ class ProfileFragment : Fragment() {
             binding.followButton.visibility = View.GONE
         } else {
             // It is not my profile
-            viewModel.loadProfile(userNotSelf.id!!)
+            ApiHelper.loadProfile(userNotSelf.id!!) {
+                viewModel.setData(it)
+            }
             viewModel.setData(userNotSelf)
 
 

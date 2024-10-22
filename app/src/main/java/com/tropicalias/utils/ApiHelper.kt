@@ -58,6 +58,21 @@ class ApiHelper {
                 })
         }
 
+        fun loadProfile(id: Long, callback: ((user: User) -> Unit)) {
+            ApiRepository.getInstance().getSQL().getUserProfileByID(id)
+                .enqueue(object : retrofit2.Callback<User> {
+                    override fun onResponse(req: Call<User>, res: Response<User>) {
+                        res.body()?.let { callback(it) }
+                    }
+
+                    override fun onFailure(req: Call<User>, e: Throwable) {
+                        GlobalScope.launch(Dispatchers.Main) {
+                            delay(30000)
+                            loadProfile(id, callback)
+                        }
+                    }
+                })
+        }
 
     }
 }

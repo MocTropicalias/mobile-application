@@ -6,38 +6,18 @@ import com.tropicalias.adapter.ProfileAdapter
 import com.tropicalias.api.model.User
 import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.FragmentProfileBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.tropicalias.utils.ApiHelper
 import retrofit2.Call
 import retrofit2.Response
 
 class ProfileViewModel : ViewModel() {
 
-    //    val apiNoSql = ApiRepository.getInstance().getNoSQL()
-    val apiSQL = ApiRepository.getInstance().getSQL()
+    private val apiNoSql = ApiRepository.getInstance().getNoSQL()
+    private val apiSQL = ApiRepository.getInstance().getSQL()
     lateinit var binding: FragmentProfileBinding
     lateinit var adapter: ProfileAdapter
 
     val TAG = "ProfileLogging"
-
-
-    fun loadProfile(id: Long) {
-        apiSQL.getUserProfileByID(id).enqueue(object : retrofit2.Callback<User> {
-            override fun onResponse(req: Call<User>, res: Response<User>) {
-                res.body()?.let { setData(it) }
-            }
-
-            override fun onFailure(req: Call<User>, e: Throwable) {
-                Log.e(TAG, "onFailure: $e")
-                GlobalScope.launch(Dispatchers.Main) {
-                    delay(30000)
-                    loadProfile(id)
-                }
-            }
-        })
-    }
 
     fun setData(user: User) {
         // Name Display
@@ -74,7 +54,17 @@ class ProfileViewModel : ViewModel() {
     }
 
     fun followUser(idToFollow: Long) {
+        ApiHelper.getUser { user ->
+            apiSQL.followUser(idToFollow, user.id!!).enqueue(object : retrofit2.Callback<Int> {
+                override fun onResponse(req: Call<Int>, res: Response<Int>) {
+                    binding.followersTextView.text = res.body().toString()
+                }
 
+                override fun onFailure(req: Call<Int>, e: Throwable) {
+                    Log.e(TAG, "onFailure: $e")
+                }
+            })
+        }
     }
 
 }
