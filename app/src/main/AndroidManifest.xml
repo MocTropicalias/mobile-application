@@ -17,6 +17,16 @@
         <activity
             android:name=".ui.posts.postdetails.PostDetailsActivity"
             android:exported="true">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:host="tropicalias.com" />
+                <data android:pathPattern="/[0-9]+" />
+            </intent-filter>
         </activity>
 
         <activity

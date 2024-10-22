@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.tropicalias"
-        minSdk = 30
+        minSdk = 31
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -51,12 +51,12 @@ dependencies {
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.fragment:fragment-ktx:1.8.4")
-    implementation("androidx.activity:activity-ktx:1.9.2")
+    implementation("androidx.activity:activity-ktx:1.9.3")
 
     //Navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:2.8.2")
-    implementation("androidx.navigation:navigation-ui-ktx:2.8.2")
-    implementation("androidx.navigation:navigation-runtime-ktx:2.8.2")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.8.3")
+    implementation("androidx.navigation:navigation-ui-ktx:2.8.3")
+    implementation("androidx.navigation:navigation-runtime-ktx:2.8.3")
 
     //Lifecycle
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.6")
@@ -70,6 +70,7 @@ dependencies {
     //Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+
     //Logger
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
 
@@ -84,6 +85,7 @@ dependencies {
     implementation("com.google.firebase:firebase-storage:21.0.1")
     implementation("com.google.firebase:firebase-firestore:25.1.0")
     implementation("com.google.firebase:firebase-auth:23.0.0")
+    implementation("com.google.firebase:firebase-dynamic-links-ktx:22.1.0")
 
     //ViewFlipperPager
     implementation("com.wajahatkarim:easyflipviewpager:2.0.1")
