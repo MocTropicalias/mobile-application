@@ -12,7 +12,6 @@ import androidx.fragment.app.viewModels
 import com.google.firebase.auth.FirebaseAuth
 import com.tropicalias.adapter.ProfileAdapter
 import com.tropicalias.databinding.FragmentEditProfileBinding
-import com.tropicalias.utils.ApiHelper
 import com.tropicalias.utils.InputCheck
 import com.wajahatkarim3.easyflipviewpager.CardFlipPageTransformer2
 
@@ -45,6 +44,7 @@ class EditProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentEditProfileBinding.inflate(inflater, container, false)
+        viewModel.binding = binding
         return binding.root
     }
 
