@@ -1,4 +1,4 @@
-package com.tropicalias.ui.events
+package com.tropicalias.ui.events.eventdetails
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
