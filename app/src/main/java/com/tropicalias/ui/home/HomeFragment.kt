@@ -14,7 +14,7 @@ import com.tropicalias.MainViewModel
 import com.tropicalias.adapter.PostAdapter
 import com.tropicalias.api.model.Post
 import com.tropicalias.databinding.FragmentHomeBinding
-import com.tropicalias.ui.home.newpost.NewPostActivity
+import com.tropicalias.ui.posts.newpost.NewPostActivity
 import com.tropicalias.ui.profile.ProfileViewModel
 import java.util.Date
 

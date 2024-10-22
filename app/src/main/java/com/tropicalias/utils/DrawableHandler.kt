@@ -10,7 +10,7 @@ import com.tropicalias.R
 
 class DrawableHandler {
     companion object {
-        private fun shakeAnimation(view: View) {
+        fun shakeAnimation(view: View) {
             val animator = ObjectAnimator.ofFloat(
                 view,
                 "translationX",
