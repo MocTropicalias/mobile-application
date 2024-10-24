@@ -15,6 +15,7 @@
         android:theme="@style/Theme.Tropicalias">
         <activity
             android:name=".ui.posts.postdetails.PostDetailsActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
@@ -27,13 +28,42 @@
                 <data android:pathPattern="/[0-9]+" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.events.payment.PaymentActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ui.posts.newpost.NewPostActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
+        <activity
+            android:name=".AuthenticationActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name=".ui.profile.settings.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name=".ui.profile.edit.EditProfileActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            android:exported="false"
+            android:label="@string/title_activity_main"
+            android:theme="@style/Theme.Tropicalias.Main" />
+        <activity
+            android:name=".SplashScreen"
+            android:screenOrientation="portrait"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -44,30 +74,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
-        <activity
-            android:name=".AuthenticationActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.profile.settings.SettingsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.profile.edit.EditProfileActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="false"
-            android:label="@string/title_activity_main"
-            android:theme="@style/Theme.Tropicalias.Main" />
-        <activity
-            android:name=".SplashScreen"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>
