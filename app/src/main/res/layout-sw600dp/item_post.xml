@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/transparent"
+    app:cardElevation="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="80dp"
+        android:backgroundTint="@color/transparent"
+        android:padding="24dp">
+
+        <LinearLayout
+            android:id="@+id/profileImageView"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:orientation="horizontal"
+            android:scaleType="centerCrop"
+            android:src="@drawable/araci"
+            app:contentPadding="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <include
+                android:id="@+id/image"
+                layout="@layout/item_profile_picture" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/profileNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="16dp"
+            android:text="WWWWWWWWWW"
+            app:layout_constraintBottom_toBottomOf="@+id/profileImageView"
+            app:layout_constraintStart_toEndOf="@id/profileImageView" />
+
+        <TextView
+            android:id="@+id/contentTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="24dp"
+            android:text="WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWw"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profileImageView" />
+
+        <ImageView
+            android:id="@+id/contentImageView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="24dp"
+            android:adjustViewBounds="true"
+            android:maxHeight="300dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/contentTextView"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/dateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:text="DD/MM/YYYY"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/contentImageView" />
+
+        <ImageButton
+            android:id="@+id/likePostImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@color/transparent"
+            app:layout_constraintBottom_toBottomOf="@+id/dateTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/dateTextView"
+            app:srcCompat="@drawable/ic_like" />
+
+        <ImageButton
+            android:id="@+id/shareImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@color/transparent"
+            app:layout_constraintBottom_toBottomOf="@+id/likePostImageButton"
+            app:layout_constraintEnd_toStartOf="@+id/likePostImageButton"
+            app:layout_constraintTop_toTopOf="@+id/likePostImageButton"
+            app:srcCompat="@drawable/ic_share" />
+
+        <ImageButton
+            android:id="@+id/seeMoreImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@color/transparent"
+            app:layout_constraintBottom_toBottomOf="@+id/shareImageButton"
+            app:layout_constraintEnd_toStartOf="@+id/shareImageButton"
+            app:layout_constraintTop_toTopOf="@+id/shareImageButton"
+            app:srcCompat="@drawable/ic_mais" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
