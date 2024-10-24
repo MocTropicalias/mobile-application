@@ -2,6 +2,7 @@ package com.tropicalias.utils
 
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
+import com.tropicalias.api.model.Post
 import com.tropicalias.api.model.User
 import com.tropicalias.api.repository.ApiRepository
 import kotlinx.coroutines.Dispatchers
@@ -73,6 +74,43 @@ class ApiHelper {
                     }
                 })
         }
+
+
+        fun getPosts(userId: Long? = null, callback: (posts: List<Post>) -> Unit) {
+            val apiNoSQL = ApiRepository.getInstance().getNoSQL()
+
+            if (userId == null) {
+                apiNoSQL.getPosts().enqueue(object : retrofit2.Callback<List<Post>> {
+                    override fun onResponse(req: Call<List<Post>>, res: Response<List<Post>>) {
+                        val posts = res.body()
+                        if (posts != null) {
+                            callback(posts)
+                        }
+                    }
+
+                    override fun onFailure(req: Call<List<Post>>, e: Throwable) {
+                        Log.e("SPLASH SCREEN", "onFailure: $e")
+                        getPosts(null, callback)
+                    }
+                })
+            } else {
+                apiNoSQL.getPostsFromUser(userId).enqueue(object : retrofit2.Callback<List<Post>> {
+                    override fun onResponse(req: Call<List<Post>>, res: Response<List<Post>>) {
+                        val posts = res.body()
+                        if (posts != null) {
+                            callback(posts)
+                        }
+                    }
+
+                    override fun onFailure(req: Call<List<Post>>, e: Throwable) {
+                        Log.e("SPLASH SCREEN", "onFailure: $e")
+                        getPosts(userId, callback)
+                    }
+                })
+            }
+        }
+
+
 
     }
 }

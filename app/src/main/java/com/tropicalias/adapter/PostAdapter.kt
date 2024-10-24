@@ -24,14 +24,22 @@ class PostAdapter(var posts: List<Post>): RecyclerView.Adapter<RecyclerView.View
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (!posts[position].userLoaded) {
+            ApiHelper.loadProfile(posts[position].userId) {
+                posts[position].userPhoto = it.imageUri
+                posts[position].userName = it.exibitionName ?: it.username
+                posts[position].userLoaded = true
+                this.notifyItemChanged(position)
+            }
+        }
         (holder as PostViewHolder).bind(posts[position])
     }
 
     inner class PostViewHolder(val binding: ItemPostBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(post: Post){
-            if (post.userImage != null) {
+            if (post.userPhoto != null) {
                 Glide.with(binding.root.context)
-                    .load(post.userImage)
+                    .load(post.userPhoto)
                     .into(binding.image.profilePictureImageView)
                 binding.image.imageTemplate.visibility = View.GONE
             }
@@ -44,7 +52,7 @@ class PostAdapter(var posts: List<Post>): RecyclerView.Adapter<RecyclerView.View
 
             binding.profileNameTextView.text = post.userName
             binding.contentTextView.text = post.content
-            binding.dateTextView.text = DateFormat.format("dd/MM/yyyy", post.date)
+            binding.dateTextView.text = DateFormat.format("dd/MM/yyyy", post.createdAt)
 
 
             val noSqlApi = ApiRepository.getInstance().getNoSQL()
@@ -89,20 +97,20 @@ class PostAdapter(var posts: List<Post>): RecyclerView.Adapter<RecyclerView.View
 
             //Loading profile
 
-            ApiHelper.loadProfile(post.userId) {
-                binding.profileNameTextView.text = it.exibitionName
-                if (it.imageUri != null) {
-                    Glide.with(binding.root.context)
-                        .load(it.imageUri)
-                        .into(binding.image.profilePictureImageView)
-                    binding.image.imageTemplate.visibility = View.GONE
-                } else {
-                    binding.image.imageTemplate.visibility = View.VISIBLE
-                    Glide.with(binding.root.context)
-                        .load("")
-                        .into(binding.image.profilePictureImageView)
-                }
-            }
+//            ApiHelper.loadProfile(post.userId) {
+//                binding.profileNameTextView.text = it.exibitionName ?: it.username
+//                if (it.imageUri != null) {
+//                    Glide.with(binding.root.context)
+//                        .load(it.imageUri)
+//                        .into(binding.image.profilePictureImageView)
+//                    binding.image.imageTemplate.visibility = View.GONE
+//                } else {
+//                    binding.image.imageTemplate.visibility = View.VISIBLE
+//                    Glide.with(binding.root.context)
+//                        .load("")
+//                        .into(binding.image.profilePictureImageView)
+//                }
+//            }
 
 
         }

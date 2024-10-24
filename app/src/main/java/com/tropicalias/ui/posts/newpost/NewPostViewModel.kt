@@ -11,36 +11,41 @@ import com.tropicalias.utils.ApiHelper
 class NewPostViewModel : ViewModel() {
 
     var imageUrl: Uri? = null
-    val noSQLApi = ApiRepository.getInstance().getNoSQL()
+    private val noSQLApi = ApiRepository.getInstance().getNoSQL()
     lateinit var binding: FragmentNewPostBinding
+    private var posting = false
 
-    fun savePost(content: String, imageUri: Uri?) {
-        binding.saveButton.text = ""
-        binding.loadingButton.visibility = View.VISIBLE
+    fun savePost(content: String, imageUri: Uri?, callback: () -> Unit) {
+        if (!posting) {
+            posting = true
+            binding.saveButton.text = ""
+            binding.loadingButton.visibility = View.VISIBLE
 
-        ApiHelper.getUser {
-            val post = Post(
-                userId = it.id!!,
-                userImage = it.imageUri,
-                userName = it.exibitionName ?: it.username,
-                media = imageUri,
-                content = content,
-            )
+            ApiHelper.getUser {
+                val post = Post(
+                    userId = it.id!!,
+                    userImage = it.imageUri,
+                    userName = it.exibitionName ?: it.username,
+                    media = imageUri,
+                    content = content,
+                )
 
-            noSQLApi.createPost(post).enqueue(object : retrofit2.Callback<Post> {
-                override fun onResponse(
-                    call: retrofit2.Call<Post>,
-                    response: retrofit2.Response<Post>
-                ) {
-                    if (response.isSuccessful) {
-                        imageUrl = null
+                noSQLApi.createPost(post).enqueue(object : retrofit2.Callback<Post> {
+                    override fun onResponse(
+                        call: retrofit2.Call<Post>,
+                        response: retrofit2.Response<Post>
+                    ) {
+                        if (response.isSuccessful) {
+                            imageUrl = null
+                        }
+                        callback()
                     }
-                }
 
-                override fun onFailure(call: retrofit2.Call<Post>, t: Throwable) {
+                    override fun onFailure(call: retrofit2.Call<Post>, t: Throwable) {
 
-                }
-            })
+                    }
+                })
+            }
         }
 
     }

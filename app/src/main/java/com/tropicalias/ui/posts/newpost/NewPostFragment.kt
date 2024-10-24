@@ -11,10 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.tropicalias.R
 import com.tropicalias.databinding.FragmentNewPostBinding
-import com.tropicalias.databinding.ModalProfilePictureBinding
 import com.tropicalias.utils.ImagePicker
 
 
@@ -37,8 +34,8 @@ class NewPostFragment : Fragment() {
                     Glide.with(binding.root.context)
                         .load(finalUri)
                         .into(binding.contentImageView)
-                    binding.contentImageView.visibility = View.VISIBLE
-                    binding.addImageTextView.visibility = View.GONE
+                    binding.imageLayout.visibility = View.VISIBLE
+                    binding.addImageLayout.visibility = View.GONE
                 }
             }
         }
@@ -57,49 +54,37 @@ class NewPostFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.imageImageButton.setOnClickListener {
-            val bindingModal = ModalProfilePictureBinding.inflate(
-                LayoutInflater.from(requireContext()),
-                binding.root,
-                false
-            )
-
-            val modal = BottomSheetDialog(requireContext(), R.style.SheetDialog)
-            val parent = bindingModal.root.parent as? ViewGroup
-            parent?.removeView(bindingModal.root)
-            modal.setContentView(bindingModal.root)
 
             if (imageUri != null) {
                 Glide.with(binding.root.context)
                     .load(imageUri)
                     .into(binding.contentImageView)
 
-                binding.contentImageView.visibility = View.VISIBLE
+                binding.imageLayout.visibility = View.VISIBLE
+                binding.addImageLayout.visibility = View.GONE
             }
 
             imagePickerLauncher.let { ipl ->
-                modal.show()
-                bindingModal.chosePictureButton.setOnClickListener {
-                    val (chooserIntent, uri) = ImagePicker.getChoserIntent(binding.root.context)
-                    imageUri = uri
-                    ipl.launch(chooserIntent)
-                    modal.dismiss()
-                }
-                bindingModal.removePictureButton.setOnClickListener {
-                    imageUri = null
-                    Glide.with(binding.root.context)
-                        .load("")
-                        .into(binding.contentImageView)
-                    binding.contentImageView.visibility = View.GONE
-                    binding.addImageTextView.visibility = View.VISIBLE
-                    modal.dismiss()
-                }
+                val (chooserIntent, uri) = ImagePicker.getChoserIntent(binding.root.context)
+                imageUri = uri
+                ipl.launch(chooserIntent)
+            }
+
+            binding.removePictureButton.setOnClickListener {
+                imageUri = null
+                Glide.with(binding.root.context)
+                    .load("")
+                    .into(binding.contentImageView)
+                binding.imageLayout.visibility = View.GONE
+                binding.addImageLayout.visibility = View.VISIBLE
             }
         }
 
         binding.saveButton.setOnClickListener {
             val content = binding.contentEditText.text.toString()
-
-            viewModel.savePost(content, imageUri)
+            viewModel.savePost(content, imageUri) {
+                requireActivity().finish()
+            }
         }
 
 

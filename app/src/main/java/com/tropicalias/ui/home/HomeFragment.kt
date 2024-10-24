@@ -1,7 +1,6 @@
 package com.tropicalias.ui.home
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,13 +9,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.tropicalias.MainViewModel
 import com.tropicalias.adapter.PostAdapter
-import com.tropicalias.api.model.Post
 import com.tropicalias.databinding.FragmentHomeBinding
 import com.tropicalias.ui.posts.newpost.NewPostActivity
 import com.tropicalias.ui.profile.ProfileViewModel
-import java.util.Date
+import com.tropicalias.utils.ApiHelper
 
 class HomeFragment : Fragment() {
 
@@ -27,49 +26,6 @@ class HomeFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-
-
-    private val postList: List<Post> = listOf(
-        Post(
-            1,
-            11,
-            Uri.parse("https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
-            "tropicalias",
-            Uri.parse("https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
-            "conteudo",
-            listOf(31),
-            emptyList(),
-            Date()
-        ),
-
-        Post(
-            2,
-            11,
-            Uri.parse("https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
-            "tropicalias",
-            Uri.parse("https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
-            "conteudo",
-            listOf(11),
-            emptyList(),
-            Date()
-        ),
-
-        Post(
-            3,
-            11,
-            Uri.parse("https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
-            "tropicalias",
-            Uri.parse("https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
-            "conteudo",
-            listOf(31),
-            emptyList(),
-            Date()
-        ),
-
-
-        )
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -83,10 +39,14 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d("HOME", "onViewCreated: Home")
-        val adapter = PostAdapter(postList)
-        binding.posts.layoutManager =
-            androidx.recyclerview.widget.LinearLayoutManager(requireContext())
-        binding.posts.adapter = adapter
+        val layoutManager = LinearLayoutManager(requireContext())
+        binding.posts.layoutManager = layoutManager
+        ApiHelper.getPosts {
+            if (_binding != null) {
+                binding.posts.adapter = PostAdapter(it)
+                binding.loading.visibility = View.GONE
+            }
+        }
 
         binding.floatingActionButton.setOnClickListener {
             startActivity(Intent(requireContext(), NewPostActivity::class.java))
