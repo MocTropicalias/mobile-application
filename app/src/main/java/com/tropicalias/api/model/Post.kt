@@ -4,15 +4,16 @@ import android.net.Uri
 import java.util.Date
 
 data class Post(
-    val id: Long,
+    val id: String?,
     val userId: Long,
-    val userImage: Uri?,
-    val userName: String,
+    var userPhoto: Uri?,
+    var userName: String,
     val media: Uri?,
     val content: String,
     val likes: List<Long>,
-    val coments: List<Comment>,
-    val date: Date
+    val comments: List<Comment>,
+    val createdAt: Date?,
+    var userLoaded: Boolean = false
 ) {
     constructor(
         userId: Long,
@@ -21,7 +22,7 @@ data class Post(
         media: Uri?,
         content: String,
     ) : this(
-        0,
+        null,
         userId,
         userImage,
         userName,
@@ -29,6 +30,6 @@ data class Post(
         content,
         emptyList(),
         emptyList(),
-        Date()
+        null
     )
 }
