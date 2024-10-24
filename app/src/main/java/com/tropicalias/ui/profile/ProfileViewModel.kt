@@ -1,7 +1,9 @@
 package com.tropicalias.ui.profile
 
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.ViewModel
+import com.tropicalias.adapter.PostAdapter
 import com.tropicalias.adapter.ProfileAdapter
 import com.tropicalias.api.model.User
 import com.tropicalias.api.repository.ApiRepository
@@ -16,6 +18,7 @@ class ProfileViewModel : ViewModel() {
     private val apiSQL = ApiRepository.getInstance().getSQL()
     lateinit var binding: FragmentProfileBinding
     lateinit var adapter: ProfileAdapter
+    lateinit var postAdapter: PostAdapter
 
     val TAG = "ProfileLogging"
 
@@ -48,6 +51,13 @@ class ProfileViewModel : ViewModel() {
                     Log.e(TAG, "onFailure: $e")
                 }
             })
+
+            ApiHelper.getPosts(it) { posts ->
+                postAdapter.posts = posts
+                postAdapter.notifyDataSetChanged()
+                binding.loading.visibility = View.GONE
+            }
+
         }
 
 

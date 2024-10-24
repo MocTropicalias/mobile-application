@@ -35,7 +35,7 @@ class NewPostFragment : Fragment() {
                         .load(finalUri)
                         .into(binding.contentImageView)
                     binding.imageLayout.visibility = View.VISIBLE
-                    binding.addImageLayout.visibility = View.GONE
+                    binding.imageImageButton.visibility = View.GONE
                 }
             }
         }
@@ -61,7 +61,7 @@ class NewPostFragment : Fragment() {
                     .into(binding.contentImageView)
 
                 binding.imageLayout.visibility = View.VISIBLE
-                binding.addImageLayout.visibility = View.GONE
+                binding.imageImageButton.visibility = View.GONE
             }
 
             imagePickerLauncher.let { ipl ->
@@ -76,7 +76,7 @@ class NewPostFragment : Fragment() {
                     .load("")
                     .into(binding.contentImageView)
                 binding.imageLayout.visibility = View.GONE
-                binding.addImageLayout.visibility = View.VISIBLE
+                binding.imageImageButton.visibility = View.VISIBLE
             }
         }
 

@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import com.google.firebase.auth.FirebaseAuth
 import com.tropicalias.MainViewModel
 import com.tropicalias.R.color
+import com.tropicalias.adapter.PostAdapter
 import com.tropicalias.adapter.ProfileAdapter
 import com.tropicalias.api.model.User
 import com.tropicalias.api.repository.ApiRepository
@@ -52,6 +53,8 @@ class ProfileFragment : Fragment() {
             0,
             WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
         )
+        viewModel.postAdapter = PostAdapter(emptyList())
+
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         return binding.root
     }
