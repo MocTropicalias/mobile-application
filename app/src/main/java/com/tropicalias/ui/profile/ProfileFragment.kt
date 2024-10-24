@@ -43,6 +43,15 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // Change status bar color
+        requireActivity().window.statusBarColor = ContextCompat.getColor(
+            requireContext(),
+            color.ciano
+        )
+        requireActivity().window.insetsController?.setSystemBarsAppearance(
+            0,
+            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+        )
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -51,19 +60,6 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         Log.d(viewModel.TAG, "onViewCreated: PROFILE FRAGMENT")
-
-
-        // Change status bar color
-        requireActivity().window.statusBarColor = ContextCompat.getColor(
-            requireContext(),
-            color.ciano
-        )
-        if (requireActivity().window != null) {
-            requireActivity().window.insetsController?.setSystemBarsAppearance(
-                0,
-                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
-            )
-        }
 
         // Profile Picture
         adapter = ProfileAdapter(null, requireContext())
