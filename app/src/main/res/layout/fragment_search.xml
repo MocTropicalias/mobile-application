@@ -7,14 +7,57 @@
     android:layout_height="match_parent"
     tools:context=".ui.search.SearchFragment">
 
-    <TextView
-        android:id="@+id/message"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/searchEditText"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SearchFragment"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="24dp"
+        android:background="@drawable/bg_input"
+        android:drawableEnd="@drawable/ic_search"
+        android:drawablePadding="8dp"
+        android:hint="O que procura?"
+        android:inputType="text"
+        android:paddingStart="12dp"
+        android:paddingEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/posts"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchEditText"
+        tools:listitem="@layout/item_post" />
+
+    <LinearLayout
+        android:id="@+id/searchLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchEditText">
+
+        <ImageView
+            android:layout_width="169dp"
+            android:layout_height="169dp"
+            android:src="@drawable/ic_search" />
+
+        <TextView
+            android:id="@+id/searchTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pesquise alguma coisa!"
+            android:textSize="18dp" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
