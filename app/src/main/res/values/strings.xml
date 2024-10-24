@@ -6,8 +6,8 @@
     <string name="title_search">Buscar</string>
     <string name="title_profile">Perfil</string>
     <string name="esqueci_a_senha"><u>Esqueci a Senha</u></string>
-    <string name="entrar"><u>Entrar</u></string>
-    <string name="cadastre_se"><u>Cadastre-se</u></string>
+    <string name="entrar"><u>Já possui uma conta? <b>Entrar</b></u></string>
+    <string name="cadastre_se"><u>Não tem conta? <b>Cadastre-se</b></u></string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>

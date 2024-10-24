@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.tropicalias.adapter.EventsAdapter
@@ -32,6 +33,13 @@ class EventsFragment : Fragment() {
             eventImage = Uri.EMPTY,
             date = Date().time,
             local = "aqui"
+        ),
+        Event(
+            id = 2,
+            title = "Teste do Albano",
+            eventImage = "https://i.pinimg.com/736x/02/4b/7b/024b7b7eee0bb8e98528c6a872e1f761.jpg".toUri(),
+            date = Date().time,
+            local = "Sonhos do Albano"
         )
     )
 

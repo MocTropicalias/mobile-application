@@ -25,7 +25,7 @@ class PostDetailsActivity : AppCompatActivity() {
 
         val postId = intent.data?.lastPathSegment?.toLongOrNull()
 
-        binding.textView7.text = postId.toString()
+        //binding.textView7.text = postId.toString()
 
 
     }
