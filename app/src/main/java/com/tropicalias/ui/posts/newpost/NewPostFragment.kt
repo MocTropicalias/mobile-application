@@ -59,9 +59,6 @@ class NewPostFragment : Fragment() {
                 Glide.with(binding.root.context)
                     .load(imageUri)
                     .into(binding.contentImageView)
-
-                binding.imageLayout.visibility = View.VISIBLE
-                binding.imageImageButton.visibility = View.GONE
             }
 
             imagePickerLauncher.let { ipl ->
