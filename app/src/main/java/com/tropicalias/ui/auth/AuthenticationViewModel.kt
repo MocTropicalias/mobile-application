@@ -1,4 +1,4 @@
-package com.tropicalias.auth
+package com.tropicalias.ui.auth
 
 import android.net.Uri
 import android.text.Editable
@@ -28,7 +28,7 @@ class AuthenticationViewModel : ViewModel() {
 
     fun uploadImageToFirebase() {
         val storageRef =
-            FirebaseStorage.getInstance().reference.child("images/${UUID.randomUUID()}.jpg")
+            FirebaseStorage.getInstance().reference.child("user/${UUID.randomUUID()}.jpg")
         storageRef.putFile(imageUrl!!)
             .addOnSuccessListener {
                 storageRef.downloadUrl.addOnSuccessListener { downloadUri ->

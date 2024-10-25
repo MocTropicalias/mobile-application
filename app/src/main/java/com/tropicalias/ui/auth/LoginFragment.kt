@@ -1,4 +1,4 @@
-package com.tropicalias.auth
+package com.tropicalias.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,9 +11,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.tropicalias.MainActivity
 import com.tropicalias.R
 import com.tropicalias.databinding.FragmentLoginBinding
-import com.tropicalias.utils.ApiHelper
 import com.tropicalias.utils.DrawableHandler
-import com.tropicalias.utils.InputCheck
 
 class LoginFragment : Fragment() {
 

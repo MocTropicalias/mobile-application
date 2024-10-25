@@ -1,4 +1,4 @@
-package com.tropicalias.auth
+package com.tropicalias.ui.auth
 
 import android.app.Activity
 import android.content.Intent

@@ -1,4 +1,4 @@
-package com.tropicalias.auth
+package com.tropicalias.ui.auth
 
 import android.os.Bundle
 import android.util.Log
@@ -11,7 +11,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.tropicalias.R
 import com.tropicalias.databinding.FragmentRegistrationBinding
-import com.tropicalias.utils.ApiHelper
 import com.tropicalias.utils.DrawableHandler
 import com.tropicalias.utils.InputCheck
 
