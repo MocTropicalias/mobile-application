@@ -2,8 +2,8 @@ package com.tropicalias
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.tropicalias.auth.LoginFragment
 import com.tropicalias.databinding.ActivityAuthenticationBinding
+import com.tropicalias.ui.auth.LoginFragment
 
 class AuthenticationActivity : AppCompatActivity() {
 
