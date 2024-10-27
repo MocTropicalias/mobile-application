@@ -48,7 +48,7 @@ class PostDetailsActivity : AppCompatActivity() {
 
     private fun loadPost(post: Post) {
         val postHelper = PostHelper(binding.toPostBinding())
-        postHelper.loadUser(post)
+//        postHelper.loadUser(post)
 
         // Post content
         if (post.media != null) {

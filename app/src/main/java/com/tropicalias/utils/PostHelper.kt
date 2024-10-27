@@ -82,7 +82,7 @@ class PostHelper<T : PostBinding>(private val binding: T) {
 
     fun dateFormat(date: Date): String {
         val formatedDate = DateFormat.format("dd/MM/yyyy", date).toString()
-        Log.d("PostAdapter", "Date formated as: $formatedDate")
+//        Log.d("PostAdapter", "Date formated as: $formatedDate")
         return formatedDate
     }
 

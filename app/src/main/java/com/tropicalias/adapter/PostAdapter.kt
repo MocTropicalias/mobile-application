@@ -1,5 +1,6 @@
 package com.tropicalias.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,6 @@ import com.tropicalias.R
 import com.tropicalias.api.model.Post
 import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.ItemPostBinding
-import com.tropicalias.utils.ApiHelper
 import com.tropicalias.utils.PostHelper
 import com.tropicalias.utils.toPostBinding
 
@@ -23,14 +23,6 @@ class PostAdapter(var posts: List<Post>): RecyclerView.Adapter<RecyclerView.View
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (!posts[position].userLoaded) {
-            ApiHelper.loadProfile(posts[position].userId) {
-                posts[position].userPhoto = it.imageUri
-                posts[position].userName = it.exibitionName ?: it.username
-                posts[position].userLoaded = true
-                this.notifyItemChanged(position)
-            }
-        }
         (holder as PostViewHolder).bind(posts[position])
     }
 
@@ -43,11 +35,15 @@ class PostAdapter(var posts: List<Post>): RecyclerView.Adapter<RecyclerView.View
 
             // Post content
             if (post.media != null) {
+                Log.d("PostAdapter", "Carregando Foto do post ${post.id}: ${post.media}")
                 Glide.with(binding.root.context)
                     .load(post.media)
                     .into(binding.contentImageView)
                 binding.contentImageView.visibility = View.VISIBLE
+            } else {
+                binding.contentImageView.visibility = View.GONE
             }
+
 
             binding.contentTextView.text = post.content
             binding.dateTextView.text = post.createdAt?.let { postHelper.dateFormat(it) }
