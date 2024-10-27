@@ -34,17 +34,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginBottom="16dp"
+            android:padding="8dp"
             android:text="WWWWWWWWWW"
             app:layout_constraintBottom_toBottomOf="@+id/profileImageView"
-            app:layout_constraintStart_toEndOf="@id/profileImageView" />
+            app:layout_constraintStart_toEndOf="@id/profileImageView"
+            app:layout_constraintTop_toTopOf="@+id/profileImageView" />
 
         <TextView
             android:id="@+id/contentTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginVertical="24dp"
-            android:text="WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWw"
+            android:layout_marginHorizontal="16dp"
+            android:text="oi"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profileImageView" />
@@ -57,53 +60,68 @@
             android:layout_marginVertical="24dp"
             android:maxHeight="300dp"
             android:scaleType="centerCrop"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/contentTextView"
             tools:srcCompat="@tools:sample/avatars" />
+
 
         <TextView
             android:id="@+id/dateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="24dp"
-            android:textSize="16sp"
+            android:textSize="12sp"
             android:text="DD/MM/YYYY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/contentImageView" />
 
-        <ImageButton
-            android:id="@+id/likePostImageButton"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="@+id/dateTextView"
-            android:layout_margin="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/dateTextView"
-            android:background="@color/transparent"
-            app:srcCompat="@drawable/ic_like" />
+            app:layout_constraintTop_toTopOf="@+id/dateTextView">
 
-        <ImageButton
-            android:id="@+id/shareImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:layout_margin="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/likePostImageButton"
-            app:layout_constraintEnd_toStartOf="@+id/likePostImageButton"
-            app:layout_constraintTop_toTopOf="@+id/likePostImageButton"
-            app:srcCompat="@drawable/ic_share" />
+            <ImageButton
+                android:id="@+id/seeMoreImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@color/transparent"
+                android:padding="4dp"
+                app:srcCompat="@drawable/ic_mais" />
 
-        <ImageButton
-            android:id="@+id/seeMoreImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:background="@color/transparent"
-            app:layout_constraintBottom_toBottomOf="@+id/shareImageButton"
-            app:layout_constraintEnd_toStartOf="@+id/shareImageButton"
-            app:layout_constraintTop_toTopOf="@+id/shareImageButton"
-            app:srcCompat="@drawable/ic_mais" />
+            <ImageButton
+                android:id="@+id/shareImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@color/transparent"
+                android:padding="4dp"
+                app:srcCompat="@drawable/ic_share" />
+
+            <ImageButton
+                android:id="@+id/commentsImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@color/transparent"
+                android:padding="4dp"
+                app:srcCompat="@drawable/ic_comment" />
+
+            <ImageButton
+                android:id="@+id/likePostImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@color/transparent"
+                android:padding="4dp"
+                app:srcCompat="@drawable/ic_like" />
+
+        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
