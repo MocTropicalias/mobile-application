@@ -39,9 +39,12 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val layoutManager = LinearLayoutManager(requireContext())
         binding.posts.layoutManager = layoutManager
+        val adapter = PostAdapter(emptyList())
         ApiHelper.getPosts {
             if (_binding != null) {
-                binding.posts.adapter = PostAdapter(it)
+                adapter.posts = it
+                binding.posts.adapter = adapter
+                adapter.notifyDataSetChanged()
                 binding.loading.visibility = View.GONE
             }
         }
@@ -51,9 +54,10 @@ class HomeFragment : Fragment() {
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener {
-            ApiHelper.getPosts {
+            ApiHelper.getPosts { posts ->
                 if (_binding != null) {
-                    binding.posts.adapter = PostAdapter(it)
+                    adapter.posts = posts
+                    adapter.notifyDataSetChanged()
                 }
             }
             binding.swipeRefreshLayout.isRefreshing = false

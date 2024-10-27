@@ -2,7 +2,6 @@ package com.tropicalias.ui.profile
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -68,8 +67,6 @@ class ProfileFragment : Fragment() {
         val layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.layoutManager = layoutManager
 
-        Log.d(viewModel.TAG, "onViewCreated: PROFILE FRAGMENT")
-
         // Profile Picture
         adapter = ProfileAdapter(null, requireContext())
         binding.viewPager.setAdapter(adapter)
@@ -84,8 +81,6 @@ class ProfileFragment : Fragment() {
             delay(1000)
             _binding?.viewPager?.setCurrentItem(Int.MAX_VALUE / 2 + 2, true)
         }
-
-        Log.d("USER FRAGMENT", "onCreateView: ${ApiRepository.getInstance().user}")
 
         // Load Profile Information
         viewModel.binding = binding
@@ -152,6 +147,35 @@ class ProfileFragment : Fragment() {
 
         binding.floatingActionButton.setOnClickListener {
             startActivity(Intent(requireContext(), NewPostActivity::class.java))
+        }
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            if (userNotSelf == null) {
+                // It is my profile
+                repository.user.observe(viewLifecycleOwner) { user ->
+                    user?.let {
+                        viewModel.setData(user)
+                    }
+                }
+                if (repository.user.value == null) {
+                    val fbuser = FirebaseAuth.getInstance().currentUser
+                    viewModel.setData(
+                        User(fbuser?.displayName!!, fbuser.photoUrl)
+                    )
+                    ApiHelper.getUser {
+                        viewModel.setData(it)
+                    }
+                } else {
+                    viewModel.setData(repository.user.value!!)
+                }
+            } else {
+                // It is not my profile
+                viewModel.setData(userNotSelf)
+                ApiHelper.loadProfile(userNotSelf.id!!) {
+                    viewModel.setData(it)
+                }
+            }
+            binding.swipeRefreshLayout.isRefreshing = false
         }
 
 
