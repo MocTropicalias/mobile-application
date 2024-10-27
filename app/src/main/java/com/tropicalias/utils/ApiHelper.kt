@@ -88,7 +88,10 @@ class ApiHelper {
                     }
 
                     override fun onFailure(req: Call<List<Post>>, e: Throwable) {
-                        getPosts(null, callback)
+                        GlobalScope.launch(Dispatchers.Main) {
+                            delay(30000)
+                            getPosts(null, callback)
+                        }
                     }
                 })
             } else {
@@ -101,7 +104,10 @@ class ApiHelper {
                     }
 
                     override fun onFailure(req: Call<List<Post>>, e: Throwable) {
-                        getPosts(userId, callback)
+                        GlobalScope.launch(Dispatchers.Main) {
+                            delay(30000)
+                            getPosts(userId, callback)
+                        }
                     }
                 })
             }
