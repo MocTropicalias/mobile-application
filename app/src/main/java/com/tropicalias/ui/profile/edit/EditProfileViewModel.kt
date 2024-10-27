@@ -2,7 +2,6 @@ package com.tropicalias.ui.profile.edit
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
@@ -45,15 +44,9 @@ class EditProfileViewModel : ViewModel() {
         user.value?.imageUri = image
 
         user.value?.let { user ->
-            Log.d(TAG, "saveUpdates: $user")
             apiSQL.updateUserProfile(user, user.id!!.toString())
                 .enqueue(object : retrofit2.Callback<User> {
                     override fun onResponse(req: Call<User>, res: Response<User>) {
-                        Log.d(
-                            TAG,
-                            "onResponse req body: ${ApiHelper.bodyToString(req.request().body)}"
-                        )
-                        Log.d(TAG, "onResponse res body: ${res.body()}")
                         repository.user.value = res.body()
                         binding.loadingButton.visibility = View.GONE
                         binding.saveButton.text = "Salvar"

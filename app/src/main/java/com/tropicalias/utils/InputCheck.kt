@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import androidx.core.content.FileProvider
 import com.tropicalias.api.model.User
 import com.tropicalias.api.repository.ApiRepository
@@ -110,7 +109,6 @@ class InputCheck {
                 }
 
                 override fun onFailure(req: Call<List<User>>, e: Throwable) {
-                    Log.e("GET ALL USERS", "onFailure: $e")
                     isNameAvailable(username, callback)
                 }
             })

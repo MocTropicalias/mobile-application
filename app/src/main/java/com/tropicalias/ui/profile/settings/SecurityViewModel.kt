@@ -1,7 +1,6 @@
 package com.tropicalias.ui.profile.settings
 
 import android.content.Context
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
@@ -63,11 +62,9 @@ class SecurityViewModel : ViewModel() {
         if (email != null) {
             user.value?.email = email
             user.value?.let { user ->
-                Log.d("EDIT PROFILE", "saveUpdates: $user")
                 apiSQL.updateUserProfile(user, user.id!!.toString())
                     .enqueue(object : retrofit2.Callback<User> {
                         override fun onResponse(req: Call<User>, res: Response<User>) {
-                            Log.d("EDIT PROFILE", "onResponse: ${ApiHelper.bodyToString(req.request().body)}")
                             repository.user.value = res.body()
                         }
 

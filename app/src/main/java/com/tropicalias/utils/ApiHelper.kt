@@ -1,6 +1,5 @@
 package com.tropicalias.utils
 
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.tropicalias.api.model.Post
 import com.tropicalias.api.model.User
@@ -42,7 +41,6 @@ class ApiHelper {
                     override fun onResponse(req: Call<User>, res: Response<User>) {
                         val user = res.body()
                         repository.user.value = user
-                        Log.d("SPLASH SCREEN", "onResponse: ${repository.user.value}")
                         if (user != null) {
                             if (callback != null) {
                                 callback(user)
@@ -52,7 +50,6 @@ class ApiHelper {
                     }
 
                     override fun onFailure(req: Call<User>, e: Throwable) {
-                        Log.e("SPLASH SCREEN", "onFailure: $e")
                         GlobalScope.launch(Dispatchers.Main) {
                             delay(30000)
                             getUser(callback = callback)
@@ -91,7 +88,6 @@ class ApiHelper {
                     }
 
                     override fun onFailure(req: Call<List<Post>>, e: Throwable) {
-                        Log.e("SPLASH SCREEN", "onFailure: $e")
                         getPosts(null, callback)
                     }
                 })
@@ -105,7 +101,6 @@ class ApiHelper {
                     }
 
                     override fun onFailure(req: Call<List<Post>>, e: Throwable) {
-                        Log.e("SPLASH SCREEN", "onFailure: $e")
                         getPosts(userId, callback)
                     }
                 })

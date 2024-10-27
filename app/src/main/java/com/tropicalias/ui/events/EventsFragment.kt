@@ -63,7 +63,6 @@ class EventsFragment : Fragment() {
         binding.recyclerView.layoutManager =
             androidx.recyclerview.widget.LinearLayoutManager(requireContext())
 
-
     }
 
 
