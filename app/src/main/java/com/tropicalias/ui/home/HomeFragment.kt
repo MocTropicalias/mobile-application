@@ -52,6 +52,16 @@ class HomeFragment : Fragment() {
             startActivity(Intent(requireContext(), NewPostActivity::class.java))
         }
 
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            ApiHelper.getPosts {
+                if (_binding != null) {
+                    Log.e("TAG", "onViewCreated: ")
+                    binding.posts.adapter = PostAdapter(it)
+                }
+            }
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
+
     }
 
     override fun onDestroyView() {
