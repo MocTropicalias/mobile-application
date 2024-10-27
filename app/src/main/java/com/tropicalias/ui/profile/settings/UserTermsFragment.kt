@@ -28,6 +28,11 @@ class UserTermsFragment : Fragment() {
         binding.imageViewCloseUserTerms.setOnClickListener {
             requireActivity().onBackPressed()
         }
+
+
+        binding.webViewUserTerms.loadUrl("https://landing-page-lw54.onrender.com/Termos.html")
+
+
     }
 
     override fun onDestroyView() {
