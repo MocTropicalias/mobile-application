@@ -40,6 +40,7 @@ class HomeFragment : Fragment() {
         val layoutManager = LinearLayoutManager(requireContext())
         binding.posts.layoutManager = layoutManager
         val adapter = PostAdapter(emptyList())
+        binding.loading.visibility = View.VISIBLE
         ApiHelper.getPosts {
             if (_binding != null) {
                 adapter.posts = it

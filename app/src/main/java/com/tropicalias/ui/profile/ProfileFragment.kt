@@ -17,7 +17,6 @@ import com.tropicalias.R.color
 import com.tropicalias.adapter.PostAdapter
 import com.tropicalias.adapter.ProfileAdapter
 import com.tropicalias.api.model.User
-import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.FragmentProfileBinding
 import com.tropicalias.ui.posts.newpost.NewPostActivity
 import com.tropicalias.ui.profile.edit.EditProfileActivity
@@ -85,32 +84,12 @@ class ProfileFragment : Fragment() {
         // Load Profile Information
         viewModel.binding = binding
         viewModel.adapter = adapter
-        val userNotSelf: User? = arguments?.getParcelable("user_key")
-        val repository = ApiRepository.getInstance()
+        val userNotSelfId = arguments?.getLong("userId")
+        binding.loading.visibility = View.VISIBLE
+        loadUser(userNotSelfId)
 
         // Is it your profile?
-        if (userNotSelf == null) {
-            // It is my profile
-            repository.user.observe(viewLifecycleOwner) { user ->
-                user?.let {
-                    viewModel.setData(user)
-                }
-            }
-
-
-            if (repository.user.value == null) {
-                val fbuser = FirebaseAuth.getInstance().currentUser
-                viewModel.setData(
-                    User(fbuser?.displayName!!, fbuser.photoUrl)
-                )
-                ApiHelper.getUser {
-                    viewModel.setData(it)
-                }
-            } else {
-                viewModel.setData(repository.user.value!!)
-            }
-
-
+        if (userNotSelfId == null) {
             // Settings
             binding.settingsButton.visibility = View.VISIBLE
             binding.settingsButton.setOnClickListener {
@@ -125,20 +104,13 @@ class ProfileFragment : Fragment() {
 
             binding.followButton.visibility = View.GONE
         } else {
-            // It is not my profile
-            ApiHelper.loadProfile(userNotSelf.id!!) {
-                viewModel.setData(it)
-            }
-            viewModel.setData(userNotSelf)
-
-
             binding.settingsButton.visibility = View.GONE
             binding.editProfileButton.visibility = View.GONE
 
             // Follow
             binding.followButton.visibility = View.VISIBLE
             binding.followButton.setOnClickListener {
-                userNotSelf.id.let {
+                userNotSelfId.let {
                     viewModel.followUser(it)
                 }
             }
@@ -150,36 +122,33 @@ class ProfileFragment : Fragment() {
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener {
-            if (userNotSelf == null) {
-                // It is my profile
-                repository.user.observe(viewLifecycleOwner) { user ->
-                    user?.let {
-                        viewModel.setData(user)
-                    }
-                }
-                if (repository.user.value == null) {
-                    val fbuser = FirebaseAuth.getInstance().currentUser
-                    viewModel.setData(
-                        User(fbuser?.displayName!!, fbuser.photoUrl)
-                    )
-                    ApiHelper.getUser {
-                        viewModel.setData(it)
-                    }
-                } else {
-                    viewModel.setData(repository.user.value!!)
-                }
-            } else {
-                // It is not my profile
-                viewModel.setData(userNotSelf)
-                ApiHelper.loadProfile(userNotSelf.id!!) {
-                    viewModel.setData(it)
-                }
-            }
+            binding.loading.visibility = View.VISIBLE
+            loadUser(userNotSelfId)
             binding.swipeRefreshLayout.isRefreshing = false
         }
 
 
 
+    }
+
+    private fun loadUser(
+        userNotSelfId: Long?
+    ) {
+        if (userNotSelfId == null) {
+            // It is my profile
+            val fbuser = FirebaseAuth.getInstance().currentUser
+            viewModel.setData(
+                User(fbuser?.displayName!!, fbuser.photoUrl)
+            )
+            ApiHelper.getUser {
+                viewModel.setData(it)
+            }
+        } else {
+            // It is not my profile
+            ApiHelper.loadProfile(userNotSelfId) {
+                viewModel.setData(it)
+            }
+        }
     }
 
     override fun onDestroyView() {

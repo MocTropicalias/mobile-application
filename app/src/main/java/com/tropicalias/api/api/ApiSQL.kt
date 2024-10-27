@@ -23,7 +23,7 @@ interface ApiSQL {
     @GET("/user/firebase/{uid}")
     fun getUserByFirebaseID(@Path("uid") uid: String): Call<User>
 
-    @GET("/user/profile/{id}")
+    @GET("/user/{id}")
     fun getUserProfileByID(@Path("id") id: Long): Call<User>
 
 

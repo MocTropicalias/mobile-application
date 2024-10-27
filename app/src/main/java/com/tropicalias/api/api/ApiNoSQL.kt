@@ -20,6 +20,9 @@ interface ApiNoSQL {
     @GET("/post/")
     fun getPosts(): Call<List<Post>>
 
+    @GET("/post/{id}")
+    fun getPostById(@Path("id") id: String): Call<Post>
+
     @PATCH("/post/{id}")
     fun addComment(@Path("id") id: Long, @Body comment: Comment): Call<Unit>
 

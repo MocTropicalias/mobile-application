@@ -52,6 +52,7 @@ class ProfileViewModel : ViewModel() {
                 }
             })
 
+            binding.loading.visibility = View.VISIBLE
             ApiHelper.getPosts(it) { posts ->
                 postAdapter.posts = posts
                 postAdapter.notifyDataSetChanged()
