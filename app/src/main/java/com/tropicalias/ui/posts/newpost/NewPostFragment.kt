@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.tropicalias.databinding.FragmentNewPostBinding
+import com.tropicalias.utils.DrawableHandler
 import com.tropicalias.utils.ImagePicker
 
 
@@ -78,11 +80,18 @@ class NewPostFragment : Fragment() {
         }
 
         binding.saveButton.setOnClickListener {
+            Log.d("NewPostFragment", "Save button clicked.")
             val content = binding.contentEditText.text.toString()
+            if (content.isEmpty()) {
+                Log.d("NewPostFragment", "Content is empty, showing validation error.")
+                DrawableHandler.setInvalidDrawable(binding.contentEditText, requireContext())
+                return@setOnClickListener
+            }
             viewModel.savePost(content, imageUri) {
-                requireActivity().finish()
+                activity?.onBackPressed()
             }
         }
+
 
 
         binding.backButton.setOnClickListener {

@@ -33,6 +33,7 @@ class ApiHelper {
             repository.user.value?.let { user ->
                 if (callback != null) {
                     callback(user)
+                    return
                 }
             }
 
@@ -45,6 +46,7 @@ class ApiHelper {
                         if (user != null) {
                             if (callback != null) {
                                 callback(user)
+                                return
                             }
                         }
                     }

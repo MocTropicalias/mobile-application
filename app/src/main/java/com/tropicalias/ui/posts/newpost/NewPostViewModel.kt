@@ -1,6 +1,7 @@
 package com.tropicalias.ui.posts.newpost
 
 import android.net.Uri
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModel
 import com.google.firebase.storage.FirebaseStorage
@@ -19,11 +20,13 @@ class NewPostViewModel : ViewModel() {
 
     fun savePost(content: String, imageUri: Uri?, callback: () -> Unit) {
         if (posting) {
+            Log.d("NewPostViewModel", "Post is already in progress, skipping duplicate request.")
             return
         }
         posting = true
         binding.saveButton.text = ""
         binding.loadingButton.visibility = View.VISIBLE
+        binding.saveButton.isEnabled = false  // Disable button immediately
 
         ApiHelper.getUser { user ->
             if (imageUri != null) {
@@ -39,11 +42,14 @@ class NewPostViewModel : ViewModel() {
                                 media = imageUri,
                                 content = content,
                             )
-
+                            Log.d("NewPostViewModel", "Creating post with image URI: $imageUri")
                             createPost(post, callback)
                         }
                     }
-                    .addOnFailureListener {}
+                    .addOnFailureListener {
+                        posting = false  // Reset posting flag on failure
+                        binding.saveButton.isEnabled = true
+                    }
             } else {
                 val post = Post(
                     userId = user.id!!,
@@ -52,12 +58,12 @@ class NewPostViewModel : ViewModel() {
                     media = null,
                     content = content,
                 )
-
+                Log.d("NewPostViewModel", "Creating post without image.")
                 createPost(post, callback)
             }
         }
-
     }
+
 
     fun createPost(post: Post, callback: () -> Unit) {
         noSQLApi.createPost(post).enqueue(object : retrofit2.Callback<Post> {
@@ -66,15 +72,22 @@ class NewPostViewModel : ViewModel() {
                 response: retrofit2.Response<Post>
             ) {
                 if (response.isSuccessful) {
+                    Log.d("NewPostViewModel", "Post created successfully.")
                     imageUrl = null
                 }
+                posting = false
+                binding.saveButton.isEnabled = true
                 callback()
             }
 
             override fun onFailure(call: retrofit2.Call<Post>, t: Throwable) {
-                createPost(post, callback)
+                Log.e("NewPostViewModel", "Post creation failed: ${t.message}")
+                posting = false  // Reset posting flag on failure
+                binding.saveButton.isEnabled = true
+                // Optionally show error message to user instead of retrying
             }
         })
     }
+
 
 }

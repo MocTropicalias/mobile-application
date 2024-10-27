@@ -20,6 +20,7 @@ import com.tropicalias.adapter.ProfileAdapter
 import com.tropicalias.api.model.User
 import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.FragmentProfileBinding
+import com.tropicalias.ui.posts.newpost.NewPostActivity
 import com.tropicalias.ui.profile.edit.EditProfileActivity
 import com.tropicalias.ui.profile.settings.SettingsActivity
 import com.tropicalias.utils.ApiHelper
@@ -147,6 +148,12 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
+
+
+        binding.floatingActionButton.setOnClickListener {
+            startActivity(Intent(requireContext(), NewPostActivity::class.java))
+        }
+
 
 
     }
