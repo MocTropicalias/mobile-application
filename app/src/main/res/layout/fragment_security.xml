@@ -60,7 +60,7 @@
                 android:drawableStart="@drawable/ic_email_input"
                 android:drawablePadding="8dp"
                 android:hint="ar***dj@gmail.com"
-                android:inputType="text"
+                android:inputType="textEmailAddress"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp" />
 
