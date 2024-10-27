@@ -112,7 +112,7 @@ class PostHelper<T : PostBinding>(private val binding: T) {
             action = Intent.ACTION_SEND
             putExtra(
                 Intent.EXTRA_TEXT,
-                "Check out this post: https://landing-page-lw54.onrender.com/post/$postId"
+                "Check out this post: https://landing-page-lw54.onrender.com/?postId=$postId"
             ) //${dynamicLink.uri}")
             type = "text/plain"
         }

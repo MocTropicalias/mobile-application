@@ -35,7 +35,7 @@ class PostDetailsActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        val postId = intent.data?.lastPathSegment
+        val postId = intent.data?.getQueryParameter("postId")
 
         if (postId == null) {
             finish()
@@ -48,7 +48,7 @@ class PostDetailsActivity : AppCompatActivity() {
 
     private fun loadPost(post: Post) {
         val postHelper = PostHelper(binding.toPostBinding())
-//        postHelper.loadUser(post)
+        postHelper.loadUser(post)
 
         // Post content
         if (post.media != null) {
