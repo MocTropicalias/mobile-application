@@ -20,6 +20,16 @@ class DrawableHandler {
             animator.start(); // Inicia a animação
         }
 
+        fun likeAnimation(view: View) {
+            val animator = ObjectAnimator.ofFloat(
+                view,
+                "translationX",
+                *floatArrayOf(0F, 25F, -25F, 25F, -25F, 15F, -15F, 6F, -6F, 0F)
+            );
+            animator.setDuration(500); // Duração da animação
+            animator.start(); // Inicia a animação
+        }
+
         fun setInvalidDrawable(editText: EditText, context: Context) {
             (editText.background as GradientDrawable).setStroke(
                 dpToPx(3, context),
