@@ -1,5 +1,6 @@
 package com.tropicalias.ui.events
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.fragment.app.viewModels
 import com.tropicalias.adapter.EventsAdapter
 import com.tropicalias.api.model.Event
 import com.tropicalias.databinding.FragmentEventsBinding
+import com.tropicalias.ui.events.qrcode.QrCodeActivity
 import java.util.Date
 
 class EventsFragment : Fragment() {
@@ -63,6 +65,9 @@ class EventsFragment : Fragment() {
         binding.recyclerView.layoutManager =
             androidx.recyclerview.widget.LinearLayoutManager(requireContext())
 
+        binding.floatingActionButton.setOnClickListener {
+            startActivity(Intent(context, QrCodeActivity::class.java))
+        }
     }
 
 
