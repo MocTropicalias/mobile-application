@@ -40,8 +40,10 @@ class PostDetailsActivity : AppCompatActivity() {
         if (postId == null) {
             finish()
         }
-        viewModel.loadPost(postId!!) { post ->
-            loadPost(post)
+        if (postId != null) {
+            viewModel.loadPost(postId) { post ->
+                loadPost(post)
+            }
         }
 
     }

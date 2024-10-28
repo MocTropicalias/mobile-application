@@ -73,7 +73,7 @@ class InputCheck {
         }
 
         private fun isValidPassword(password: String): String? {
-            if (password.length < 4) {
+            if (password.length < 6) {
                 return "Senha muito curta"
             }
             if (password.length > 100) {
