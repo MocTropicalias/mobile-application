@@ -9,6 +9,7 @@ import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiNoSQL {
     @POST("/post/")
@@ -37,4 +38,12 @@ interface ApiNoSQL {
         @Path("id") id: Long,
         @Path("comment_position") commentPosition: Int
     ): Call<Unit>
+
+    @GET("post/searchPosts")
+    fun searchPosts(
+        @Query("text") text: String,
+        @Query("userId") userId: Long?,
+        @Query("following") following: List<Long>?
+    ): Call<List<Post>>
+
 }

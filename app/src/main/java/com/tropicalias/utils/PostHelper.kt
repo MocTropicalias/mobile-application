@@ -3,7 +3,6 @@ package com.tropicalias.utils
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.format.DateFormat
 import android.util.Log
 import android.view.View
 import android.widget.ImageButton
@@ -12,6 +11,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.Navigation.findNavController
 import com.bumptech.glide.Glide
 import com.tropicalias.R
+import com.tropicalias.api.Retrofit.ApiType.LANDINGPAGE
 import com.tropicalias.api.model.Post
 import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.ActivityPostDetailsBinding
@@ -21,7 +21,10 @@ import com.tropicalias.ui.posts.postdetails.PostDetailsActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 interface PostBinding {
     val root: View
@@ -49,9 +52,9 @@ class PostHelper<T : PostBinding>(private val binding: T) {
     fun openPost(postId: String) {
         val intent = Intent(binding.root.context, PostDetailsActivity::class.java)
 
-        val uri = Uri.parse("tropicalias://post/$postId")
+        val uri = Uri.parse("tropicalias://post/?postId=$postId")
         intent.data = uri
-
+        Log.d("PostAdapter", "opening post with id: $postId")
         startActivity(binding.root.context, intent, null)
     }
 
@@ -133,7 +136,7 @@ class PostHelper<T : PostBinding>(private val binding: T) {
             action = Intent.ACTION_SEND
             putExtra(
                 Intent.EXTRA_TEXT,
-                "Check out this post: https://landing-page-lw54.onrender.com/?postId=$postId"
+                "Check out this post: ${LANDINGPAGE.url}/post/?postId=$postId"
             ) //${dynamicLink.uri}")
             type = "text/plain"
         }
