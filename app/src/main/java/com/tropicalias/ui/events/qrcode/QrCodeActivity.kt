@@ -1,6 +1,5 @@
 package com.tropicalias.ui.events.qrcode
 
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.Surface
@@ -12,7 +11,6 @@ import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -21,6 +19,7 @@ import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
 import com.tropicalias.R
 import com.tropicalias.databinding.ActivityQrCodeBinding
+import com.tropicalias.utils.RequestPermission
 
 class QrCodeActivity : AppCompatActivity() {
 
@@ -39,19 +38,10 @@ class QrCodeActivity : AppCompatActivity() {
             insets
         }
 
-        if (
-            ContextCompat.checkSelfPermission(
-                applicationContext,
-                android.Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
+        if (RequestPermission.requestCameraPermission(applicationContext, this)) {
             init()
         } else {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(android.Manifest.permission.CAMERA),
-                101
-            )
+            finish()
         }
 
         binding.backButton.setOnClickListener {
