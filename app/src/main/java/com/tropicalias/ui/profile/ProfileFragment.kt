@@ -89,30 +89,32 @@ class ProfileFragment : Fragment() {
         loadUser(userNotSelfId)
 
         // Is it your profile?
-        if (userNotSelfId == null) {
-            // Settings
-            binding.settingsButton.visibility = View.VISIBLE
-            binding.settingsButton.setOnClickListener {
-                startActivity(Intent(requireContext(), SettingsActivity::class.java))
-            }
+        ApiHelper.getUser { user ->
+            if (userNotSelfId != null && userNotSelfId != user.id) {
+                binding.settingsButton.visibility = View.GONE
+                binding.editProfileButton.visibility = View.GONE
 
-            // Edit Profile
-            binding.editProfileButton.visibility = View.VISIBLE
-            binding.editProfileButton.setOnClickListener {
-                startActivity(Intent(requireContext(), EditProfileActivity::class.java))
-            }
-
-            binding.followButton.visibility = View.GONE
-        } else {
-            binding.settingsButton.visibility = View.GONE
-            binding.editProfileButton.visibility = View.GONE
-
-            // Follow
-            binding.followButton.visibility = View.VISIBLE
-            binding.followButton.setOnClickListener {
-                userNotSelfId.let {
-                    viewModel.followUser(it)
+                // Follow
+                binding.followButton.visibility = View.VISIBLE
+                binding.followButton.setOnClickListener {
+                    userNotSelfId.let {
+                        viewModel.followUser(it)
+                    }
                 }
+            } else {
+                // Settings
+                binding.settingsButton.visibility = View.VISIBLE
+                binding.settingsButton.setOnClickListener {
+                    startActivity(Intent(requireContext(), SettingsActivity::class.java))
+                }
+
+                // Edit Profile
+                binding.editProfileButton.visibility = View.VISIBLE
+                binding.editProfileButton.setOnClickListener {
+                    startActivity(Intent(requireContext(), EditProfileActivity::class.java))
+                }
+
+                binding.followButton.visibility = View.GONE
             }
         }
 
@@ -134,7 +136,11 @@ class ProfileFragment : Fragment() {
     private fun loadUser(
         userNotSelfId: Long?
     ) {
-        if (userNotSelfId == null) {
+        if (userNotSelfId != null) {
+            ApiHelper.loadProfile(userNotSelfId) {
+                viewModel.setData(it)
+            }
+        } else {
             // It is my profile
             val fbuser = FirebaseAuth.getInstance().currentUser
             viewModel.setData(
@@ -143,11 +149,7 @@ class ProfileFragment : Fragment() {
             ApiHelper.getUser {
                 viewModel.setData(it)
             }
-        } else {
-            // It is not my profile
-            ApiHelper.loadProfile(userNotSelfId) {
-                viewModel.setData(it)
-            }
+
         }
     }
 
