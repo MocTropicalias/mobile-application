@@ -35,7 +35,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:padding="8dp"
-            android:text="WWWWWWWWWW"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/profileImageView"
             app:layout_constraintStart_toEndOf="@id/profileImageView"

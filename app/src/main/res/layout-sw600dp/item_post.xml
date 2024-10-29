@@ -82,7 +82,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:padding="16dp"
-            android:text="WWWWWWWWWW"
             app:layout_constraintBottom_toBottomOf="@+id/profileImageView"
             app:layout_constraintStart_toEndOf="@id/profileImageView"
             app:layout_constraintTop_toTopOf="@+id/profileImageView" />
