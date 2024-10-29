@@ -81,9 +81,30 @@ class PostHelper<T : PostBinding>(private val binding: T) {
     }
 
     fun dateFormat(date: Date): String {
-        val formatedDate = DateFormat.format("dd/MM/yyyy", date).toString()
-//        Log.d("PostAdapter", "Date formated as: $formatedDate")
-        return formatedDate
+        val now = Date()
+        val diffInMillis = now.time - date.time
+
+        return when {
+            diffInMillis < TimeUnit.HOURS.toMillis(1) -> {
+                val minutes = TimeUnit.MILLISECONDS.toMinutes(diffInMillis)
+                "$minutes minutos atrás"
+            }
+
+            diffInMillis < TimeUnit.DAYS.toMillis(1) -> {
+                val hours = TimeUnit.MILLISECONDS.toHours(diffInMillis)
+                "$hours horas atrás"
+            }
+
+            diffInMillis < TimeUnit.DAYS.toMillis(7) -> {
+                val days = TimeUnit.MILLISECONDS.toDays(diffInMillis)
+                "$days dias atrás"
+            }
+
+            else -> {
+                val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale("pt", "BR"))
+                dateFormat.format(date)
+            }
+        }
     }
 
     fun like(liked: Boolean, post: Post) {
