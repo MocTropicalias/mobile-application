@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.tropicalias.AuthenticationActivity
 import com.tropicalias.R
+import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment() {
@@ -52,6 +53,7 @@ class SettingsFragment : Fragment() {
 
         binding.logoutButton.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
+            ApiRepository.getInstance().user.value = null
             val intent = Intent(requireContext(), AuthenticationActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
