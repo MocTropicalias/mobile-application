@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.tropicalias.databinding.FragmentNewPostBinding
 import com.tropicalias.utils.DrawableHandler
 import com.tropicalias.utils.ImagePicker
+import com.tropicalias.utils.RequestPermission
 
 
 class NewPostFragment : Fragment() {
@@ -56,7 +57,7 @@ class NewPostFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.imageImageButton.setOnClickListener {
-
+            if (RequestPermission.requestCameraPermission(requireContext(), requireActivity())) {
             if (imageUri != null) {
                 Glide.with(binding.root.context)
                     .load(imageUri)
@@ -76,6 +77,7 @@ class NewPostFragment : Fragment() {
                     .into(binding.contentImageView)
                 binding.imageLayout.visibility = View.GONE
                 binding.imageImageButton.visibility = View.VISIBLE
+            }
             }
         }
 
