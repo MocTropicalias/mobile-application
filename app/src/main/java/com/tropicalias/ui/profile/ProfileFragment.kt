@@ -97,9 +97,7 @@ class ProfileFragment : Fragment() {
                 // Follow
                 binding.followButton.visibility = View.VISIBLE
                 binding.followButton.setOnClickListener {
-                    userNotSelfId.let {
-                        viewModel.followUser(it)
-                    }
+                    viewModel.followUser(userNotSelfId)
                 }
             } else {
                 // Settings

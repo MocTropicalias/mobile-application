@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.navigation.findNavController
+import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.tropicalias.databinding.ActivityMainBinding
 
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         notificar()
 
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        val navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main)
         NavigationUI.setupWithNavController(binding.navView, navController)
     }
 

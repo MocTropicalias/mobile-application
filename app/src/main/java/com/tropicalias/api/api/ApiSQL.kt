@@ -37,10 +37,19 @@ interface ApiSQL {
     fun updateUserProfile(@Body user: User, @Path("id") id: String): Call<User>
 
     @POST("/follow/{id_to_follow}/{id_following}")
-    fun followUser(
+    fun toggleFollowUser(
         @Path("id_to_follow") idToFollow: Long,
         @Path("id_following") idFollowing: Long
-    ): Call<Int>
+    ): Call<Boolean>
+
+    @GET("/follow/{id_to_follow}/{id_following}")
+    fun getFollowUser(
+        @Path("id_to_follow") idToFollow: Long,
+        @Path("id_following") idFollowing: Long
+    ): Call<Boolean>
+
+    @GET("follow/{id}")
+    fun getUsersFollowing(@Path("id") id: Long): Call<List<User>>
 
 
 }

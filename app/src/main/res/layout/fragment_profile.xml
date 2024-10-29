@@ -80,7 +80,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/bg_button"
-                    android:backgroundTint="@color/laranja"
                     android:text="Seguir"
                     android:visibility="gone"
                     android:textColor="@color/white"
