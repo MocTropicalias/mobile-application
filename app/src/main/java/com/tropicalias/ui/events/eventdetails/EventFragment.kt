@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.tropicalias.databinding.FragmentEventDetailsBinding
 
-class EventFragment : Fragment() {
+class EventFragment(evenId: Long) : Fragment() {
 
     private var _binding: FragmentEventDetailsBinding? = null
     private val binding get() = _binding!!

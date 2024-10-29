@@ -20,7 +20,8 @@ class Retrofit {
     enum class ApiType(val url: String) {
         SQL("https://tropicalias-api-dev.onrender.com/"),
         NOSQL("https://mongo-api-dev.onrender.com/"),
-        REDIS("https://apiredis-dev.onrender.com/")
+        REDIS("https://apiredis-dev.onrender.com/"),
+        LANDINGPAGE("https://landing-page-lw54.onrender.com")
     }
 
 

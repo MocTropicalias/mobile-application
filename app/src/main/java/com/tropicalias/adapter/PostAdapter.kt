@@ -68,6 +68,7 @@ class PostAdapter(var posts: List<Post>): RecyclerView.Adapter<RecyclerView.View
 
             // Post Details
             post.id?.let { id ->
+                Log.d("PostAdapter", "post details on click: $id")
                 binding.root.setOnClickListener { postHelper.openPost(id) }
                 binding.commentsImageButton.setOnClickListener { postHelper.openPost(id) }
             }
