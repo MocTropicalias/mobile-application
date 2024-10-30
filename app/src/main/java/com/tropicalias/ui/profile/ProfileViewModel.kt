@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.tropicalias.R
 import com.tropicalias.adapter.PostAdapter
 import com.tropicalias.adapter.ProfileAdapter
+import com.tropicalias.api.model.Follow
 import com.tropicalias.api.model.User
 import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.FragmentProfileBinding
@@ -55,16 +56,14 @@ class ProfileViewModel : ViewModel() {
             })
 
             ApiHelper.getUser { myuser ->
-                apiSQL.getFollowUser(user.id, myuser.id!!).enqueue(object : Callback<Boolean> {
-                    override fun onResponse(req: Call<Boolean>, res: Response<Boolean>) {
-                        binding.followButton.setBackgroundResource(if (res.body() == true) R.drawable.bg_button_deactivated else R.drawable.bg_button)
+                apiSQL.getFollowUser(user.id, myuser.id!!).enqueue(object : Callback<Follow> {
+                    override fun onResponse(req: Call<Follow>, res: Response<Follow>) {
+                        binding.followButton.setBackgroundResource(if (res.body()?.following == true) R.drawable.bg_button_deactivated else R.drawable.bg_button)
                         binding.followButton.text =
-                            (if (res.body() == true) "Deixar de seguir" else "Seguir")
+                            (if (res.body()?.following == true) "Deixar de seguir" else "Seguir")
                     }
 
-                    override fun onFailure(req: Call<Boolean>, e: Throwable) {
-                        TODO("Not yet implemented")
-                    }
+                    override fun onFailure(req: Call<Follow>, e: Throwable) {}
                 })
 
             }
@@ -83,8 +82,8 @@ class ProfileViewModel : ViewModel() {
 
     fun followUser(idToFollow: Long) {
         ApiHelper.getUser { user ->
-            apiSQL.toggleFollowUser(idToFollow, user.id!!).enqueue(object : Callback<Boolean> {
-                override fun onResponse(req: Call<Boolean>, res: Response<Boolean>) {
+            apiSQL.toggleFollowUser(idToFollow, user.id!!).enqueue(object : Callback<Follow> {
+                override fun onResponse(req: Call<Follow>, res: Response<Follow>) {
                     apiSQL.getUserFollowersCount(idToFollow.toString())
                         .enqueue(object : Callback<Int> {
                             override fun onResponse(req: Call<Int>, res: Response<Int>) {
@@ -95,12 +94,12 @@ class ProfileViewModel : ViewModel() {
                                 Log.e(TAG, "onFailure: $e")
                             }
                         })
-                    binding.followButton.setBackgroundResource(if (res.body() == true) R.drawable.bg_button_deactivated else R.drawable.bg_button)
+                    binding.followButton.setBackgroundResource(if (res.body()?.following == true) R.drawable.bg_button_deactivated else R.drawable.bg_button)
                     binding.followButton.text =
-                        (if (res.body() == true) "Deixar de seguir" else "Seguir")
+                        (if (res.body()?.following == true) "Deixar de seguir" else "Seguir")
                 }
 
-                override fun onFailure(req: Call<Boolean>, e: Throwable) {
+                override fun onFailure(req: Call<Follow>, e: Throwable) {
                     Log.e(TAG, "onFailure: $e")
                 }
             })

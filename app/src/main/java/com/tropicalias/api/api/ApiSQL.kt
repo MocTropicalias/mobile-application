@@ -1,5 +1,6 @@
 package com.tropicalias.api.api
 
+import com.tropicalias.api.model.Follow
 import com.tropicalias.api.model.User
 import retrofit2.Call
 import retrofit2.http.Body
@@ -40,13 +41,13 @@ interface ApiSQL {
     fun toggleFollowUser(
         @Path("id_to_follow") idToFollow: Long,
         @Path("id_following") idFollowing: Long
-    ): Call<Boolean>
+    ): Call<Follow>
 
     @GET("/follow/{id_to_follow}/{id_following}")
     fun getFollowUser(
         @Path("id_to_follow") idToFollow: Long,
         @Path("id_following") idFollowing: Long
-    ): Call<Boolean>
+    ): Call<Follow>
 
     @GET("follow/{id}")
     fun getUsersFollowing(@Path("id") id: Long): Call<List<User>>
