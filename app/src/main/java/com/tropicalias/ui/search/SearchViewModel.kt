@@ -29,12 +29,11 @@ class SearchViewModel : ViewModel() {
         }
 
         val noSqlApi = ApiRepository.getInstance().getNoSQL()
-        val sqlApi = ApiRepository.getInstance().getSQL()
 
         ApiHelper.getUser { user ->
             when {
                 filterLike -> {
-                    noSqlApi.searchPosts(text, user.id, null).enqueue(
+                    noSqlApi.searchPosts(text, user.id, liked = true).enqueue(
                         PostResponseCallback(
                             adapter
                         )
@@ -42,9 +41,8 @@ class SearchViewModel : ViewModel() {
                 }
 
                 filterFollow -> {
-//                    sqlApi.getAllUsers().enqueue()
 
-                    noSqlApi.searchPosts(text, null, emptyList()).enqueue(
+                    noSqlApi.searchPosts(text, user.id, following = true).enqueue(
                         PostResponseCallback(
                             adapter
                         )
@@ -52,7 +50,7 @@ class SearchViewModel : ViewModel() {
                 }
 
                 else -> {
-                    noSqlApi.searchPosts(text, null, null).enqueue(
+                    noSqlApi.searchPosts(text).enqueue(
                         PostResponseCallback(
                             adapter
                         )
