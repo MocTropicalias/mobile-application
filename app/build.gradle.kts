@@ -102,4 +102,7 @@ dependencies {
     implementation("com.wajahatkarim:easyflipviewpager:2.0.1")
     implementation("androidx.viewpager2:viewpager2:1.1.0")
 
+    //ZoomLayout
+    implementation("com.otaliastudios:zoomlayout:1.9.0")
+
 }

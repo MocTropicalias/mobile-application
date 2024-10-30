@@ -1,5 +1,6 @@
 package com.tropicalias.ui.posts.postdetails
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -12,6 +13,7 @@ import com.tropicalias.R
 import com.tropicalias.api.model.Post
 import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.ActivityPostDetailsBinding
+import com.tropicalias.ui.posts.image.FullscreenImageActivity
 import com.tropicalias.utils.PostHelper
 import com.tropicalias.utils.toPostBinding
 
@@ -82,6 +84,10 @@ class PostDetailsActivity : AppCompatActivity() {
 
 
         // Post Open Image
-        binding.contentPostImageView
+        binding.contentPostImageView.setOnClickListener {
+            val intent = Intent(binding.root.context, FullscreenImageActivity::class.java)
+            intent.putExtra("IMAGE_URL", post.media)
+            startActivity(intent)
+        }
     }
 }

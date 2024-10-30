@@ -56,15 +56,16 @@
             <EditText
                 android:id="@+id/contentEditText"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/bg_input"
                 android:drawableStart="@drawable/ic_edit"
                 android:drawablePadding="8dp"
                 android:hint="Conte-nos mais sobre!"
                 android:inputType="textMultiLine"
-                android:maxLines="2"
+                android:gravity="top"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
+                android:maxLines="6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -95,18 +96,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/postErrorTextView"
                 tools:layout_editor_absoluteX="40dp">
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/contentImageView"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:maxHeight="300dp"
                     android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image"
+                    android:clipToOutline="true"
                     android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     tools:srcCompat="@tools:sample/avatars" />
 
                 <ImageButton

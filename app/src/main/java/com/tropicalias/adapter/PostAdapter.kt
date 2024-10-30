@@ -1,16 +1,19 @@
 package com.tropicalias.adapter
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.tropicalias.R
 import com.tropicalias.api.model.Post
 import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.ItemPostBinding
+import com.tropicalias.ui.posts.image.FullscreenImageActivity
 import com.tropicalias.utils.PostHelper
 import com.tropicalias.utils.toPostBinding
 
@@ -39,6 +42,7 @@ class PostAdapter(var posts: List<Post>): RecyclerView.Adapter<RecyclerView.View
                 Log.d("PostAdapter", "Carregando Foto do post ${post.id}: ${post.media}")
                 Glide.with(binding.root.context)
                     .load(post.media)
+                    .fitCenter()
                     .into(binding.contentImageView as ImageView)
                 binding.contentImageView.visibility = View.VISIBLE
             } else {
@@ -75,10 +79,11 @@ class PostAdapter(var posts: List<Post>): RecyclerView.Adapter<RecyclerView.View
             }
 
             // Post Open Image
-            binding.contentImageView
-
-
-
+            binding.contentImageView.setOnClickListener {
+                val intent = Intent(binding.root.context, FullscreenImageActivity::class.java)
+                intent.putExtra("IMAGE_URL", post.media)
+                startActivity(binding.root.context, intent, null)
+            }
 
         }
 

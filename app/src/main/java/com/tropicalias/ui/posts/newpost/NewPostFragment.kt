@@ -61,6 +61,7 @@ class NewPostFragment : Fragment() {
             if (imageUri != null) {
                 Glide.with(binding.root.context)
                     .load(imageUri)
+                    .fitCenter()
                     .into(binding.contentImageView)
             }
 
