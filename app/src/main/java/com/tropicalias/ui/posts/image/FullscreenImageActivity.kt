@@ -40,7 +40,7 @@ class FullscreenImageActivity : AppCompatActivity() {
     }
 
     private var startY: Float = 0f
-    private val threshold = 300 // Adjust as needed for the drag distance
+    private val threshold = 500 // Adjust as needed for the drag distance
 
 
     private fun handleDragToDismiss(event: MotionEvent) {
