@@ -1,5 +1,6 @@
 package com.tropicalias.ui.posts.postdetails
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.NavController
 import com.bumptech.glide.Glide
 import com.tropicalias.R
 import com.tropicalias.api.model.Post
@@ -32,7 +34,6 @@ class PostDetailsActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
         binding.fecharPostImageView.setOnClickListener {
             onBackPressed()
         }
@@ -44,14 +45,14 @@ class PostDetailsActivity : AppCompatActivity() {
         }
         if (postId != null) {
             viewModel.loadPost(postId) { post ->
-                loadPost(post)
+                loadPost(post, null)
             }
         }
 
     }
 
-    private fun loadPost(post: Post) {
-        val postHelper = PostHelper(binding.toPostBinding())
+    private fun loadPost(post: Post, navController: NavController?) {
+        val postHelper = PostHelper(binding.toPostBinding(navController))
         postHelper.loadUser(post)
 
         // Post content
@@ -78,9 +79,22 @@ class PostDetailsActivity : AppCompatActivity() {
             post.id?.let { id -> postHelper.share(id) }
         }
 
+        // In PostDetailsActivity
+        fun openProfile(userId: Long, postId: String) {
+            val intent = Intent().apply {
+                putExtra("navigateToProfile", true)
+                putExtra("userId", userId)
+                putExtra("postId", postId)
+            }
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }
+
         // Post Open User
-        binding.profilePostImageView.setOnClickListener { postHelper.openProfile(post.userId) }
-        binding.profilePostNameTextView.setOnClickListener { postHelper.openProfile(post.userId) }
+        post.id?.let {
+            binding.profilePostImageView.setOnClickListener { openProfile(post.userId, post.id) }
+            binding.profilePostNameTextView.setOnClickListener { openProfile(post.userId, post.id) }
+        }
 
 
         // Post Open Image

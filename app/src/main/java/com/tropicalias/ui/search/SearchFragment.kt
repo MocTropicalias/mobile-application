@@ -1,13 +1,18 @@
 package com.tropicalias.ui.search
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tropicalias.R
 import com.tropicalias.adapter.PostAdapter
@@ -18,12 +23,34 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
     private var _binding: FragmentSearchBinding? = null
     private val viewModel: SearchViewModel by viewModels()
-    private val adapter = PostAdapter(emptyList())
+    private lateinit var adapter: PostAdapter
+
+    val activityResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                val userId = data?.getLongExtra("userId", -1)
+                if (userId != null) {
+                    val bundle = Bundle().apply {
+                        putLong("userId", userId)
+                    }
+                    findNavController().navigate(
+                        R.id.action_navigation_home_to_navigation_profile,
+                        bundle,
+                        NavOptions.Builder()
+                            .setPopUpTo(R.id.navigation_home, true)
+                            .build()
+                    )
+                }
+            }
+        }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        adapter = PostAdapter(emptyList(), findNavController(), activityResultLauncher)
         viewModel.adapter = adapter
         _binding = FragmentSearchBinding.inflate(inflater)
         return binding.root

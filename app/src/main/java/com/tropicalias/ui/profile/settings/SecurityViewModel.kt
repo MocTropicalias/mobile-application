@@ -24,8 +24,8 @@ class SecurityViewModel : ViewModel() {
         binding.loading.setOnClickListener { }
         ApiHelper.getUser { user ->
             binding.loading.visibility = View.GONE
-            binding.emailEditText.setText(formatEmail(user.email))
-            binding.passwordEditText.setText("******")
+            binding.emailEditText.setHint(formatEmail(user.email))
+            binding.passwordEditText.setHint("******")
 
 
             binding.emailEditText.onFocusChangeListener =

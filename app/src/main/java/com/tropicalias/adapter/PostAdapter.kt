@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.activity.result.ActivityResultLauncher
 import androidx.core.content.ContextCompat.startActivity
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.tropicalias.R
@@ -17,7 +19,11 @@ import com.tropicalias.ui.posts.image.FullscreenImageActivity
 import com.tropicalias.utils.PostHelper
 import com.tropicalias.utils.toPostBinding
 
-class PostAdapter(var posts: List<Post>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PostAdapter(
+    var posts: List<Post>,
+    val navController: NavController? = null,
+    val activityResultLauncher: ActivityResultLauncher<Intent>? = null
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return PostViewHolder(ItemPostBinding.inflate(LayoutInflater.from(parent.context),parent,false))
@@ -32,7 +38,7 @@ class PostAdapter(var posts: List<Post>): RecyclerView.Adapter<RecyclerView.View
 
     inner class PostViewHolder(val binding: ItemPostBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(post: Post){
-            val postHelper = PostHelper(binding.toPostBinding())
+            val postHelper = PostHelper(binding.toPostBinding(navController))
 
             // Post user
             postHelper.loadUser(post)
@@ -74,8 +80,13 @@ class PostAdapter(var posts: List<Post>): RecyclerView.Adapter<RecyclerView.View
             // Post Details
             post.id?.let { id ->
                 Log.d("PostAdapter", "post details on click: $id")
-                binding.root.setOnClickListener { postHelper.openPost(id) }
-                binding.commentsImageButton.setOnClickListener { postHelper.openPost(id) }
+                binding.root.setOnClickListener { postHelper.openPost(id, activityResultLauncher) }
+                binding.commentsImageButton.setOnClickListener {
+                    postHelper.openPost(
+                        id,
+                        activityResultLauncher
+                    )
+                }
             }
 
             // Post Open Image

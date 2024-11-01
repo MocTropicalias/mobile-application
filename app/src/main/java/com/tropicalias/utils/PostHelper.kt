@@ -7,8 +7,10 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
 import androidx.core.content.ContextCompat.startActivity
-import androidx.navigation.Navigation.findNavController
+import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import com.bumptech.glide.Glide
 import com.tropicalias.R
 import com.tropicalias.api.Retrofit.ApiType.LANDINGPAGE
@@ -26,36 +28,51 @@ import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
+enum class BindingType {
+    MAIN_ACTIVITY,
+    POST_ACTIVITY
+}
+
 interface PostBinding {
     val root: View
     val profileNameTextView: TextView
     val likePostImageButton: ImageButton
     val image: ItemProfilePictureBinding
+    val nav: NavController?
 }
 
-fun ItemPostBinding.toPostBinding(): PostBinding = object : PostBinding {
+fun ItemPostBinding.toPostBinding(navController: NavController?): PostBinding =
+    object : PostBinding {
     override val root = this@toPostBinding.root
     override val profileNameTextView = this@toPostBinding.profileNameTextView
     override val likePostImageButton = this@toPostBinding.likePostImageButton
     override val image = this@toPostBinding.image
+        override val nav = navController
 }
 
-fun ActivityPostDetailsBinding.toPostBinding(): PostBinding = object : PostBinding {
+fun ActivityPostDetailsBinding.toPostBinding(navController: NavController?): PostBinding =
+    object : PostBinding {
     override val root = this@toPostBinding.root
     override val profileNameTextView = this@toPostBinding.profilePostNameTextView
     override val likePostImageButton = this@toPostBinding.likePostFullImageButton
     override val image = this@toPostBinding.image
+        override val nav = navController
 }
 
 class PostHelper<T : PostBinding>(private val binding: T) {
 
-    fun openPost(postId: String) {
+    fun openPost(postId: String, activityResultLauncher: ActivityResultLauncher<Intent>?) {
         val intent = Intent(binding.root.context, PostDetailsActivity::class.java)
 
         val uri = Uri.parse("tropicalias://post/?postId=$postId")
         intent.data = uri
         Log.d("PostAdapter", "opening post with id: $postId")
-        startActivity(binding.root.context, intent, null)
+
+        if (activityResultLauncher != null) {
+            activityResultLauncher.launch(intent)
+        } else {
+            startActivity(binding.root.context, intent, null)
+        }
     }
 
     fun loadUser(post: Post) {
@@ -146,10 +163,17 @@ class PostHelper<T : PostBinding>(private val binding: T) {
     }
 
     fun openProfile(userId: Long) {
-        val navController = findNavController(binding.root)
         val bundle = Bundle().apply {
             putLong("userId", userId)
         }
-        navController.navigate(R.id.navigation_profile, bundle)
+        if (binding.nav != null) {
+            binding.nav!!.navigate(
+                R.id.action_navigation_home_to_navigation_profile,
+                bundle,
+                NavOptions.Builder()
+                    .setPopUpTo(R.id.navigation_home, true)
+                    .build()
+            )
+        }
     }
 }

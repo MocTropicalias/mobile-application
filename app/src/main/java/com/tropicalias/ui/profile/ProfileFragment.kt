@@ -1,7 +1,10 @@
 package com.tropicalias.ui.profile
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +22,7 @@ import com.tropicalias.adapter.ProfileAdapter
 import com.tropicalias.api.model.User
 import com.tropicalias.databinding.FragmentProfileBinding
 import com.tropicalias.ui.posts.newpost.NewPostActivity
+import com.tropicalias.ui.posts.postdetails.PostDetailsActivity
 import com.tropicalias.ui.profile.edit.EditProfileActivity
 import com.tropicalias.ui.profile.settings.SettingsActivity
 import com.tropicalias.utils.ApiHelper
@@ -39,20 +43,24 @@ class ProfileFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Change status bar color
+        val windowInsetsController = activity?.window?.decorView?.windowInsetsController
+        windowInsetsController?.setSystemBarsAppearance(
+            0,
+            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+        ) ?: Log.e("ProfileFragment", "WindowInsetsController is null")
+
         requireActivity().window.statusBarColor = ContextCompat.getColor(
             requireContext(),
             color.ciano
         )
-        requireActivity().window.insetsController?.setSystemBarsAppearance(
-            0,
-            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
-        )
+
         viewModel.postAdapter = PostAdapter(emptyList())
 
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
@@ -85,8 +93,28 @@ class ProfileFragment : Fragment() {
         viewModel.binding = binding
         viewModel.adapter = adapter
         val userNotSelfId = arguments?.getLong("userId")
+        val postBack = arguments?.getString("postId")
         binding.loading.visibility = View.VISIBLE
         loadUser(userNotSelfId)
+
+
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        if (postBack != null) {
+            view.setOnKeyListener { _, keyCode, _ ->
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    val intent = Intent(binding.root.context, PostDetailsActivity::class.java)
+
+                    val uri = Uri.parse("tropicalias://post/?postId=$postBack")
+                    intent.data = uri
+                    Log.d("PostAdapter", "opening post with id: $postBack")
+
+                    ContextCompat.startActivity(binding.root.context, intent, null)
+                    return@setOnKeyListener true
+                }
+                return@setOnKeyListener false
+            }
+        }
 
         // Is it your profile?
         ApiHelper.getUser { user ->
