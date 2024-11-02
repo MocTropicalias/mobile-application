@@ -1,11 +1,6 @@
 package com.tropicalias.utils
 
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.os.Environment
-import android.provider.MediaStore
-import androidx.core.content.FileProvider
 import com.tropicalias.api.model.User
 import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.FragmentEditProfileBinding
@@ -15,35 +10,10 @@ import com.tropicalias.utils.DrawableHandler.Companion.setInvalidDrawable
 import com.tropicalias.utils.DrawableHandler.Companion.setValidDrawable
 import retrofit2.Call
 import retrofit2.Response
-import java.io.File
-import java.util.UUID
 import java.util.regex.Pattern
 
 class InputCheck {
     companion object{
-
-
-        fun getChoserIntent(context: Context): Pair<Intent, Uri> {
-            val galleryIntent = Intent(Intent.ACTION_PICK).apply { type = "image/*" }
-            val imageFile = File(
-                context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                "profile_picture_${UUID.randomUUID()}.jpg"
-            )
-            val imageUri = FileProvider.getUriForFile(
-                context,
-                "${context.packageName}.fileprovider",
-                imageFile
-            )
-            val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
-                putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
-            }
-            val chooserIntent =
-                Intent.createChooser(galleryIntent, "Selecione sua foto de perfil").apply {
-                    putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
-                }
-            return Pair(chooserIntent, imageUri)
-        }
-
 
         // Input Validation
         private fun isValidEmail(email: String): String? {
@@ -67,9 +37,7 @@ class InputCheck {
                 erro = "Nome de usuário contem caracteres inválidos"
             }
 
-            // Check if username already exists
-
-            return null
+            return erro
         }
 
         private fun isValidPassword(password: String): String? {
