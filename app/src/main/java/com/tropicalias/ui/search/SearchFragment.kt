@@ -64,8 +64,15 @@ class SearchFragment : Fragment() {
 
         fun search() {
             binding.searchLayout.visibility = View.GONE
+            binding.notFoundLayout.visibility = View.GONE
+            binding.loading.visibility = View.VISIBLE
             val text = binding.searchEditText.text.toString()
             viewModel.search(text, filterFollow, filterLike)
+
+            binding.swipeRefreshLayout.setOnRefreshListener {
+                search()
+                binding.swipeRefreshLayout.isRefreshing = false
+            }
         }
 
         binding.posts.adapter = adapter
@@ -113,8 +120,6 @@ class SearchFragment : Fragment() {
                 false
             }
         }
-
-
     }
 
     override fun onDestroyView() {

@@ -50,9 +50,21 @@ class PostDetailsActivity : AppCompatActivity() {
             finish()
         }
         if (postId != null) {
+            binding.loading.visibility = View.VISIBLE
             viewModel.loadPost(postId) { post ->
                 loadPost(post, comment)
+                binding.loading.visibility = View.GONE
             }
+        }
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            if (postId != null) {
+                binding.loading.visibility = View.VISIBLE
+                viewModel.loadPost(postId) { post ->
+                    loadPost(post, comment)
+                }
+            }
+            binding.swipeRefreshLayout.isRefreshing = false
         }
 
     }
