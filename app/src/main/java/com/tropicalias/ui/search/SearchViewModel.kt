@@ -17,6 +17,8 @@ class SearchViewModel : ViewModel() {
 
         class PostResponseCallback(val adapter: PostAdapter) : Callback<List<Post>> {
             override fun onResponse(req: Call<List<Post>>, res: Response<List<Post>>) {
+                adapter.posts = emptyList()
+                adapter.notifyDataSetChanged()
                 res.body()?.let {
                     adapter.posts = res.body()!!
                     adapter.notifyDataSetChanged()
