@@ -61,12 +61,17 @@ fun ActivityPostDetailsBinding.toPostBinding(navController: NavController?): Pos
 
 class PostHelper<T : PostBinding>(private val binding: T) {
 
-    fun openPost(postId: String, activityResultLauncher: ActivityResultLauncher<Intent>?) {
+    fun openPost(
+        postId: String,
+        activityResultLauncher: ActivityResultLauncher<Intent>?,
+        comment: Boolean
+    ) {
         val intent = Intent(binding.root.context, PostDetailsActivity::class.java)
 
         val uri = Uri.parse("tropicalias://post/?postId=$postId")
         intent.data = uri
         Log.d("PostAdapter", "opening post with id: $postId")
+        intent.putExtra("comment", comment)
 
         if (activityResultLauncher != null) {
             activityResultLauncher.launch(intent)

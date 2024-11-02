@@ -80,11 +80,18 @@ class PostAdapter(
             // Post Details
             post.id?.let { id ->
                 Log.d("PostAdapter", "post details on click: $id")
-                binding.root.setOnClickListener { postHelper.openPost(id, activityResultLauncher) }
+                binding.root.setOnClickListener {
+                    postHelper.openPost(
+                        id,
+                        activityResultLauncher,
+                        false
+                    )
+                }
                 binding.commentsImageButton.setOnClickListener {
                     postHelper.openPost(
                         id,
-                        activityResultLauncher
+                        activityResultLauncher,
+                        true
                     )
                 }
             }

@@ -8,5 +8,5 @@ data class Comment(
     val userImage: Uri?,
     val userName: String,
     val content: String,
-    val date: Date
+    val date: Date?
 )

@@ -119,15 +119,19 @@ class ProfileFragment : Fragment() {
         // Is it your profile?
         ApiHelper.getUser { user ->
             if (userNotSelfId != null && userNotSelfId != user.id) {
+                //No
                 binding.settingsButton.visibility = View.GONE
                 binding.editProfileButton.visibility = View.GONE
 
                 // Follow
                 binding.followButton.visibility = View.VISIBLE
                 binding.followButton.setOnClickListener {
-                    viewModel.followUser(userNotSelfId)
+                    if (userNotSelfId != null) {
+                        viewModel.followUser(userNotSelfId)
+                    }
                 }
             } else {
+                //Yes
                 // Settings
                 binding.settingsButton.visibility = View.VISIBLE
                 binding.settingsButton.setOnClickListener {

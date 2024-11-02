@@ -17,15 +17,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tropicalias">
         <activity
+            android:name=".ui.mascot.EditMascotActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.posts.image.FullscreenImageActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Translucent" />
         <activity
             android:name=".ui.events.qrcode.QrCodeActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.events.eventdetails.EventActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -41,6 +48,7 @@
         <activity
             android:name=".ui.posts.postdetails.PostDetailsActivity"
             android:exported="true"
+            android:theme="@style/Theme.Tropicalias"
             android:screenOrientation="portrait">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />

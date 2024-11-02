@@ -25,7 +25,7 @@ interface ApiNoSQL {
     fun getPostById(@Path("id") id: String): Call<Post>
 
     @PATCH("/post/{id}")
-    fun addComment(@Path("id") id: Long, @Body comment: Comment): Call<Unit>
+    fun addComment(@Path("id") id: String, @Body comment: Comment): Call<Unit>
 
     @PATCH("/post/{id_post}/{id_user}")
     fun toggleLikePost(@Path("id_post") idPost: String, @Path("id_user") idUser: Long): Call<Int>

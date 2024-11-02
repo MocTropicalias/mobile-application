@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -16,7 +17,7 @@ import com.tropicalias.databinding.ItemProfilePictureBinding
 import com.tropicalias.databinding.ItemSetMascotBinding
 import com.tropicalias.databinding.ItemSetProfilePictureBinding
 import com.tropicalias.databinding.ModalProfilePictureBinding
-import com.tropicalias.utils.ApiHelper
+import com.tropicalias.ui.mascot.EditMascotActivity
 import com.tropicalias.utils.ImagePicker
 
 
@@ -159,7 +160,8 @@ class ProfileAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind() {
             binding.root.setOnClickListener {
-                // Open Mascot color selection screen
+                val intent = Intent(binding.root.context, EditMascotActivity::class.java)
+                startActivity(binding.root.context, intent, null)
             }
         }
     }
@@ -167,9 +169,7 @@ class ProfileAdapter(
     inner class MascotViewHolder(private val binding: ItemMascotBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind() {
-            binding.root.setOnClickListener {
-                // Open Mascot color selection screen
-            }
+
         }
     }
 }
