@@ -46,7 +46,11 @@ class SecurityViewModel : ViewModel() {
 
     }
 
-    private fun formatEmail(email: String): String {
+    private fun formatEmail(email: String?): String {
+        if (email == null) {
+            return ""
+        }
+
         val split = email.split("@")
         val len = split[0].length
 
