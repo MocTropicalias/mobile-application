@@ -12,6 +12,7 @@ import com.tropicalias.api.model.User
 import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.FragmentEditProfileBinding
 import com.tropicalias.utils.ApiHelper
+import com.tropicalias.utils.MascotHelper
 import retrofit2.Call
 import retrofit2.Response
 
@@ -29,7 +30,10 @@ class EditProfileViewModel : ViewModel() {
         ApiHelper.getUser { user ->
             binding.loading.visibility = View.GONE
             adapter.imageUri = user.imageUri
-            adapter.notifyDataSetChanged()
+            MascotHelper.getMascot(user.id!!) {
+                adapter.color = it.colorScheme
+                adapter.notifyDataSetChanged()
+            }
             binding.nameEditText.setText(user.exibitionName)
             binding.usernameEditText.setText(user.username)
             binding.bioEditText.setText(user.userDescription)

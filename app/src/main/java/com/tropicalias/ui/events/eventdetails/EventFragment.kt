@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.tropicalias.R
 import com.tropicalias.api.model.Ticket
@@ -39,6 +38,10 @@ class EventFragment() : Fragment() {
         }
 
         Log.d("EventFragmentgment", "onViewCreated: ${viewModel.eventId}")
+
+        viewModel.event?.let {
+            loadEvent(it)
+        }
 
         viewModel.loadEvent(viewModel.eventId) { event ->
             loadEvent(event)

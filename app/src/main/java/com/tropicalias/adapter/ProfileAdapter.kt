@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.tropicalias.R
+import com.tropicalias.api.model.Color
 import com.tropicalias.databinding.ItemMascotBinding
 import com.tropicalias.databinding.ItemProfilePictureBinding
 import com.tropicalias.databinding.ItemSetMascotBinding
@@ -19,6 +20,7 @@ import com.tropicalias.databinding.ItemSetProfilePictureBinding
 import com.tropicalias.databinding.ModalProfilePictureBinding
 import com.tropicalias.ui.mascot.EditMascotActivity
 import com.tropicalias.utils.ImagePicker
+import com.tropicalias.utils.MascotHelper
 
 
 class ProfileAdapter(
@@ -28,6 +30,8 @@ class ProfileAdapter(
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var imageUri: Uri? = null
+
+    var color: Color = Color()
 
     companion object {
         private const val VIEW_TYPE_PROFILE = 0
@@ -163,13 +167,20 @@ class ProfileAdapter(
                 val intent = Intent(binding.root.context, EditMascotActivity::class.java)
                 startActivity(binding.root.context, intent, null)
             }
+            MascotHelper.changeMascotColors(
+                color, binding.profileImageView,
+                binding.root.context, binding.profileImageView.background
+            )
         }
     }
 
     inner class MascotViewHolder(private val binding: ItemMascotBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind() {
-
+            MascotHelper.changeMascotColors(
+                color, binding.profileImageView,
+                binding.root.context, binding.profileImageView.background
+            )
         }
     }
 }

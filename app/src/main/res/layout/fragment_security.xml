@@ -159,7 +159,6 @@
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_button"
-                    android:backgroundTint="@color/grey"
                     android:text="Salvar"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"

@@ -26,6 +26,7 @@ import com.tropicalias.ui.posts.postdetails.PostDetailsActivity
 import com.tropicalias.ui.profile.edit.EditProfileActivity
 import com.tropicalias.ui.profile.settings.SettingsActivity
 import com.tropicalias.utils.ApiHelper
+import com.tropicalias.utils.MascotHelper
 import com.wajahatkarim3.easyflipviewpager.CardFlipPageTransformer2
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -174,8 +175,12 @@ class ProfileFragment : Fragment() {
         userNotSelfId: Long?
     ) {
         if (userNotSelfId != null) {
-            ApiHelper.loadProfile(userNotSelfId) {
-                viewModel.setData(it)
+            ApiHelper.loadProfile(userNotSelfId) { user ->
+                viewModel.setData(user)
+                MascotHelper.getMascot(user.id!!) {
+                    adapter.color = it.colorScheme
+                    adapter.notifyDataSetChanged()
+                }
             }
         } else {
             // It is my profile
@@ -183,8 +188,12 @@ class ProfileFragment : Fragment() {
             viewModel.setData(
                 User(fbuser?.displayName!!, fbuser.photoUrl)
             )
-            ApiHelper.getUser {
-                viewModel.setData(it)
+            ApiHelper.getUser { user ->
+                viewModel.setData(user)
+                MascotHelper.getMascot(user.id!!) {
+                    adapter.color = it.colorScheme
+                    adapter.notifyDataSetChanged()
+                }
             }
 
         }

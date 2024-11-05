@@ -2,6 +2,7 @@ package com.tropicalias.api.api
 
 import com.tropicalias.api.model.Color
 import com.tropicalias.api.model.Follow
+import com.tropicalias.api.model.Mascote
 import com.tropicalias.api.model.Ticket
 import com.tropicalias.api.model.User
 import retrofit2.Call
@@ -30,9 +31,12 @@ interface ApiSQL {
     @GET("/user/{id}")
     fun getUserProfileByID(@Path("id") id: Long): Call<User>
 
-
     @GET("/user")
     fun getAllUsers(): Call<List<User>>
+
+    @GET("/user/authorization/{email}/{senha}")
+    fun passwordMatch(@Path("email") email: String, @Path("senha") password: String): Call<Unit>
+
 
     @GET("/follow/countfollowers/{id}")
     fun getUserFollowersCount(@Path("id") id: String): Call<Int>
@@ -66,5 +70,11 @@ interface ApiSQL {
 
     @GET("/cor")
     fun getAllColors(): Call<List<Color>>
+
+    @PUT("/mascote/")
+    fun updateMascot(@Body mascot: Mascote): Call<Mascote>
+
+    @GET("/mascote/usermascote/{userId}")
+    fun getMascot(@Path("userId") userId: Long): Call<Mascote>
 
 }

@@ -29,23 +29,26 @@ class SecurityFragment : Fragment() {
 
         val yourUser = FirebaseAuth.getInstance().currentUser
         //🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄
-        binding.emailEditText.setText(yourUser?.email)
+
         viewModel.loadUser(binding)
 
 
         binding.saveButton.setOnClickListener {
-            val email = viewModel.checkEmail(binding.emailEditText.text.toString())
-            val password = viewModel.checkPassword(binding.passwordEditText.text.toString())
-            binding.loadingButton.visibility = View.VISIBLE
-            binding.saveButton.text = ""
+            val email = binding.emailEditText.text.toString()
+            val password = binding.passwordEditText.text.toString()
+            val passwordConfirmation = binding.confirmPasswordEditText.text.toString()
 
-            InputCheck.checkInputsEditSecurity(email, password, binding, requireContext()) { error ->
+            InputCheck.checkInputsEditSecurity(
+                email,
+                password,
+                passwordConfirmation,
+                binding,
+                requireContext()
+            ) { error ->
                 if (!error) {
-                    viewModel.saveUpdates(email, password, requireContext())
-                    requireActivity().onBackPressed()
+//                    viewModel.saveUpdates(email, password, requireContext())
+//                    requireActivity().onBackPressed()
                 }
-                binding.loadingButton.visibility = View.GONE
-                binding.saveButton.text = "Salvar"
             }
         }
 

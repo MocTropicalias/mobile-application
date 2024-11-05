@@ -5,6 +5,7 @@ import com.tropicalias.api.Retrofit
 import com.tropicalias.api.api.ApiNoSQL
 import com.tropicalias.api.api.ApiRedis
 import com.tropicalias.api.api.ApiSQL
+import com.tropicalias.api.model.Mascote
 import com.tropicalias.api.model.User
 
 class ApiRepository private constructor() {
@@ -19,6 +20,7 @@ class ApiRepository private constructor() {
             }
     }
 
+    val mascot: MutableLiveData<Mascote> = MutableLiveData()
     var user: MutableLiveData<User> = MutableLiveData()
     private var sqlAPi: ApiSQL? = getSQL()
     private var noSqlAPi: ApiNoSQL? = getNoSQL()

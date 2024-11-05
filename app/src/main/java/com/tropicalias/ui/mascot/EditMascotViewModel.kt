@@ -2,7 +2,9 @@ package com.tropicalias.ui.mascot
 
 import androidx.lifecycle.ViewModel
 import com.tropicalias.api.model.Color
+import com.tropicalias.api.model.Mascote
 import com.tropicalias.api.repository.ApiRepository
+import com.tropicalias.utils.ApiHelper
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -24,8 +26,36 @@ class EditMascotViewModel : ViewModel() {
                     getColors(callback)
                 }
             }
-
         })
+    }
+
+    lateinit var color: Color
+    lateinit var mascote: Mascote
+
+
+    fun saveColor(name: String, color: Color, callback: () -> Unit) {
+
+        ApiHelper.getUser { user ->
+            val mascoteUpd = Mascote(
+                mascote.id,
+                name,
+                user.id!!,
+                color
+            )
+            ApiRepository.getInstance().getSQL().updateMascot(mascoteUpd)
+                .enqueue(object : Callback<Mascote> {
+                    override fun onResponse(req: Call<Mascote>, res: Response<Mascote>) {
+                        ApiRepository.getInstance().mascot.value = res.body()
+                        callback()
+                    }
+
+                    override fun onFailure(req: Call<Mascote>, e: Throwable) {
+
+                    }
+
+                })
+        }
+
     }
 
 }

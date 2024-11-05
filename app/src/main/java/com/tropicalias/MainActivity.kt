@@ -1,23 +1,16 @@
 package com.tropicalias
 
-import android.Manifest
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
+import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.ActivityMainBinding
 import com.tropicalias.utils.RequestPermission
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,9 +27,30 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(binding.navView, navController)
 
         RequestPermission.requestNotificationPermission(this, this)
+
+        ApiRepository.getInstance().getRedis().incr().enqueue(object : Callback<Unit> {
+            override fun onResponse(p0: Call<Unit>, p1: Response<Unit>) {
+
+            }
+
+            override fun onFailure(p0: Call<Unit>, p1: Throwable) {
+
+            }
+
+        })
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        ApiRepository.getInstance().getRedis().decr().enqueue(object : Callback<Unit> {
+            override fun onResponse(p0: Call<Unit>, p1: Response<Unit>) {
 
+            }
 
+            override fun onFailure(p0: Call<Unit>, p1: Throwable) {
+
+            }
+        })
+    }
 
 }

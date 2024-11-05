@@ -12,10 +12,32 @@ data class Color(
     val colorBackground: String
 ) {
 
-    val colorPrimaryHex: String get() = "#$colorPrimary"
+    constructor() : this(
+        0, "006996", "E45F15", "32B6F4"
+    )
 
-    val colorSecondaryHex: String get() = "#$colorSecondary"
+    val colorPrimaryHex: String
+        get() {
+            if (colorPrimary[0] == '#') {
+                return colorPrimary
+            }
+            return "#$colorPrimary"
+        }
 
-    val colorBackgroundHex: String get() = "#$colorBackground"
+    val colorSecondaryHex: String
+        get() {
+            if (colorSecondary[0] == '#') {
+                return colorSecondary
+            }
+            return "#$colorSecondary"
+        }
+
+    val colorBackgroundHex: String
+        get() {
+            if (colorBackground[0] == '#') {
+                return colorBackground
+            }
+            return "#$colorBackground"
+        }
 }
 

@@ -55,6 +55,7 @@ class SettingsFragment : Fragment() {
         binding.logoutButton.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             ApiRepository.getInstance().user.value = null
+            ApiRepository.getInstance().mascot.value = null
             val intent = Intent(requireContext(), AuthenticationActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)

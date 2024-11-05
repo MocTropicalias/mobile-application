@@ -11,7 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.tropicalias.MainActivity
 import com.tropicalias.adapter.ProfileAdapter
+import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.FragmentProfilePictureBinding
+import com.tropicalias.utils.ApiHelper
+import com.tropicalias.utils.MascotHelper
 import com.wajahatkarim3.easyflipviewpager.CardFlipPageTransformer2
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -73,6 +76,19 @@ class ProfilePictureFragment : Fragment() {
         // Assign the page transformer to the ViewPager2.
         binding.viewPager.setPageTransformer(cardFlipPageTransformer)
 
+        ApiHelper.getUser { user ->
+            MascotHelper.getMascot(user.id!!) {
+                adapter.color = it.colorScheme
+                adapter.notifyDataSetChanged()
+            }
+        }
+
+        ApiRepository.getInstance().mascot.observe(viewLifecycleOwner) {
+            if (it != null) {
+                adapter.color = it.colorScheme
+                adapter.notifyDataSetChanged()
+            }
+        }
 
 
         binding.continueButton.setOnClickListener {

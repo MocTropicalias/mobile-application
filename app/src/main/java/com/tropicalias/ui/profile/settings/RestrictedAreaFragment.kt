@@ -1,20 +1,16 @@
 package com.tropicalias.ui.profile.settings
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
-import com.tropicalias.R
+import androidx.fragment.app.Fragment
 import com.tropicalias.databinding.FragmentRestrictedAreaBinding
-import com.tropicalias.databinding.FragmentSecurityBinding
 
 class RestrictedAreaFragment : Fragment() {
 
     private var _binding: FragmentRestrictedAreaBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: SecurityViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,7 +28,7 @@ class RestrictedAreaFragment : Fragment() {
         }
 
 
-        binding.webViewRestricted.loadUrl("")
+        binding.webViewRestricted.loadUrl("https://app.powerbi.com/view?r=eyJrIjoiNTFlMWM2MTYtZjc1NC00NmVmLTk1OTktM2ZiYTUyNDI3ZWI3IiwidCI6ImIxNDhmMTRjLTIzOTctNDAyYy1hYjZhLTFiNDcxMTE3N2FjMCJ9")
 
 
     }

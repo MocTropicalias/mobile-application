@@ -1,6 +1,8 @@
 package com.tropicalias.utils
 
 import android.content.Context
+import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
 import com.tropicalias.api.model.User
 import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.FragmentEditProfileBinding
@@ -10,6 +12,7 @@ import com.tropicalias.databinding.FragmentSecurityBinding
 import com.tropicalias.utils.DrawableHandler.Companion.setInvalidDrawable
 import com.tropicalias.utils.DrawableHandler.Companion.setValidDrawable
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 import java.util.regex.Pattern
 
@@ -189,8 +192,9 @@ class InputCheck {
         }
 
         fun checkInputsEditSecurity(
-            email: String?,
-            password: String?,
+            email: String,
+            password: String,
+            passwordConfirmation: String,
             binding: FragmentSecurityBinding,
             context: Context,
             callback: (hasError: Boolean) -> Unit
@@ -207,7 +211,7 @@ class InputCheck {
 
             // Validations
             // Email
-            if (email != null) {
+            if (email != "") {
                 erro = isValidEmail(email)
                 if (erro != null) {
                     binding.emailErrorTextView.text = erro
@@ -216,7 +220,7 @@ class InputCheck {
                 }
             }
             // Password
-            if (password != null) {
+            if (password != "") {
                 erro = isValidPassword(password)
                 if (erro != null) {
                     binding.passwordErrorTextView.text = erro
@@ -224,7 +228,40 @@ class InputCheck {
                     hasError = true
                 }
             }
-            callback(hasError)
+            //Password Confirmation
+            isPasswordCorrect(passwordConfirmation) { passwordMatch ->
+                Log.d("SECURITY", "checkInputsEditSecurity: $passwordMatch")
+                if (!passwordMatch) {
+                    binding.confirmPasswordErrorTextView.text = "Senha incorreta"
+                    setInvalidDrawable(binding.confirmPasswordEditText, context)
+                    hasError = true
+                }
+                callback(hasError)
+            }
+        }
+
+        private fun isPasswordCorrect(
+            passwordConfirmation: String,
+            callback: (passwordMatch: Boolean) -> Unit
+        ) {
+
+            ApiRepository.getInstance().getSQL().passwordMatch(
+                FirebaseAuth.getInstance().currentUser?.email!!,
+                passwordConfirmation
+            ).enqueue(object : Callback<Unit> {
+                override fun onResponse(req: Call<Unit>, res: Response<Unit>) {
+                    if (listOf(200, 403).contains(res.code())) {
+                        callback(true)
+                    } else {
+                        callback(false)
+                    }
+                }
+
+                override fun onFailure(req: Call<Unit>, e: Throwable) {
+                    Log.d("isPasswordCorrect", "onResponse: ${e.message}")
+                }
+
+            })
 
         }
 

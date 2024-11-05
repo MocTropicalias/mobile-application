@@ -16,32 +16,14 @@ class SecurityViewModel : ViewModel() {
 
     private val repository = ApiRepository.getInstance()
     val user = repository.user
-    val apiSQL = repository.getSQL()
 
     fun loadUser(binding: FragmentSecurityBinding) {
-
         binding.loading.visibility = View.VISIBLE
-        binding.loading.setOnClickListener { }
+
         ApiHelper.getUser { user ->
             binding.loading.visibility = View.GONE
-            binding.emailEditText.setHint(formatEmail(user.email))
+            binding.emailEditText.setHint(formatEmail(FirebaseAuth.getInstance().currentUser?.email))
             binding.passwordEditText.setHint("******")
-
-
-            binding.emailEditText.onFocusChangeListener =
-                View.OnFocusChangeListener { _, hasFocus ->
-                    if (hasFocus) {
-                        if (binding.emailEditText.text.toString() == formatEmail(user.email)) {
-                            binding.emailEditText.setText("")
-                        }
-                }
-                }
-            binding.passwordEditText.onFocusChangeListener =
-                View.OnFocusChangeListener { _, hasFocus ->
-                    if (hasFocus) {
-                        binding.emailEditText.setText("")
-                    }
-            }
         }
 
     }
@@ -53,23 +35,23 @@ class SecurityViewModel : ViewModel() {
 
         val split = email.split("@")
         val len = split[0].length
-
-        return split[0].substring(0, 3) + "***" + split[0].substring(len - 3, len) + "@" + split[1]
+        return split[0].substring(0, 2) + "***" + split[0].substring(len - 2, len) + "@" + split[1]
     }
 
-    fun saveUpdates(email: String?, password: String?, con: Context) {
+    fun saveUpdates(email: String, password: String, con: Context) {
 
-        if (password != null) {
-            FirebaseAuth.getInstance().currentUser?.updatePassword(password)
-        }
+        ApiHelper.getUser { user ->
+            if (password != "") {
+                FirebaseAuth.getInstance().currentUser?.updatePassword(password)
+                user.email = password
+            }
 
-        if (email != null) {
-            user.value?.email = email
-            user.value?.let { user ->
-                apiSQL.updateUserProfile(user, user.id!!.toString())
+            if (email != "") {
+                user.email = email
+                ApiRepository.getInstance().getSQL().updateUserProfile(user, user.id!!.toString())
                     .enqueue(object : retrofit2.Callback<User> {
                         override fun onResponse(req: Call<User>, res: Response<User>) {
-                            repository.user.value = res.body()
+                            ApiRepository.getInstance().user.value = res.body()
                         }
 
                         override fun onFailure(req: Call<User>, t: Throwable) {
@@ -80,21 +62,8 @@ class SecurityViewModel : ViewModel() {
                             ).show()
                         }
                     })
+                FirebaseAuth.getInstance().currentUser?.verifyBeforeUpdateEmail(email)
             }
         }
-    }
-
-    fun checkPassword(pass: String): String? {
-        if (pass == user.value?.password) {
-            return null
-        }
-        return null
-    }
-
-    fun checkEmail(email: String): String? {
-        if (email == user.value?.email?.let { formatEmail(it) }) {
-            return null
-        }
-        return email
     }
 }
