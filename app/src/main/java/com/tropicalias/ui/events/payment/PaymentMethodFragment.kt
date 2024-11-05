@@ -6,11 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.tropicalias.R
 import com.tropicalias.databinding.FragmentPaymentMethodBinding
-import com.tropicalias.databinding.FragmentPaymentSummaryBinding
-import com.tropicalias.databinding.FragmentSuccessBinding
 import com.tropicalias.ui.events.eventdetails.EventViewModel
 import com.tropicalias.ui.events.eventdetails.TicketFragment
 
@@ -33,12 +30,14 @@ class PaymentMethodFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.voltarPaymentMethodImageView.setOnClickListener {
-            requireActivity().onBackPressed()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.container, TicketFragment())
+                .commitNow()
         }
 
         binding.pagamentoPixButton.setOnClickListener {
             parentFragmentManager.beginTransaction()
-                .replace(R.id.container, TicketFragment())
+                .replace(R.id.container, PaymentSummaryFragment())
                 .commitNow()
         }
 

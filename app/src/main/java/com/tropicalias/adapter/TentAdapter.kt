@@ -2,12 +2,9 @@ package com.tropicalias.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.tropicalias.R
 import com.tropicalias.api.model.Tent
 import com.tropicalias.databinding.ItemTentBinding
-import com.tropicalias.ui.events.eventdetails.TentDetailsFragment
 
 
 //import com.google.zxing.BarcodeFormat
@@ -15,7 +12,8 @@ import com.tropicalias.ui.events.eventdetails.TentDetailsFragment
 //import com.google.zxing.common.BitMatrix
 //import com.google.zxing.pdf417.PDF417Writer
 
-class TentAdapter(val tents: List<Tent>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TentAdapter(val tents: List<Tent>, val flipView: (Tent) -> Unit) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return TentViewHolder(
             ItemTentBinding.inflate(
@@ -38,9 +36,10 @@ class TentAdapter(val tents: List<Tent>) : RecyclerView.Adapter<RecyclerView.Vie
             binding.tentNameTextView.text = tent.name
             binding.ticketCostTextView.text = tent.ticketPrice.toString()
             binding.buyButton.setOnClickListener { v ->
-                (v.context as FragmentActivity).supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, TentDetailsFragment())
-                    .commit()
+//                (v.context as FragmentActivity).supportFragmentManager.beginTransaction()
+//                    .replace(R.id.container, TentDetailsFragment())
+//                    .commit()
+                flipView(tent)
             }
         }
     }

@@ -4,28 +4,28 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.app.DatePickerDialog
-import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tropicalias.R
 import com.tropicalias.adapter.TentAdapter
+import com.tropicalias.api.model.Tent
 import com.tropicalias.databinding.FragmentTicketBinding
 import com.tropicalias.ui.events.payment.PaymentMethodFragment
-import com.tropicalias.ui.profile.settings.SettingsActivity
-import kotlin.time.times
 
 class TicketFragment : Fragment() {
 
     private var _binding: FragmentTicketBinding? = null
     private val binding get() = _binding!!
     private val viewModel: EventViewModel by activityViewModels()
+    private var initialAmount = 0
 
     private lateinit var fromDatePickerDialog: DatePickerDialog
 
@@ -42,18 +42,23 @@ class TicketFragment : Fragment() {
 
 
         binding.botaoFecharTicketImageButton.setOnClickListener {
-            flipView()
-//            requireActivity().onBackPressed()
+            if (viewNotFlipped) {
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.container, EventFragment())
+                    .commitNow()
+            } else {
+                flipView()
+            }
         }
 
-        Log.d("TicketFragment", "onViewCreated: ${viewModel.event}")
-        val initialAmount = viewModel.event?.amount!!
+        initialAmount = viewModel.event?.amount!!
         var buyingAmount = 0
+
 
         binding.quantTicketsTextView.text = "${initialAmount}"
 
         binding.ComprarMenosImageButton.visibility = View.INVISIBLE
-        binding.UsarTicketButton.visibility = View.GONE
+        binding.UsarTicketButton.visibility = View.INVISIBLE
         binding.precoTicketTextView.text = ""
         binding.ComprarMenosImageButton.setOnClickListener {
             Log.d("TicketFragment", "onViewCreated initital amount: ${initialAmount}")
@@ -62,7 +67,7 @@ class TicketFragment : Fragment() {
                 buyingAmount = 0
                 binding.ComprarMenosImageButton.visibility = View.INVISIBLE
                 binding.quantTicketsTextView.text = "${initialAmount + buyingAmount}"
-                binding.UsarTicketButton.visibility = View.GONE
+                binding.UsarTicketButton.visibility = View.INVISIBLE
                 binding.precoTicketTextView.text = ""
             } else {
                 buyingAmount -= 1
@@ -90,16 +95,34 @@ class TicketFragment : Fragment() {
                 .commitNow()
         }
 
-        val adapter = TentAdapter(viewModel.event!!.event.barracas)
+        val adapter = TentAdapter(viewModel.event!!.event.barracas) { tent -> flipView(tent) }
         binding.listaProdutosRecyclerView.adapter = adapter
         binding.listaProdutosRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
     }
 
-    private fun flipView() {
-        val showTicketLayout = binding.TicketLayout?.visibility == View.GONE
+    private var viewNotFlipped = true
+    private fun flipView(tent: Tent? = null) {
+        val showTicketLayout =
+            !viewNotFlipped // Toggle between Ticket and Tent layout based on viewFlipped state
 
-        // Animate rotation to 90 degrees
+        // Set text values for the Ticket layout
+        if (tent != null) {
+            binding.tentTextView.text = tent.name
+            binding.amountNowTextView.text = initialAmount.toString()
+            binding.amountNeededTextView.text = tent.ticketPrice.toString()
+            binding.amountResultTextView.text = (initialAmount - tent.ticketPrice).toString()
+            binding.concluirCompraButton2.text = "Usar Tickets"
+            binding.concluirCompraButton2.backgroundTintList =
+                ColorStateList.valueOf(getColor(requireContext(), R.color.azul_claro))
+            if ((initialAmount - tent.ticketPrice) < 0) {
+                binding.concluirCompraButton2.backgroundTintList =
+                    ColorStateList.valueOf(getColor(requireContext(), R.color.vermelho))
+                binding.concluirCompraButton2.text = "Tickets Insuficientes"
+            }
+        }
+
+        // Animate rotation to 90 degrees (first half of flip)
         val animator = ObjectAnimator.ofFloat(
             if (showTicketLayout) binding.TentLayout else binding.TicketLayout,
             "rotationY",
@@ -113,10 +136,10 @@ class TicketFragment : Fragment() {
                 super.onAnimationEnd(animation)
 
                 // Toggle visibility of the layouts at halfway point
-                binding.TicketLayout?.visibility = if (showTicketLayout) View.VISIBLE else View.GONE
-                binding.TentLayout?.visibility = if (showTicketLayout) View.GONE else View.VISIBLE
+                binding.TicketLayout.visibility = if (showTicketLayout) View.VISIBLE else View.GONE
+                binding.TentLayout.visibility = if (showTicketLayout) View.GONE else View.VISIBLE
 
-                // Animate back from -90 to 0 degrees
+                // Animate back from -90 to 0 degrees (second half of flip)
                 val reverseAnimator = ObjectAnimator.ofFloat(
                     if (showTicketLayout) binding.TicketLayout else binding.TentLayout,
                     "rotationY",
@@ -129,9 +152,8 @@ class TicketFragment : Fragment() {
         })
 
         animator.start()
+        viewNotFlipped = !viewNotFlipped // Toggle the flip state
     }
-
-
 
 
     override fun onDestroyView() {

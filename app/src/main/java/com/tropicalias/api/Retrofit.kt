@@ -21,7 +21,7 @@ class Retrofit {
         SQL("https://tropicalias-api-dev.onrender.com/"),
         NOSQL("https://mongo-api-dev.onrender.com/"),
         REDIS("https://apiredis.onrender.com/"),
-        LANDINGPAGE("https://landing-page-lw54.onrender.com")
+        LANDING_PAGE("https://landing-page-lw54.onrender.com")
     }
 
 

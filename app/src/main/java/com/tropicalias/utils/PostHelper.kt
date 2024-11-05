@@ -13,7 +13,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import com.bumptech.glide.Glide
 import com.tropicalias.R
-import com.tropicalias.api.Retrofit.ApiType.LANDINGPAGE
+import com.tropicalias.api.Retrofit.ApiType.LANDING_PAGE
 import com.tropicalias.api.model.Post
 import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.ActivityPostDetailsBinding
@@ -163,7 +163,7 @@ class PostHelper<T : PostBinding>(private val binding: T) {
             action = Intent.ACTION_SEND
             putExtra(
                 Intent.EXTRA_TEXT,
-                "Check out this post: ${LANDINGPAGE.url}/post/?postId=$postId"
+                "Check out this post: ${LANDING_PAGE.url}/post/?postId=$postId"
             ) //${dynamicLink.uri}")
             type = "text/plain"
         }

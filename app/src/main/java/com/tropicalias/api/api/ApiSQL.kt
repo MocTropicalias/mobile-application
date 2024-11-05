@@ -65,7 +65,7 @@ interface ApiSQL {
     @GET("/ticket/user/{userId}")
     fun getUserRegisteredEvents(@Path("userId") userId: Long): Call<List<Ticket>>
 
-    @PATCH("/ticket/addTickets/")
+    @PATCH("/ticket/addTickets")
     fun addTickets(@Query("id") eventId: Long, @Query("tickets") ticketAmount: Int): Call<Ticket>
 
     @GET("/cor")

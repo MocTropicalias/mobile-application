@@ -20,10 +20,9 @@ import com.google.common.util.concurrent.ListenableFuture
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
 import com.tropicalias.R
-import com.tropicalias.api.Retrofit.ApiType.LANDINGPAGE
+import com.tropicalias.api.Retrofit.ApiType.LANDING_PAGE
 import com.tropicalias.databinding.ActivityQrCodeBinding
 import com.tropicalias.ui.events.eventdetails.EventActivity
-import com.tropicalias.ui.posts.postdetails.PostDetailsActivity
 import com.tropicalias.utils.RequestPermission
 
 class QrCodeActivity : AppCompatActivity() {
@@ -86,7 +85,7 @@ class QrCodeActivity : AppCompatActivity() {
     }
 
     private fun matchesUrl(url: String): Boolean {
-        val deepLinkPattern = Regex("^${LANDINGPAGE.url}/event.*$")
+        val deepLinkPattern = Regex("^${LANDING_PAGE.url}/event.*$")
         return deepLinkPattern.matches(url)
     }
 
