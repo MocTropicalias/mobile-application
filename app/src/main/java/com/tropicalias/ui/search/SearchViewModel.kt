@@ -25,13 +25,13 @@ class SearchViewModel : ViewModel() {
             override fun onResponse(req: Call<List<Post>>, res: Response<List<Post>>) {
                 adapter.posts = emptyList()
                 adapter.notifyDataSetChanged()
-                binding.loading.visibility = View.GONE
+                binding.loading?.visibility = View.GONE
                 res.body()?.let {
                     adapter.posts = res.body()!!
                     adapter.notifyDataSetChanged()
                 }
                 if (adapter.posts.isEmpty()) {
-                    binding.notFoundLayout.visibility = View.VISIBLE
+                    binding.notFoundLayout?.visibility = View.VISIBLE
                 }
             }
 

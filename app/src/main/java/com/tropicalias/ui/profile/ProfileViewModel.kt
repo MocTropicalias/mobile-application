@@ -43,18 +43,8 @@ class ProfileViewModel : ViewModel() {
         binding.descriptionTextView.text = user.userDescription
 
         // Followers
-        binding.followersTextView.text = "0"
+        binding.followersTextView.text = (user.followersCount ?: "").toString()
         user.id?.let {
-            apiSQL.getUserFollowersCount(it.toString()).enqueue(object : Callback<Int> {
-                override fun onResponse(req: Call<Int>, res: Response<Int>) {
-                    binding.followersTextView.text = res.body().toString()
-                }
-
-                override fun onFailure(req: Call<Int>, e: Throwable) {
-                    Log.e(TAG, "onFailure: $e")
-                }
-            })
-
             ApiHelper.getUser { myuser ->
                 apiSQL.getFollowUser(user.id, myuser.id!!).enqueue(object : Callback<Follow> {
                     override fun onResponse(req: Call<Follow>, res: Response<Follow>) {

@@ -16,9 +16,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Tropicalias">
+        <service
+            android:name=".ui.posts.newpost.NewPostService"
+            android:enabled="true"
+            android:exported="false" />
+
         <activity
             android:name=".ui.mascot.EditMascotActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.posts.image.FullscreenImageActivity"
@@ -48,8 +54,8 @@
         <activity
             android:name=".ui.posts.postdetails.PostDetailsActivity"
             android:exported="true"
-            android:theme="@style/Theme.Tropicalias"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Tropicalias">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -62,10 +68,6 @@
                 <data android:pathPrefix="/post" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.events.payment.PaymentActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.posts.newpost.NewPostActivity"
             android:exported="false"

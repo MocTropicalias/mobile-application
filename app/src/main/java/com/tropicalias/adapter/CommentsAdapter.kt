@@ -1,5 +1,6 @@
 package com.tropicalias.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,11 @@ import com.bumptech.glide.Glide
 import com.tropicalias.api.model.Comment
 import com.tropicalias.databinding.ItemCommentBinding
 import com.tropicalias.utils.ApiHelper
+import com.tropicalias.utils.PostHelper
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 class CommentsAdapter(var comments: List<Comment>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -26,6 +32,7 @@ class CommentsAdapter(var comments: List<Comment>) :
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        Log.d("CommentsAdapter", "onBindViewHolder: ${comments[position]}")
         (holder as CommentViewHolder).bind(comments[position])
     }
 
@@ -41,6 +48,7 @@ class CommentsAdapter(var comments: List<Comment>) :
 
             binding.profileNameCommentTextView.text = comment.userName
             binding.commentContentTextView.text = comment.content
+            binding.dateTextView.text = comment.date?.let { dateFormat(it) }
 
             //Loading profile
             ApiHelper.loadProfile(comment.userId) {
@@ -60,6 +68,35 @@ class CommentsAdapter(var comments: List<Comment>) :
 
 
         }
+
+        fun dateFormat(date: Date): String {
+            val now = Date()
+            val diffInMillis = now.time - date.time
+
+            return when {
+                diffInMillis < TimeUnit.HOURS.toMillis(1) -> {
+                    val minutes = TimeUnit.MILLISECONDS.toMinutes(diffInMillis)
+                    "$minutes minutos atrás"
+                }
+
+                diffInMillis < TimeUnit.DAYS.toMillis(1) -> {
+                    val hours = TimeUnit.MILLISECONDS.toHours(diffInMillis)
+                    "$hours horas atrás"
+                }
+
+                diffInMillis < TimeUnit.DAYS.toMillis(7) -> {
+                    val days = TimeUnit.MILLISECONDS.toDays(diffInMillis)
+                    "$days dias atrás"
+                }
+
+                else -> {
+                    val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale("pt", "BR"))
+                    dateFormat.format(date)
+                }
+            }
+        }
+
+
     }
 
 }

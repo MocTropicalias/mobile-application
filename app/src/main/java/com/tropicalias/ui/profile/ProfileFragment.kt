@@ -116,6 +116,13 @@ class ProfileFragment : Fragment() {
             }
         }
 
+        binding.settingsButton.setOnClickListener {
+            startActivity(Intent(requireContext(), SettingsActivity::class.java))
+        }
+        binding.editProfileButton.setOnClickListener {
+            startActivity(Intent(requireContext(), EditProfileActivity::class.java))
+        }
+
         // Is it your profile?
         ApiHelper.getUser { user ->
             if (userNotSelfId != null && userNotSelfId != user.id) {

@@ -39,24 +39,28 @@ interface PostBinding {
     val likePostImageButton: ImageButton
     val image: ItemProfilePictureBinding
     val nav: NavController?
+    val likePostTextView: TextView
 }
 
 fun ItemPostBinding.toPostBinding(navController: NavController?): PostBinding =
     object : PostBinding {
-    override val root = this@toPostBinding.root
-    override val profileNameTextView = this@toPostBinding.profileNameTextView
-    override val likePostImageButton = this@toPostBinding.likePostImageButton
-    override val image = this@toPostBinding.image
+        override val root = this@toPostBinding.root
+        override val profileNameTextView = this@toPostBinding.profileNameTextView
+        override val likePostImageButton = this@toPostBinding.likePostImageButton
+        override val image = this@toPostBinding.image
         override val nav = navController
-}
+        override val likePostTextView = this@toPostBinding.likePostTextView
+    }
 
 fun ActivityPostDetailsBinding.toPostBinding(navController: NavController?): PostBinding =
     object : PostBinding {
-    override val root = this@toPostBinding.root
-    override val profileNameTextView = this@toPostBinding.profilePostNameTextView
-    override val likePostImageButton = this@toPostBinding.likePostFullImageButton
-    override val image = this@toPostBinding.image
+        override val root = this@toPostBinding.root
+        override val profileNameTextView = this@toPostBinding.profilePostNameTextView
+        override val likePostImageButton = this@toPostBinding.likePostImageButton
+        override val image = this@toPostBinding.image
         override val nav = navController
+        override val likePostTextView = this@toPostBinding.likePostTextView
+
 }
 
 class PostHelper<T : PostBinding>(private val binding: T) {
@@ -81,13 +85,13 @@ class PostHelper<T : PostBinding>(private val binding: T) {
     }
 
     fun loadUser(post: Post) {
-        if (post.userPhoto != null) {
-            Glide.with(binding.root.context)
-                .load(post.userPhoto)
-                .into(binding.image.profilePictureImageView)
-            binding.image.imageTemplate.visibility = View.GONE
-        }
-        binding.profileNameTextView.text = post.userName
+//        if (post.userPhoto != null) {
+//            Glide.with(binding.root.context)
+//                .load(post.userPhoto)
+//                .into(binding.image.profilePictureImageView)
+//            binding.image.imageTemplate.visibility = View.GONE
+//        }
+//        binding.profileNameTextView.text = post.userName
 
         ApiHelper.loadProfile(post.userId) {
             binding.profileNameTextView.text = it.exibitionName ?: it.username
@@ -136,12 +140,13 @@ class PostHelper<T : PostBinding>(private val binding: T) {
         ApiHelper.getUser {
             ApiRepository.getInstance().getNoSQL().toggleLikePost(post.id!!, it.id!!)
                 .enqueue(object :
-                    Callback<Int> {
-                    override fun onResponse(req: Call<Int>, res: Response<Int>) {
+                    Callback<Post> {
+                    override fun onResponse(req: Call<Post>, res: Response<Post>) {
+                        binding.likePostTextView.text = res.body()?.likes?.size.toString()
                         Log.d("PostAdapter", "Quantidades de likes no post: ${res.body()}")
                     }
 
-                    override fun onFailure(req: Call<Int>, e: Throwable) {
+                    override fun onFailure(req: Call<Post>, e: Throwable) {
                         Log.d("PostAdapter", "Erro ao dar like: ${e.message}")
                     }
 

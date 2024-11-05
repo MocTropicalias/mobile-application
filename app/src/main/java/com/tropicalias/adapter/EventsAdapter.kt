@@ -1,17 +1,24 @@
 package com.tropicalias.adapter
 
+import android.content.Intent
+import android.net.Uri
+import android.os.Bundle
 import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.tropicalias.api.model.Event
+import com.tropicalias.api.model.Ticket
 import com.tropicalias.databinding.ItemEventBinding
+import com.tropicalias.ui.events.eventdetails.EventActivity
+import com.tropicalias.utils.ApiHelper
 
-class EventsAdapter(var posts: List<Event>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+class EventsAdapter(var eventTickets: List<Ticket>) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return PostViewHolder(
+        return EventViewHolder(
             ItemEventBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -20,22 +27,35 @@ class EventsAdapter(var posts: List<Event>) : RecyclerView.Adapter<RecyclerView.
         )
     }
 
-    override fun getItemCount(): Int = posts.size
+    override fun getItemCount(): Int = eventTickets.size
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as PostViewHolder).bind(posts[position])
+        (holder as EventViewHolder).bind(eventTickets[position])
     }
 
-    inner class PostViewHolder(val binding: ItemEventBinding) :
+    inner class EventViewHolder(val binding: ItemEventBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(event: Event) {
+        fun bind(eventTicket: Ticket) {
+            val event = eventTicket.event
+
             binding.eventoTituloTextView.text = event.title
-            binding.dataEventoTextView.text = DateFormat.format("dd/MM/yyyy", event.date)
+            binding.dataEventoTextView.text = DateFormat.format("dd/MM/yyyy", event.startDate)
             binding.enderecoEventoTextView.text = event.local
-            Glide.with(binding.root.context)
-                .load(event.eventImage)
-                .into(binding.eventoImageView)
+//            Glide.with(binding.root.context)
+//                .load(event.eventImage)
+//                .into(binding.eventoImageView)
+            binding.root.setOnClickListener {
+                val intent = Intent(binding.root.context, EventActivity::class.java)
+                val uri = Uri.parse("tropicalias://event/?eventId=${event.id}")
+
+                val args = Bundle()
+                val personJsonString: String = ApiHelper.getGsonParser().toJson(eventTicket)
+                args.putString("eventTicket", personJsonString)
+
+                intent.data = uri
+                startActivity(binding.root.context, intent, args)
+            }
         }
     }
 

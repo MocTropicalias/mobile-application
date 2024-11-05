@@ -15,6 +15,7 @@
         android:padding="24dp">
 
         <LinearLayout
+            android:id="@+id/linearLayout3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -22,14 +23,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/dateTextView">
 
-            <ImageButton
-                android:id="@+id/seeMoreImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:background="@color/transparent"
-                android:padding="8dp"
-                app:srcCompat="@drawable/ic_mais" />
+            <!--            <ImageButton-->
+            <!--                android:id="@+id/seeMoreImageButton"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_margin="8dp"-->
+            <!--                android:background="@color/transparent"-->
+            <!--                android:padding="8dp"-->
+            <!--                app:srcCompat="@drawable/ic_mais" />-->
 
             <ImageButton
                 android:id="@+id/shareImageButton"
@@ -59,6 +60,36 @@
                 app:srcCompat="@drawable/ic_like" />
 
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout3"
+            app:layout_constraintTop_toTopOf="@+id/linearLayout3">
+
+            <TextView
+                android:id="@+id/commentsTextView"
+                android:layout_width="54dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@color/transparent"
+                android:text="0"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/likePostTextView"
+                android:layout_width="54dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@color/transparent"
+                android:text="0"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/profileImageView"

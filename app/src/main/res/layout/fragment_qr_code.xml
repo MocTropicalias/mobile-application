@@ -50,10 +50,22 @@
             android:drawableRight="@drawable/ic_copy"
             android:drawablePadding="-20dp"
             android:gravity="center"
-            android:paddingTop="20dp"
+            android:layout_marginTop="16dp"
+            android:padding="8dp"
             android:text="@string/copy_pix"
             android:textColor="@color/white"
             android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/concluirCompraButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_button"
+            android:backgroundTint="@color/azul_claro"
+            android:paddingHorizontal="64dp"
+            android:text="Continuar" />
 
     </LinearLayout>
 

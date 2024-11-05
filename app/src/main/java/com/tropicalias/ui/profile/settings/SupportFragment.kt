@@ -1,3 +1,4 @@
+
 package com.tropicalias.ui.profile.settings;
 
 import android.os.Bundle
@@ -28,6 +29,9 @@ class SupportFragment : Fragment() {
         binding.imageViewCloseSupport.setOnClickListener {
             requireActivity().onBackPressed()
         }
+
+        binding.webViewSupport.loadUrl("")
+
     }
 
     override fun onDestroyView() {

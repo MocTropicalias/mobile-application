@@ -56,6 +56,18 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
+        <Button
+            android:id="@+id/concluirCompraButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_button"
+            android:backgroundTint="@color/azul_claro"
+            android:paddingHorizontal="64dp"
+            android:text="Continuar" />
+
+
     </LinearLayout>
 
     <ImageView

@@ -1,6 +1,8 @@
 package com.tropicalias.utils
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.tropicalias.api.model.Post
 import com.tropicalias.api.model.User
 import com.tropicalias.api.repository.ApiRepository
@@ -14,8 +16,19 @@ import retrofit2.Call
 import retrofit2.Response
 import java.nio.charset.StandardCharsets
 
+
 class ApiHelper {
     companion object {
+
+        private var gson: Gson? = null
+
+        fun getGsonParser(): Gson {
+            if (gson == null) {
+                val builder = GsonBuilder()
+                gson = builder.create()
+            }
+            return gson!!
+        }
 
         fun bodyToString(requestBody: RequestBody?): String {
             return try {

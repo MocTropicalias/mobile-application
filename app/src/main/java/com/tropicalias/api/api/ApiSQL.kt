@@ -1,6 +1,8 @@
 package com.tropicalias.api.api
 
+import com.tropicalias.api.model.Color
 import com.tropicalias.api.model.Follow
+import com.tropicalias.api.model.Ticket
 import com.tropicalias.api.model.User
 import retrofit2.Call
 import retrofit2.http.Body
@@ -9,6 +11,7 @@ import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiSQL {
 
@@ -52,5 +55,16 @@ interface ApiSQL {
     @GET("follow/{id}")
     fun getUsersFollowing(@Path("id") id: Long): Call<List<User>>
 
+    @POST("/ticket/")
+    fun createTicket(@Query("idEvent") eventId: Long, @Query("idUser") userId: Long): Call<Ticket>
+
+    @GET("/ticket/user/{userId}")
+    fun getUserRegisteredEvents(@Path("userId") userId: Long): Call<List<Ticket>>
+
+    @PATCH("/ticket/addTickets/")
+    fun addTickets(@Query("id") eventId: Long, @Query("tickets") ticketAmount: Int): Call<Ticket>
+
+    @GET("/cor")
+    fun getAllColors(): Call<List<Color>>
 
 }

@@ -1,5 +1,7 @@
 package com.tropicalias.ui.events.qrcode
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Surface
@@ -18,7 +20,10 @@ import com.google.common.util.concurrent.ListenableFuture
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
 import com.tropicalias.R
+import com.tropicalias.api.Retrofit.ApiType.LANDINGPAGE
 import com.tropicalias.databinding.ActivityQrCodeBinding
+import com.tropicalias.ui.events.eventdetails.EventActivity
+import com.tropicalias.ui.posts.postdetails.PostDetailsActivity
 import com.tropicalias.utils.RequestPermission
 
 class QrCodeActivity : AppCompatActivity() {
@@ -51,15 +56,38 @@ class QrCodeActivity : AppCompatActivity() {
 
     }
 
+    private var isFirstLaunch = true
+    override fun onResume() {
+        super.onResume()
+        if (!isFirstLaunch) {
+            finish()
+        }
+        isFirstLaunch = false
+    }
+
     private fun init() {
         cameraProviderListenableFeature = ProcessCameraProvider.getInstance(applicationContext)
         cameraProviderListenableFeature.addListener({
             val cameraProvider = cameraProviderListenableFeature.get()
-            bindImageAnalysis(cameraProvider) {
-                //TODO
-                Log.d("QrCodeActivity", "data: $it")
+            var notOpening = true
+            bindImageAnalysis(cameraProvider) { url ->
+                Log.d("QRCODE", "url: $url")
+                if (matchesUrl(url) && notOpening) {
+                    notOpening = false
+                    val intent = Intent(binding.root.context, EventActivity::class.java)
+
+                    val uri = Uri.parse(url)
+                    intent.data = uri
+                    ContextCompat.startActivity(binding.root.context, intent, null)
+
+                }
             }
         }, ContextCompat.getMainExecutor(applicationContext))
+    }
+
+    private fun matchesUrl(url: String): Boolean {
+        val deepLinkPattern = Regex("^${LANDINGPAGE.url}/event.*$")
+        return deepLinkPattern.matches(url)
     }
 
     @OptIn(ExperimentalGetImage::class)

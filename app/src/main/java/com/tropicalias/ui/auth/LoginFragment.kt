@@ -84,6 +84,22 @@ class LoginFragment : Fragment() {
             binding.passwordEditText.text = viewModel.password
         }
 
+        binding.forgotPasswordTextView.setOnClickListener {
+            viewModel.email = binding.emailEditText.text
+            viewModel.password = binding.passwordEditText.text
+
+            binding.emailEditText.text = null
+            binding.passwordEditText.text = null
+
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, ForgotPasswordFragment())
+                .addToBackStack(null)
+                .commit()
+
+            binding.emailEditText.text = viewModel.email
+            binding.passwordEditText.text = viewModel.password
+        }
+
     }
 
     override fun onDestroyView() {

@@ -4,6 +4,7 @@ import android.content.Context
 import com.tropicalias.api.model.User
 import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.FragmentEditProfileBinding
+import com.tropicalias.databinding.FragmentForgotPasswordBinding
 import com.tropicalias.databinding.FragmentRegistrationBinding
 import com.tropicalias.databinding.FragmentSecurityBinding
 import com.tropicalias.utils.DrawableHandler.Companion.setInvalidDrawable
@@ -220,6 +221,35 @@ class InputCheck {
                 if (erro != null) {
                     binding.passwordErrorTextView.text = erro
                     setInvalidDrawable(binding.passwordEditText, context)
+                    hasError = true
+                }
+            }
+            callback(hasError)
+
+        }
+
+
+        fun checkInputsResetPassword(
+            email: String?,
+            binding: FragmentForgotPasswordBinding,
+            context: Context,
+            callback: (hasError: Boolean) -> Unit
+        ) {
+            // Reseting error messages
+            binding.emailErrorTextView.text = ""
+            setValidDrawable(binding.emailEditText, context)
+
+            //Variable initialization
+            var hasError = false
+            var erro: String? = null
+
+            // Validations
+            // Email
+            if (email != null) {
+                erro = isValidEmail(email)
+                if (erro != null) {
+                    binding.emailErrorTextView.text = erro
+                    setInvalidDrawable(binding.emailEditText, context)
                     hasError = true
                 }
             }

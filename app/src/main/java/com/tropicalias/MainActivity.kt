@@ -17,6 +17,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.tropicalias.databinding.ActivityMainBinding
+import com.tropicalias.utils.RequestPermission
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,57 +30,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        notificar()
-
         val navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main)
         NavigationUI.setupWithNavController(binding.navView, navController)
+
+        RequestPermission.requestNotificationPermission(this, this)
     }
 
-    fun notificar() {
-        val pendingIntent = PendingIntent.getActivity(
-            applicationContext,
-            0,
-            Intent(applicationContext, MainActivity::class.java),
-            PendingIntent.FLAG_IMMUTABLE
-        )
 
-        val builder = NotificationCompat.Builder(applicationContext, "channel_id")
-            .setSmallIcon(R.drawable.araci)
-            .setContentTitle("Título")
-            .setContentText("Conteudo")
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setAutoCancel(true)
-            .setContentIntent(pendingIntent)
-
-        val manager = getSystemService(NotificationManager::class.java)
-        manager.createNotificationChannel(
-            NotificationChannel(
-                "channel_id",
-                "Notification",
-                NotificationManager.IMPORTANCE_HIGH
-            )
-        )
-
-        val notificationManager = NotificationManagerCompat.from(applicationContext)
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.POST_NOTIFICATIONS
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            return
-        }
-        notificationManager.notify(1, builder.build())
-
-
-    }
-
-    class NotificationReceiver : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            intent.extras?.let {
-
-            }
-        }
-    }
 
 
 }

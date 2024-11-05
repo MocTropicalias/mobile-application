@@ -3,6 +3,7 @@ package com.tropicalias.ui.posts.postdetails
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -11,9 +12,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.tropicalias.R
+import com.tropicalias.adapter.CommentsAdapter
 import com.tropicalias.api.model.Post
 import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.ActivityPostDetailsBinding
@@ -70,6 +73,7 @@ class PostDetailsActivity : AppCompatActivity() {
     }
 
     private fun loadPost(post: Post, comment: Boolean?) {
+        Log.d("PostDetailsActivity", "loadPost: $post")
         val postHelper = PostHelper(binding.toPostBinding(null))
         postHelper.loadUser(post)
 
@@ -88,14 +92,17 @@ class PostDetailsActivity : AppCompatActivity() {
 
         // Post Likes
         var liked = post.likes.any { it == ApiRepository.getInstance().user.value?.id }
-        binding.likePostFullImageButton.setImageResource(if (liked) R.drawable.ic_liked else R.drawable.ic_like)
-        binding.likePostFullImageButton.setOnClickListener {
+        binding.likePostTextView.text = post.likes.size.toString()
+        val likesAmount = post.likes.size
+        binding.commentsTextView.text = post.comments.size.toString()
+        binding.likePostImageButton.setImageResource(if (liked) R.drawable.ic_liked else R.drawable.ic_like)
+        binding.likePostImageButton.setOnClickListener {
             liked = !liked
             postHelper.like(liked, post)
         }
 
         // Post Share
-        binding.sharePostImageButton.setOnClickListener {
+        binding.shareImageButton.setOnClickListener {
             post.id?.let { id -> postHelper.share(id) }
         }
 
@@ -130,7 +137,13 @@ class PostDetailsActivity : AppCompatActivity() {
         binding.commentsImageButton.setOnClickListener {
             openModal()
         }
+
+        val adapter = CommentsAdapter(post.comments)
+        binding.comentariosRecyclerView.adapter = adapter
+        binding.comentariosRecyclerView.layoutManager = LinearLayoutManager(this)
+        adapter.notifyDataSetChanged()
     }
+
 
     private fun openModal() {
         val bindingModal = ModalCommentBinding.inflate(layoutInflater)

@@ -93,50 +93,83 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/contentPostImageView" />
 
-                <ImageButton
-                    android:id="@+id/likePostFullImageButton"
+                <LinearLayout
+                    android:id="@+id/linearLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:layout_marginEnd="24dp"
-                    android:background="@color/transparent"
                     app:layout_constraintBottom_toBottomOf="@+id/datePostTextView"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/datePostTextView"
-                    app:srcCompat="@drawable/ic_like" />
+                    app:layout_constraintTop_toTopOf="@+id/datePostTextView">
 
-                <ImageButton
-                    android:id="@+id/sharePostImageButton"
+                    <!--                    <ImageButton-->
+                    <!--                        android:id="@+id/seeMoreImageButton"-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_margin="4dp"-->
+                    <!--                        android:background="@color/transparent"-->
+                    <!--                        android:padding="4dp"-->
+                    <!--                        app:srcCompat="@drawable/ic_mais" />-->
+
+                    <ImageButton
+                        android:id="@+id/shareImageButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        android:background="@color/transparent"
+                        android:padding="4dp"
+                        app:srcCompat="@drawable/ic_share" />
+
+                    <ImageButton
+                        android:id="@+id/commentsImageButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        android:background="@color/transparent"
+                        android:padding="4dp"
+                        app:srcCompat="@drawable/ic_comment" />
+
+                    <ImageButton
+                        android:id="@+id/likePostImageButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        android:background="@color/transparent"
+                        android:padding="4dp"
+                        app:srcCompat="@drawable/ic_like" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:background="@color/transparent"
-                    app:layout_constraintBottom_toBottomOf="@+id/likePostFullImageButton"
-                    app:layout_constraintEnd_toStartOf="@+id/likePostFullImageButton"
-                    app:layout_constraintTop_toTopOf="@+id/likePostFullImageButton"
-                    app:srcCompat="@drawable/ic_share" />
+                    android:layout_marginTop="36dp"
+                    android:gravity="center"
+                    app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+                    app:layout_constraintTop_toTopOf="@+id/linearLayout">
 
-                <ImageButton
-                    android:id="@+id/commentsImageButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:background="@color/transparent"
-                    android:padding="4dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/sharePostImageButton"
-                    app:layout_constraintEnd_toStartOf="@+id/sharePostImageButton"
-                    app:layout_constraintTop_toTopOf="@+id/sharePostImageButton"
-                    app:srcCompat="@drawable/ic_comment" />
+                    <TextView
+                        android:id="@+id/commentsTextView"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        android:background="@color/transparent"
+                        android:text="0"
+                        android:textAlignment="center" />
 
-                <ImageButton
-                    android:id="@+id/seeMorePostImageButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:background="@color/transparent"
-                    app:layout_constraintBottom_toBottomOf="@+id/commentsImageButton"
-                    app:layout_constraintEnd_toStartOf="@+id/commentsImageButton"
-                    app:layout_constraintTop_toTopOf="@+id/commentsImageButton"
-                    app:srcCompat="@drawable/ic_mais" />
+                    <TextView
+                        android:id="@+id/likePostTextView"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        android:background="@color/transparent"
+                        android:text="0"
+                        android:textAlignment="center" />
+
+                </LinearLayout>
+
 
                 <TextView
                     android:id="@+id/comentarioTituloTextView"
@@ -175,7 +208,8 @@
                     android:layout_height="785dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view"
+
                     tools:listitem="@layout/item_comment" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

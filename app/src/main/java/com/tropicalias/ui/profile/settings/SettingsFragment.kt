@@ -11,6 +11,7 @@ import com.tropicalias.AuthenticationActivity
 import com.tropicalias.R
 import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.FragmentSettingsBinding
+import com.tropicalias.utils.ApiHelper
 
 class SettingsFragment : Fragment() {
 
@@ -58,6 +59,18 @@ class SettingsFragment : Fragment() {
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             requireActivity().finish()
+        }
+
+        ApiHelper.getUser { user ->
+            if (user.userRole == "ADMIN") {
+                binding.restrictedButton.visibility = View.VISIBLE
+                binding.restrictedButton.setOnClickListener {
+                    parentFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, RestrictedAreaFragment())
+                        .addToBackStack(null)
+                        .commit()
+                }
+            }
         }
 
 

@@ -49,7 +49,6 @@ class NewPostFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentNewPostBinding.inflate(inflater, container, false)
-        viewModel.binding = binding
         return binding.root
     }
 
@@ -82,6 +81,7 @@ class NewPostFragment : Fragment() {
             }
         }
 
+        var posting = false
         binding.saveButton.setOnClickListener {
             Log.d("NewPostFragment", "Save button clicked.")
             val content = binding.contentEditText.text.toString()
@@ -90,8 +90,13 @@ class NewPostFragment : Fragment() {
                 DrawableHandler.setInvalidDrawable(binding.contentEditText, requireContext())
                 return@setOnClickListener
             }
-            viewModel.savePost(content, imageUri) {
-                activity?.onBackPressed()
+            if (!posting) {
+                posting = true
+                val intent = Intent(requireContext(), NewPostService::class.java)
+                intent.putExtra("content", content)
+                intent.putExtra("imageUri", viewModel.imageUrl)
+                requireActivity().startService(intent)
+                requireActivity().onBackPressed()
             }
         }
 

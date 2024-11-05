@@ -61,6 +61,8 @@ class PostAdapter(
 
             // Post Likes
             var liked = post.likes.any { it == ApiRepository.getInstance().user.value?.id }
+            binding.likePostTextView.text = post.likes.size.toString()
+            binding.commentsTextView.text = post.comments.size.toString()
             binding.likePostImageButton.setImageResource(if (liked) R.drawable.ic_liked else R.drawable.ic_like)
             binding.likePostImageButton.setOnClickListener {
                 liked = !liked

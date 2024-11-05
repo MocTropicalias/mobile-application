@@ -34,7 +34,8 @@ data class User(
     @SerializedName("qtSeguidores")
     var followersCount: Int?,
     @SerializedName("qtSeguidos")
-    var followingCount: Int?
+    var followingCount: Int?,
+    var userRole: String
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readValue(Long::class.java.classLoader) as? Long,
@@ -50,7 +51,8 @@ data class User(
         TODO("deletedAt"),
         TODO("createdAt"),
         parcel.readValue(Int::class.java.classLoader) as? Int,
-        parcel.readValue(Int::class.java.classLoader) as? Int
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readString().toString()
     )
 
     constructor(firebaseId: String, username: String, email: String, senha: String) : this(
@@ -67,7 +69,8 @@ data class User(
         null,
         null,
         null,
-        null
+        null,
+        ""
     )
 
     constructor(displayName: String, imageUri: Uri?) :
@@ -85,7 +88,8 @@ data class User(
                 null,
                 null,
                 null,
-                null
+                null,
+                ""
             )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -100,6 +104,7 @@ data class User(
         parcel.writeParcelable(imageUri, flags)
         parcel.writeValue(followersCount)
         parcel.writeValue(followingCount)
+        parcel.writeValue(userRole)
     }
 
     override fun describeContents(): Int {
