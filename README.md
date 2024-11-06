@@ -8,10 +8,10 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
 
 - [x] Criação Do Projeto
 - [x] Splash Screen
-- [ ] NavBar funcional
-- [ ] Criação Dos Fragmentos de Tela
-- [ ] Criação das telas de configurações
-- [ ] Telas de Login e Cadastro
+- [x] NavBar funcional
+- [x] Criação Dos Fragmentos de Tela
+- [x] Criação das telas de configurações
+- [x] Telas de Login e Cadastro
 - [ ] Integração com a página de dados
 
 ## 💻 Tecnologias Utilizadas
