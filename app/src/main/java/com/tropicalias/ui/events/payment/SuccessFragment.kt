@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.tropicalias.databinding.FragmentSuccessBinding
 import com.tropicalias.ui.events.eventdetails.EventViewModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class SuccessFragment : Fragment() {
@@ -28,6 +30,16 @@ class SuccessFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.sairSucessoImageView.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
+        GlobalScope.launch {
+            delay(5000)
+            activity?.onBackPressed()
+        }
+
     }
 
     override fun onDestroyView() {

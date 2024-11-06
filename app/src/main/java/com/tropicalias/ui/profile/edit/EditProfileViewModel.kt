@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.userProfileChangeRequest
+import com.google.firebase.storage.FirebaseStorage
 import com.tropicalias.adapter.ProfileAdapter
 import com.tropicalias.api.model.User
 import com.tropicalias.api.repository.ApiRepository
@@ -15,6 +16,7 @@ import com.tropicalias.utils.ApiHelper
 import com.tropicalias.utils.MascotHelper
 import retrofit2.Call
 import retrofit2.Response
+import java.util.UUID
 
 class EditProfileViewModel : ViewModel() {
 
@@ -42,10 +44,18 @@ class EditProfileViewModel : ViewModel() {
 
     fun saveUpdates(name: String, username: String, bio: String, image: Uri?, con: Context) {
 
-        user.value?.exibitionName = name
+        user.value?.exibitionName = if (name != "") name else null
         user.value?.username = username
-        user.value?.userDescription = bio
-        user.value?.imageUri = image
+        user.value?.userDescription = if (bio != "") bio else null
+
+
+        val storageRef =
+            FirebaseStorage.getInstance().reference.child("user/${UUID.randomUUID()}.jpg")
+        storageRef.putFile(image!!)
+            .addOnSuccessListener {
+                storageRef.downloadUrl.addOnSuccessListener { downloadUri ->
+                    downloadUri?.let { imageUri ->
+                        user.value?.imageUri = imageUri
 
         user.value?.let { user ->
             apiSQL.updateUserProfile(user, user.id!!.toString())
@@ -68,11 +78,12 @@ class EditProfileViewModel : ViewModel() {
         FirebaseAuth.getInstance().currentUser?.updateProfile(
             userProfileChangeRequest {
                 displayName = username
-                photoUri = image
+                photoUri = imageUri
             }
         )
-
-
+                    }
+                }
+            }
     }
 
 }
