@@ -11,6 +11,7 @@ import com.tropicalias.api.api.ApiSQL
 import com.tropicalias.api.model.User
 import com.tropicalias.api.repository.ApiRepository
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 import java.util.UUID
 
@@ -39,6 +40,15 @@ class AuthenticationViewModel : ViewModel() {
                         }
                         user?.let {
                             sqlApi.updateUserPhotoByFirebaseID(user.uid, imageUri.toString())
+                                .enqueue(object : Callback<User> {
+                                    override fun onResponse(req: Call<User>, res: Response<User>) {
+                                        ApiRepository.getInstance().user.value = res.body()
+                                    }
+
+                                    override fun onFailure(req: Call<User>, e: Throwable) {
+                                        uploadImageToFirebase()
+                                    }
+                                })
                             user.updateProfile(profileUpdates)
                                 .addOnFailureListener {}
                         }

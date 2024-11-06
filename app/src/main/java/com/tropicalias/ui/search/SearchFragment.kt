@@ -52,7 +52,7 @@ class SearchFragment : Fragment() {
     ): View {
         adapter = PostAdapter(emptyList(), findNavController(), activityResultLauncher)
         viewModel.adapter = adapter
-        _binding = FragmentSearchBinding.inflate(inflater)
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
         viewModel.binding = binding
         return binding.root
     }
@@ -65,14 +65,15 @@ class SearchFragment : Fragment() {
 
         fun search() {
             binding.searchLayout.visibility = View.GONE
-            binding.notFoundLayout?.visibility = View.GONE
-            binding.loading?.visibility = View.VISIBLE
+            binding.notFoundLayout.visibility = View.GONE
+            binding.loading.visibility = View.VISIBLE
             val text = binding.searchEditText.text.toString()
             viewModel.search(text, filterFollow, filterLike)
 
-            binding.swipeRefreshLayout?.setOnRefreshListener {
+            binding.swipeRefreshLayout.setOnRefreshListener {
                 search()
-                binding.swipeRefreshLayout!!.isRefreshing = false
+                binding.loading.visibility = View.VISIBLE
+                binding.swipeRefreshLayout.isRefreshing = false
             }
         }
 

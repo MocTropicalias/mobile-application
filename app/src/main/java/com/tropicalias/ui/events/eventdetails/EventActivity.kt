@@ -19,7 +19,7 @@ class EventActivity : AppCompatActivity() {
         viewModel.eventId = intent.data?.getQueryParameter("eventId")?.toLong() ?: -1
         viewModel.purchaseId = intent.data?.getQueryParameter("purchaseId")
         Log.d("EVENTACTIVIT", "onCreate: ${intent.extras?.getString("eventTicket")}")
-        viewModel.event = ApiHelper.getGsonParser()
+        viewModel.ticket = ApiHelper.getGsonParser()
             .fromJson(intent.extras?.getString("eventTicket"), Ticket::class.java)
 
         if (savedInstanceState == null) {

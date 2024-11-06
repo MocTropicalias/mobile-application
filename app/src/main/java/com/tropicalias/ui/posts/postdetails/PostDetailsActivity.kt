@@ -65,6 +65,7 @@ class PostDetailsActivity : AppCompatActivity() {
                 binding.loading.visibility = View.VISIBLE
                 viewModel.loadPost(postId) { post ->
                     loadPost(post, comment)
+                    binding.loading.visibility = View.GONE
                 }
             }
             binding.swipeRefreshLayout.isRefreshing = false

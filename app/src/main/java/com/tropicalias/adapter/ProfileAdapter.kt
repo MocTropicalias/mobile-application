@@ -1,5 +1,6 @@
 package com.tropicalias.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -21,6 +22,7 @@ import com.tropicalias.databinding.ModalProfilePictureBinding
 import com.tropicalias.ui.mascot.EditMascotActivity
 import com.tropicalias.utils.ImagePicker
 import com.tropicalias.utils.MascotHelper
+import com.tropicalias.utils.RequestPermission
 
 
 class ProfileAdapter(
@@ -125,6 +127,7 @@ class ProfileAdapter(
 
             imagePickerLauncher?.let { ipl ->
                 binding.root.setOnClickListener {
+                    RequestPermission.requestCameraPermission(context, context as Activity)
                     modal.show()
                     bindingModal.chosePictureButton.setOnClickListener {
                         val (chooserIntent, uri) = ImagePicker.getChoserIntent(binding.root.context)

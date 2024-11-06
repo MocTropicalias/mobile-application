@@ -50,6 +50,7 @@ class PostDetailsViewModel : ViewModel() {
                     .enqueue(object : Callback<Unit> {
                         override fun onResponse(req: Call<Unit>, res: Response<Unit>) {
                             callback()
+                            sendingComment = false
                         }
 
                         override fun onFailure(req: Call<Unit>, e: Throwable) {

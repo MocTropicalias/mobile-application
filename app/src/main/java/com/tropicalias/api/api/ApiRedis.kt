@@ -1,14 +1,14 @@
 package com.tropicalias.api.api
 
 import retrofit2.Call
-import retrofit2.http.GET
+import retrofit2.http.POST
 
 interface ApiRedis {
 
-    @GET("/incr")
+    @POST("/contador/incr")
     fun incr(): Call<Unit>
 
-    @GET("/decr")
+    @POST("/contador/decr")
     fun decr(): Call<Unit>
 
 }

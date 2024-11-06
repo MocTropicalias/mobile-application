@@ -61,7 +61,7 @@ class ProfilePictureFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Get ViewPager2 and Set Adapter
-        adapter = ProfileAdapter(pickImageLauncher, requireContext())
+        adapter = ProfileAdapter(pickImageLauncher, requireActivity())
         binding.viewPager.setAdapter(adapter)
         binding.viewPager.setCurrentItem(Int.MAX_VALUE / 2, false)
         GlobalScope.launch(Dispatchers.Main) {

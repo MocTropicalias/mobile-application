@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-11-05T16:22:25.241544Z">
+        <DropdownSelection timestamp="2024-11-06T13:47:32.786664500Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\arturjalles-ieg\.android\avd\Flutter_Emulator.avd" />
+              <DeviceId pluginId="PhysicalDevice" identifier="serial=R9XT106VWDR" />
             </handle>
           </Target>
         </DropdownSelection>

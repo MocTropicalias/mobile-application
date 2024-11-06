@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.firebase.auth.FirebaseAuth
 import com.tropicalias.adapter.ProfileAdapter
+import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.databinding.FragmentEditProfileBinding
 import com.tropicalias.utils.InputCheck
 import com.wajahatkarim3.easyflipviewpager.CardFlipPageTransformer2
@@ -87,6 +88,12 @@ class EditProfileFragment : Fragment() {
             }
         }
 
+        ApiRepository.getInstance().mascot.observe(viewLifecycleOwner) {
+            if (it != null) {
+                adapter.color = it.colorScheme
+                adapter.notifyDataSetChanged()
+            }
+        }
 
         binding.backButton.setOnClickListener {
             requireActivity().onBackPressed()

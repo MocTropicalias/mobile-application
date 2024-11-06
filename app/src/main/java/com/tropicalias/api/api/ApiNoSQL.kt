@@ -43,8 +43,8 @@ interface ApiNoSQL {
     fun searchPosts(
         @Query("text") text: String,
         @Query("userId") userId: Long? = null,
-        @Query("following") following: Boolean? = null,
-        @Query("liked") liked: Boolean? = null
+        @Query("following") following: Boolean = false,
+        @Query("liked") liked: Boolean = false
     ): Call<List<Post>>
 
 }

@@ -1,15 +1,13 @@
 package com.tropicalias.ui.events.payment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.tropicalias.R
 import com.tropicalias.databinding.FragmentPaymentSummaryBinding
-import com.tropicalias.databinding.FragmentSuccessBinding
 import com.tropicalias.ui.events.eventdetails.EventViewModel
 
 class PaymentSummaryFragment : Fragment() {
@@ -30,11 +28,11 @@ class PaymentSummaryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.productListTextView.text = viewModel.event?.event?.title ?: ""
-        binding.vlUnitTextView.text = "R\$ ${viewModel.event?.event?.ticketPricing}"
+        binding.productListTextView.text = viewModel.ticket?.event?.title ?: ""
+        binding.vlUnitTextView.text = "R\$ ${viewModel.ticket?.event?.ticketPricing}"
         binding.qtProdTextView.text = "${viewModel.buyingAmount}"
         binding.vlTotTextView.text =
-            "R\$ ${viewModel.event?.event?.ticketPricing?.times(viewModel.buyingAmount)}"
+            "R\$ ${viewModel.ticket?.event?.ticketPricing?.times(viewModel.buyingAmount)}"
 
         binding.voltarPaymentSummaryImageView.setOnClickListener {
             parentFragmentManager.beginTransaction()

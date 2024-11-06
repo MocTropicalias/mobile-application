@@ -9,7 +9,6 @@ import com.bumptech.glide.Glide
 import com.tropicalias.api.model.Comment
 import com.tropicalias.databinding.ItemCommentBinding
 import com.tropicalias.utils.ApiHelper
-import com.tropicalias.utils.PostHelper
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -52,7 +51,7 @@ class CommentsAdapter(var comments: List<Comment>) :
 
             //Loading profile
             ApiHelper.loadProfile(comment.userId) {
-                binding.profileNameCommentTextView.text = it.exibitionName
+                binding.profileNameCommentTextView.text = it.exibitionName ?: it.username
                 if (it.imageUri != null) {
                     Glide.with(binding.root.context)
                         .load(it.imageUri)

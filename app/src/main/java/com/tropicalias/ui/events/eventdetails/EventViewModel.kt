@@ -4,11 +4,9 @@ package com.tropicalias.ui.events.eventdetails
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.tropicalias.api.model.Event
 import com.tropicalias.api.model.Ticket
 import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.utils.ApiHelper
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -21,7 +19,7 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
     var buyingAmount: Int = 0
     var eventId: Long = -1
     var purchaseId: String? = null
-    var event: Ticket? = null
+    var ticket: Ticket? = null
 
     fun loadEvent(eventId: Long, callback: (ticket: Ticket) -> Unit) {
         ApiHelper.getUser { user ->
@@ -29,7 +27,7 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
                 .enqueue(object : Callback<Ticket> {
                     override fun onResponse(req: Call<Ticket>, res: Response<Ticket>) {
                         if (res.body() != null) {
-                            event = res.body()!!
+                            ticket = res.body()!!
                             callback(res.body()!!)
                         }
                     }
@@ -47,11 +45,33 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
 
     fun addTickets(callback: () -> Unit) {
         ApiHelper.getUser { user ->
-            ApiRepository.getInstance().getSQL().addTickets(event!!.id, buyingAmount)
+            ApiRepository.getInstance().getSQL().addTickets(ticket!!.id, buyingAmount)
                 .enqueue(object : Callback<Ticket> {
                     override fun onResponse(req: Call<Ticket>, res: Response<Ticket>) {
                         if (res.body() != null) {
-                            event = res.body()!!
+                            ticket = res.body()!!
+                            callback()
+                        }
+                    }
+
+                    override fun onFailure(req: Call<Ticket>, e: Throwable) {
+                        GlobalScope.launch {
+                            delay(20000)
+                            addTickets(callback)
+                        }
+                    }
+
+                })
+        }
+    }
+
+    fun spendTickets(ticketPrice: Int, callback: () -> Unit) {
+        ApiHelper.getUser { user ->
+            ApiRepository.getInstance().getSQL().addTickets(ticket!!.id, -ticketPrice)
+                .enqueue(object : Callback<Ticket> {
+                    override fun onResponse(req: Call<Ticket>, res: Response<Ticket>) {
+                        if (res.body() != null) {
+                            ticket = res.body()!!
                             callback()
                         }
                     }

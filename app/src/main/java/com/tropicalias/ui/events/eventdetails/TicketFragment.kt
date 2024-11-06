@@ -19,6 +19,7 @@ import com.tropicalias.adapter.TentAdapter
 import com.tropicalias.api.model.Tent
 import com.tropicalias.databinding.FragmentTicketBinding
 import com.tropicalias.ui.events.payment.PaymentMethodFragment
+import com.tropicalias.ui.events.payment.SuccessFragment
 
 class TicketFragment : Fragment() {
 
@@ -51,7 +52,7 @@ class TicketFragment : Fragment() {
             }
         }
 
-        initialAmount = viewModel.event?.amount!!
+        initialAmount = viewModel.ticket?.amount!!
         var buyingAmount = 0
 
 
@@ -73,7 +74,7 @@ class TicketFragment : Fragment() {
                 buyingAmount -= 1
                 binding.quantTicketsTextView.text = buyingAmount.toString()
                 binding.precoTicketTextView.text =
-                    "Preço: R\$${(buyingAmount * viewModel.event!!.event.ticketPricing)}"
+                    "Preço: R\$${(buyingAmount * viewModel.ticket!!.event.ticketPricing)}"
                 binding.UsarTicketButton.text = "Comprar ${buyingAmount} Tickets"
             }
         }
@@ -84,7 +85,7 @@ class TicketFragment : Fragment() {
             binding.quantTicketsTextView.text = "${initialAmount + buyingAmount}"
             binding.UsarTicketButton.visibility = View.VISIBLE
             binding.precoTicketTextView.text =
-                "Preço: R\$${(buyingAmount * viewModel.event!!.event.ticketPricing)}"
+                "Preço: R\$${(buyingAmount * viewModel.ticket!!.event.ticketPricing)}"
             binding.UsarTicketButton.text = "Comprar ${buyingAmount} Tickets"
         }
 
@@ -95,9 +96,10 @@ class TicketFragment : Fragment() {
                 .commitNow()
         }
 
-        val adapter = TentAdapter(viewModel.event!!.event.barracas) { tent -> flipView(tent) }
+        val adapter = TentAdapter(viewModel.ticket!!.event.barracas) { tent -> flipView(tent) }
         binding.listaProdutosRecyclerView.adapter = adapter
         binding.listaProdutosRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
 
     }
 
@@ -119,6 +121,15 @@ class TicketFragment : Fragment() {
                 binding.concluirCompraButton2.backgroundTintList =
                     ColorStateList.valueOf(getColor(requireContext(), R.color.vermelho))
                 binding.concluirCompraButton2.text = "Tickets Insuficientes"
+            } else {
+                binding.concluirCompraButton2.setOnClickListener {
+                    //confirmPurchase()
+                    viewModel.spendTickets(tent.ticketPrice) {
+                        parentFragmentManager.beginTransaction()
+                            .replace(R.id.container, SuccessFragment())
+                            .commitNow()
+                    }
+                }
             }
         }
 

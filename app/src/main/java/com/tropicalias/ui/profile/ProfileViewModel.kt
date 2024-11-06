@@ -43,7 +43,7 @@ class ProfileViewModel : ViewModel() {
         binding.descriptionTextView.text = user.userDescription
 
         // Followers
-        binding.followersTextView.text = (user.followersCount ?: "").toString()
+        binding.followersTextView.text = (user.followersCount ?: "0").toString()
         user.id?.let {
             ApiHelper.getUser { myuser ->
                 apiSQL.getFollowUser(user.id, myuser.id!!).enqueue(object : Callback<Follow> {
@@ -55,7 +55,6 @@ class ProfileViewModel : ViewModel() {
 
                     override fun onFailure(req: Call<Follow>, e: Throwable) {}
                 })
-
             }
 
             binding.loading.visibility = View.VISIBLE

@@ -39,19 +39,21 @@ class EventFragment() : Fragment() {
 
         Log.d("EventFragmentgment", "onViewCreated: ${viewModel.eventId}")
 
-        viewModel.event?.let {
+        viewModel.ticket?.let {
             loadEvent(it)
         }
 
         viewModel.loadEvent(viewModel.eventId) { event ->
             loadEvent(event)
-            viewModel.event = event
+            viewModel.ticket = event
         }
 
     }
 
     private fun loadEvent(ticket: Ticket) {
         val event = ticket.event
+        if (_binding != null) {
+
         binding.fragmentEventTituloTextView.text = event.title
 
 //        binding.descricaoEventoFullTextView.text = event.description
@@ -77,6 +79,7 @@ class EventFragment() : Fragment() {
             .load(event.image)
             .into(binding.imageFullEventoImageView)
 
+        }
     }
 
 
