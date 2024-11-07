@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/transparent"
+    app:cardElevation="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="80dp"
+        android:backgroundTint="@color/transparent"
+        android:padding="24dp">
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="@+id/dateTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/dateTextView">
+
+            <!--            <ImageButton-->
+            <!--                android:id="@+id/seeMoreImageButton"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_margin="8dp"-->
+            <!--                android:background="@color/transparent"-->
+            <!--                android:padding="8dp"-->
+            <!--                app:srcCompat="@drawable/ic_mais" />-->
+
+            <ImageButton
+                android:id="@+id/shareImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@color/transparent"
+                android:padding="8dp"
+                app:srcCompat="@drawable/ic_share" />
+
+            <ImageButton
+                android:id="@+id/commentsImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@color/transparent"
+                android:padding="8dp"
+                app:srcCompat="@drawable/ic_comment" />
+
+            <ImageButton
+                android:id="@+id/likePostImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@color/transparent"
+                android:padding="8dp"
+                app:srcCompat="@drawable/ic_like" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout3"
+            app:layout_constraintTop_toTopOf="@+id/linearLayout3">
+
+            <TextView
+                android:id="@+id/commentsTextView"
+                android:layout_width="54dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@color/transparent"
+                android:text="0"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/likePostTextView"
+                android:layout_width="54dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@color/transparent"
+                android:text="0"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/profileImageView"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:orientation="horizontal"
+            android:scaleType="centerCrop"
+            android:src="@drawable/araci"
+            app:contentPadding="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <include
+                android:id="@+id/image"
+                layout="@layout/item_profile_picture" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/profileNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:padding="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/profileImageView"
+            app:layout_constraintStart_toEndOf="@id/profileImageView"
+            app:layout_constraintTop_toTopOf="@+id/profileImageView" />
+
+        <TextView
+            android:id="@+id/contentTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="24dp"
+            android:layout_marginHorizontal="16dp"
+            android:text="oi"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profileImageView" />
+
+        <ImageView
+            android:id="@+id/contentImageView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="24dp"
+            android:adjustViewBounds="true"
+            android:maxHeight="300dp"
+            android:background="@drawable/bg_image"
+            android:clipToOutline="true"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/contentTextView"
+            android:visibility="gone"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/dateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:text="DD/MM/YYYY"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/contentImageView" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

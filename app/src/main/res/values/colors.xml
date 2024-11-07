@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#0F0F0F</color>
+    <color name="dim">#540F0F0F</color>
+    <color name="black_blue">#123456</color>
+    <color name="grey">#696969</color>
     <color name="white">#F0F0F0</color>
-    <color name="main_backgroung_gradient_color_1">#FAFAFA</color>
-    <color name="main_backgroung_gradient_color_2">#CDDEEF</color>
+    <color name="main_background_gradient_color_1">#FAFAFA</color>
+    <color name="main_background_gradient_color_2">#CDDEEF</color>
     <color name="laranja">#E45F15</color>
     <color name="ciano">#006996</color>
     <color name="azul_claro">#32B6F4</color>
     <color name="azul_apagado">#C4ABCDEF</color>
     <color name="vermelho">#CD0707</color>
+    <color name="transparent">#00000000</color>
+    <color name="cinza_claro">#B9B9B9</color>
+    <color name="cinza_escuro">#47494B</color>
+
+    <color name="araci_primary">@color/ciano</color>
+    <color name="araci_secondary">@color/laranja</color>
+    <color name="araci_bg">@color/azul_claro</color>
+    <color name="araci_green">#257520</color>
 
 </resources>

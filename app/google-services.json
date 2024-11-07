@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "114994844873",
+    "project_id": "tropicalias-6c8cc",
+    "storage_bucket": "tropicalias-6c8cc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:114994844873:android:553468c73f0149538ea918",
+        "android_client_info": {
+          "package_name": "com.tropicalias"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyVBhHdoA9ocI_x-waV-WjKqEWr7XjmMM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
