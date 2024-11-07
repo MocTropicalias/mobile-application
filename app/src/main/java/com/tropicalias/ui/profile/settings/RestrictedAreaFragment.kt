@@ -28,6 +28,7 @@ class RestrictedAreaFragment : Fragment() {
         }
 
 
+        binding.webViewRestricted.settings.javaScriptEnabled = true
         binding.webViewRestricted.loadUrl("https://app.powerbi.com/view?r=eyJrIjoiNTFlMWM2MTYtZjc1NC00NmVmLTk1OTktM2ZiYTUyNDI3ZWI3IiwidCI6ImIxNDhmMTRjLTIzOTctNDAyYy1hYjZhLTFiNDcxMTE3N2FjMCJ9")
 
 
