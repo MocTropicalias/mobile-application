@@ -1,5 +1,6 @@
 package com.tropicalias.utils
 
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
@@ -21,14 +22,18 @@ class DrawableHandler {
         }
 
         fun likeAnimation(view: View) {
-            val animator = ObjectAnimator.ofFloat(
-                view,
-                "translationX",
-                *floatArrayOf(0F, 25F, -25F, 25F, -25F, 15F, -15F, 6F, -6F, 0F)
-            );
-            animator.setDuration(500); // Duração da animação
-            animator.start(); // Inicia a animação
+            // Scale animation (pop effect)
+            val scaleXAnimator = ObjectAnimator.ofFloat(view, "scaleX", 1f, 1.3f, 1f)
+            val scaleYAnimator = ObjectAnimator.ofFloat(view, "scaleY", 1f, 1.3f, 1f)
+            scaleXAnimator.duration = 300
+            scaleYAnimator.duration = 300
+
+            // Play animations together
+            val animatorSet = AnimatorSet()
+            animatorSet.playTogether(scaleXAnimator, scaleYAnimator)
+            animatorSet.start()
         }
+
 
         fun setInvalidDrawable(editText: EditText, context: Context) {
             (editText.background as GradientDrawable).setStroke(

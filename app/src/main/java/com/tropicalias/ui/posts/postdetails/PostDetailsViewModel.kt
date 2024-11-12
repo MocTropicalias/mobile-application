@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.Date
 
 class PostDetailsViewModel : ViewModel() {
 
@@ -44,7 +45,7 @@ class PostDetailsViewModel : ViewModel() {
                     user.imageUri,
                     user.exibitionName ?: user.username,
                     text,
-                    null
+                    Date()
                 )
                 ApiRepository.getInstance().getNoSQL().addComment(post.id!!, comment)
                     .enqueue(object : Callback<Unit> {

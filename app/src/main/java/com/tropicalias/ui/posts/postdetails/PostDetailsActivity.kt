@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.auth.FirebaseAuth
 import com.tropicalias.R
 import com.tropicalias.adapter.CommentsAdapter
 import com.tropicalias.api.model.Post
@@ -42,7 +44,7 @@ class PostDetailsActivity : AppCompatActivity() {
             insets
         }
 
-        binding.fecharPostImageView.setOnClickListener {
+        binding.backButton.setOnClickListener {
             onBackPressed()
         }
 
@@ -84,12 +86,12 @@ class PostDetailsActivity : AppCompatActivity() {
         if (post.media != null) {
             Glide.with(binding.root.context)
                 .load(post.media)
-                .into(binding.contentPostImageView)
-            binding.contentPostImageView.visibility = View.VISIBLE
+                .into(binding.contentImageView)
+            binding.contentImageView.visibility = View.VISIBLE
         }
 
-        binding.contentPostTextView.text = post.content
-        binding.datePostTextView.text = post.createdAt?.let { postHelper.dateFormat(it) }
+        binding.contentTextView.text = post.content
+        binding.dateTextView.text = post.createdAt?.let { postHelper.dateFormat(it) }
 
         // Post Likes
         var liked = post.likes.any { it == ApiRepository.getInstance().user.value?.id }
@@ -98,6 +100,14 @@ class PostDetailsActivity : AppCompatActivity() {
         binding.commentsTextView.text = post.comments.size.toString()
         binding.likePostImageButton.setImageResource(if (liked) R.drawable.ic_liked else R.drawable.ic_like)
         binding.likePostImageButton.setOnClickListener {
+            if (FirebaseAuth.getInstance().currentUser == null) {
+                Toast.makeText(
+                    binding.root.context,
+                    "Entre na sua conta para curtir publicações!",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
             liked = !liked
             postHelper.like(liked, post)
         }
@@ -120,13 +130,14 @@ class PostDetailsActivity : AppCompatActivity() {
 
         // Post Open User
         post.id?.let {
-            binding.profilePostImageView.setOnClickListener { openProfile(post.userId, post.id) }
-            binding.profilePostNameTextView.setOnClickListener { openProfile(post.userId, post.id) }
+            binding.profileImageView.setOnClickListener { openProfile(post.userId, post.id) }
+            binding.profileNameTextView.setOnClickListener { openProfile(post.userId, post.id) }
+            binding.profileNameTextView2.setOnClickListener { openProfile(post.userId, post.id) }
         }
 
 
         // Post Open Image
-        binding.contentPostImageView.setOnClickListener {
+        binding.contentImageView.setOnClickListener {
             val intent = Intent(binding.root.context, FullscreenImageActivity::class.java)
             intent.putExtra("IMAGE_URL", post.media)
             startActivity(intent)
@@ -136,6 +147,14 @@ class PostDetailsActivity : AppCompatActivity() {
             openModal()
         }
         binding.commentsImageButton.setOnClickListener {
+            if (FirebaseAuth.getInstance().currentUser == null) {
+                Toast.makeText(
+                    binding.root.context,
+                    "Entre na sua conta fazer comentários!",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
             openModal()
         }
 

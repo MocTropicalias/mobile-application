@@ -36,6 +36,7 @@ enum class BindingType {
 interface PostBinding {
     val root: View
     val profileNameTextView: TextView
+    val profileNameTextView2: TextView
     val likePostImageButton: ImageButton
     val image: ItemProfilePictureBinding
     val nav: NavController?
@@ -46,6 +47,7 @@ fun ItemPostBinding.toPostBinding(navController: NavController?): PostBinding =
     object : PostBinding {
         override val root = this@toPostBinding.root
         override val profileNameTextView = this@toPostBinding.profileNameTextView
+        override val profileNameTextView2 = this@toPostBinding.profileNameTextView2
         override val likePostImageButton = this@toPostBinding.likePostImageButton
         override val image = this@toPostBinding.image
         override val nav = navController
@@ -55,7 +57,8 @@ fun ItemPostBinding.toPostBinding(navController: NavController?): PostBinding =
 fun ActivityPostDetailsBinding.toPostBinding(navController: NavController?): PostBinding =
     object : PostBinding {
         override val root = this@toPostBinding.root
-        override val profileNameTextView = this@toPostBinding.profilePostNameTextView
+        override val profileNameTextView = this@toPostBinding.profileNameTextView
+        override val profileNameTextView2 = this@toPostBinding.profileNameTextView2
         override val likePostImageButton = this@toPostBinding.likePostImageButton
         override val image = this@toPostBinding.image
         override val nav = navController
@@ -94,7 +97,15 @@ class PostHelper<T : PostBinding>(private val binding: T) {
 //        binding.profileNameTextView.text = post.userName
 
         ApiHelper.loadProfile(post.userId) {
-            binding.profileNameTextView.text = it.exibitionName ?: it.username
+
+            Log.d("PostHelper", "loadUser: ${it.exibitionName}, ${it.username}")
+
+            binding.profileNameTextView.text =
+                if (it.exibitionName != "" && it.exibitionName != null) it.exibitionName else "@${it.username}"
+            binding.profileNameTextView2.text =
+                if (it.exibitionName != "" && it.exibitionName != null) "@${it.username}" else ""
+
+
             if (it.imageUri != null) {
                 Glide.with(binding.root.context)
                     .load(it.imageUri)
@@ -113,20 +124,22 @@ class PostHelper<T : PostBinding>(private val binding: T) {
         val now = Date()
         val diffInMillis = now.time - date.time
 
+        Log.d("PostHelper", "dateFormat: $date")
+
         return when {
             diffInMillis < TimeUnit.HOURS.toMillis(1) -> {
                 val minutes = TimeUnit.MILLISECONDS.toMinutes(diffInMillis)
-                "$minutes minutos atrás"
+                "${minutes}m atrás"
             }
 
             diffInMillis < TimeUnit.DAYS.toMillis(1) -> {
                 val hours = TimeUnit.MILLISECONDS.toHours(diffInMillis)
-                "$hours horas atrás"
+                "${hours}h atrás"
             }
 
             diffInMillis < TimeUnit.DAYS.toMillis(7) -> {
                 val days = TimeUnit.MILLISECONDS.toDays(diffInMillis)
-                "$days dias atrás"
+                "${days}d atrás"
             }
 
             else -> {

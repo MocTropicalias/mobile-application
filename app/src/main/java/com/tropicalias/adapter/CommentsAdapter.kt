@@ -47,6 +47,7 @@ class CommentsAdapter(var comments: List<Comment>) :
 
             binding.profileNameCommentTextView.text = comment.userName
             binding.commentContentTextView.text = comment.content
+            Log.d("PostHelper", "bind: ${comment.date}")
             binding.dateTextView.text = comment.date?.let { dateFormat(it) }
 
             //Loading profile

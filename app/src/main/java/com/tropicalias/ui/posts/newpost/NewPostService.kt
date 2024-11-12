@@ -5,14 +5,11 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.IBinder
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
@@ -22,7 +19,6 @@ import com.tropicalias.MainActivity
 import com.tropicalias.R
 import com.tropicalias.api.model.Post
 import com.tropicalias.api.repository.ApiRepository
-import com.tropicalias.databinding.FragmentNewPostBinding
 import com.tropicalias.utils.ApiHelper
 import java.util.UUID
 
@@ -51,6 +47,7 @@ class NewPostService : Service() {
             if (imageUri != null) {
                 val storage = FirebaseStorage.getInstance()
                 val storageRef = storage.reference.child("post/${UUID.randomUUID()}.jpg")
+                FirebaseStorage.getInstance().maxUploadRetryTimeMillis = 5000L
                 storageRef.putFile(imageUri)
                     .addOnSuccessListener {
                         storageRef.downloadUrl.addOnSuccessListener { imageUri ->
@@ -66,6 +63,12 @@ class NewPostService : Service() {
                     }
                     .addOnFailureListener {
                         posting = false
+                        Log.d("NewPostService", "savePost: $it")
+                        Toast.makeText(
+                            this.applicationContext,
+                            "Erro ao fazer publicação: tente novamente mais tarde",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         stopSelf() // Stop service on failure
                     }
             } else {

@@ -51,6 +51,7 @@ class EditProfileViewModel : ViewModel() {
 
         val storageRef =
             FirebaseStorage.getInstance().reference.child("user/${UUID.randomUUID()}.jpg")
+        FirebaseStorage.getInstance().maxUploadRetryTimeMillis = 5000L
         storageRef.putFile(image!!)
             .addOnSuccessListener {
                 storageRef.downloadUrl.addOnSuccessListener { downloadUri ->

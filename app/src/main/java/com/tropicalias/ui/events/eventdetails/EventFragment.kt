@@ -58,7 +58,6 @@ class EventFragment() : Fragment() {
 
 //        binding.descricaoEventoFullTextView.text = event.description
 
-        binding.quantidadeTicketsTextView.text = ticket.amount.toString()
 
         binding.precoTicketTextView.text = "Cada ticket custa R\$${event.ticketPricing}"
 

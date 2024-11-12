@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.tropicalias.api.model.Ticket
 import com.tropicalias.databinding.ItemEventBinding
 import com.tropicalias.ui.events.eventdetails.EventActivity
@@ -46,6 +48,14 @@ class EventsAdapter(var eventTickets: List<Ticket>) :
 //                .load(event.eventImage)
 //                .into(binding.eventoImageView)
             binding.root.setOnClickListener {
+                if (FirebaseAuth.getInstance().currentUser == null) {
+                    Toast.makeText(
+                        binding.root.context,
+                        "Entre na sua conta para ver seus Tickets!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@setOnClickListener
+                }
                 val intent = Intent(binding.root.context, EventActivity::class.java)
                 val uri = Uri.parse("tropicalias://event/?eventId=${event.id}")
 

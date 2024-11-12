@@ -77,6 +77,7 @@ class PostAdapter(
             // Post Open User
             binding.profileImageView.setOnClickListener { postHelper.openProfile(post.userId) }
             binding.profileNameTextView.setOnClickListener { postHelper.openProfile(post.userId) }
+            binding.profileNameTextView2.setOnClickListener { postHelper.openProfile(post.userId) }
 
 
             // Post Details

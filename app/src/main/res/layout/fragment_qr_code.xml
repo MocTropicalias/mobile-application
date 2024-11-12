@@ -33,7 +33,7 @@
             android:id="@+id/qrCodeImageView"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            tools:src="@tools:sample/avatars"
+            tools:src=""
             android:background="@drawable/bg_button"
             android:backgroundTint="@color/white"
             android:clipToOutline="true"
