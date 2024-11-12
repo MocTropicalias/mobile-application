@@ -12,7 +12,7 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
 - [x] Criação Dos Fragmentos de Tela
 - [x] Criação das telas de configurações
 - [x] Telas de Login e Cadastro
-- [ ] Integração com a página de dados
+- [x] Integração com a página de dados
 
 ## 💻 Tecnologias Utilizadas
 
