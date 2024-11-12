@@ -4,6 +4,8 @@ package com.tropicalias.ui.events.eventdetails
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.tropicalias.api.model.Event
 import com.tropicalias.api.model.Ticket
 import com.tropicalias.api.repository.ApiRepository
 import com.tropicalias.utils.ApiHelper
@@ -22,6 +24,26 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
     var ticket: Ticket? = null
 
     fun loadEvent(eventId: Long, callback: (ticket: Ticket) -> Unit) {
+
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            ApiRepository.getInstance().getSQL().getEvent(eventId)
+                .enqueue(object : Callback<Event> {
+                    override fun onResponse(req: Call<Event>, res: Response<Event>) {
+                        if (res.body() != null) {
+                            callback(Ticket(-1, -1, -1, res.body()!!))
+                        }
+                    }
+
+                    override fun onFailure(req: Call<Event>, e: Throwable) {
+                        GlobalScope.launch {
+                            delay(20000)
+                            loadEvent(eventId, callback)
+                        }
+                    }
+                })
+            return
+        }
+
         ApiHelper.getUser { user ->
             ApiRepository.getInstance().getSQL().createTicket(eventId, user.id!!)
                 .enqueue(object : Callback<Ticket> {

@@ -43,7 +43,10 @@ class EventFragment() : Fragment() {
             loadEvent(it)
         }
 
+
+        binding.loading.visibility = View.VISIBLE
         viewModel.loadEvent(viewModel.eventId) { event ->
+            binding.loading.visibility = View.GONE
             loadEvent(event)
             viewModel.ticket = event
         }

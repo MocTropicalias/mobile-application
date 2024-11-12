@@ -1,6 +1,7 @@
 package com.tropicalias.api.api
 
 import com.tropicalias.api.model.Color
+import com.tropicalias.api.model.Event
 import com.tropicalias.api.model.Follow
 import com.tropicalias.api.model.Mascote
 import com.tropicalias.api.model.Ticket
@@ -76,5 +77,8 @@ interface ApiSQL {
 
     @GET("/mascote/usermascote/{userId}")
     fun getMascot(@Path("userId") userId: Long): Call<Mascote>
+
+    @GET("/evento/{id}")
+    fun getEvent(@Path("id") eventId: Long): Call<Event>
 
 }
