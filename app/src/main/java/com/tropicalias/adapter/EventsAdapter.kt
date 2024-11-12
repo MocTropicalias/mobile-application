@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.tropicalias.api.model.Ticket
 import com.tropicalias.databinding.ItemEventBinding
@@ -44,9 +45,9 @@ class EventsAdapter(var eventTickets: List<Ticket>) :
             binding.eventoTituloTextView.text = event.title
             binding.dataEventoTextView.text = DateFormat.format("dd/MM/yyyy", event.startDate)
             binding.enderecoEventoTextView.text = event.local
-//            Glide.with(binding.root.context)
-//                .load(event.eventImage)
-//                .into(binding.eventoImageView)
+            Glide.with(binding.root.context)
+                .load(event.image)
+                .into(binding.eventoImageView)
             binding.root.setOnClickListener {
                 if (FirebaseAuth.getInstance().currentUser == null) {
                     Toast.makeText(
