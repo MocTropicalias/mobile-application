@@ -86,6 +86,7 @@ class QrCodeActivity : AppCompatActivity() {
 
     private fun matchesUrl(url: String): Boolean {
         val deepLinkPattern = Regex("^${LANDING_PAGE.url}/event.*$")
+        Log.d("QRCODE", "matchesUrl: ${LANDING_PAGE.url}/event")
         return deepLinkPattern.matches(url)
     }
 

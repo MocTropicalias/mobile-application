@@ -81,4 +81,11 @@ interface ApiSQL {
     @GET("/evento/{id}")
     fun getEvent(@Path("id") eventId: Long): Call<Event>
 
+    @POST("/vendaevento")
+    fun registrarVenda(
+        @Query("barracaId") barracaId: Long,
+        @Query("userId") userId: Long,
+        @Query("qtTickets") qtTickets: Int
+    ): Call<Unit>
+
 }
